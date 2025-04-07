@@ -1,0 +1,19 @@
+.global-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #e3f2fd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 999;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  body, .admin-login-page {
+    padding-top: 0px; /* 헤더 높이만큼 패딩 주기 */
+  }
+  

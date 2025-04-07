@@ -1,0 +1,49 @@
+package com.application.foodhubAdmin.service;
+
+import com.application.foodhubAdmin.config.JwtUtil;
+import com.application.foodhubAdmin.dto.request.UserLogInRequest;
+import com.application.foodhubAdmin.repository.UserMsRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.sql.SQLOutput;
+
+@Service
+@RequiredArgsConstructor
+public class UserMsService {
+
+    @Value("${file.repo.path}")
+    private String fileRepositoryPath;
+
+    private final UserMsRepository userMsRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
+
+
+    // 로그인
+    public String logIn(UserLogInRequest requestDto) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(requestDto.getUserId() ,requestDto.getPasswd())
+        );
+
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+        String memberShip = principal.getAuthorities().iterator().next().getAuthority();
+        System.out.println(memberShip);
+
+        if (memberShip.startsWith("ROLE_")) {
+            memberShip = memberShip.substring(5);
+        }
+        return jwtUtil.generateToken(requestDto.getUserId() , memberShip);
+
+    }
+}

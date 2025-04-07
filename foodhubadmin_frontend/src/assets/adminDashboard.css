@@ -1,0 +1,136 @@
+.admin-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f5f6f7;
+}
+
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+}
+
+.profile img {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+/* 헤더 아래 전체 영역 */
+.dashboard-body {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px);
+}
+
+.sidebar {
+  width: 150px;
+  background-color: #e3f2fd;
+  padding: 20px 10px;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+}
+
+.sidebar nav a:hover {
+  background-color: #cde4f9;
+  color: #0d6efd;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.dashboard-section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 6px 10px;
+  border: none;
+  background-color: #1976d2;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
+
+input[type="text"] {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 160px;
+  padding: 5px 0;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.profile-dropdown a:hover {
+  background-color: #f1f1f1;
+}
