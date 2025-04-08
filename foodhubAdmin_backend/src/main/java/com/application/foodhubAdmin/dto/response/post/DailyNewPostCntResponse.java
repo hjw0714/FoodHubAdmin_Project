@@ -1,4 +1,4 @@
-package com.application.foodhubAdmin.dto.response;
+package com.application.foodhubAdmin.dto.response.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

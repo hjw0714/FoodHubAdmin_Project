@@ -2,6 +2,9 @@ package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.config.JwtUtil;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
+import com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
 import com.application.foodhubAdmin.repository.UserMsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLOutput;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +49,20 @@ public class UserMsService {
         }
         return jwtUtil.generateToken(requestDto.getUserId() , memberShip);
 
+    }
+
+    // 월별 신규 가입자 수
+    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
+       return userMsRepository.getMonthlyNewUserCnt();
+    }
+
+    // 년도별 신규 가입자 수
+    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
+        return userMsRepository.getYearlyNewUserCnt();
+    }
+
+    // 일별 신규 가입자 수
+    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
+        return userMsRepository.getDailyNewUserCnt();
     }
 }
