@@ -38,6 +38,11 @@ const Header = () => {
       <div className="header-left">
         <Link to="/admin/dashboard" className="logo">Food Hub</Link>
       </div>
+
+      <div className="header-right" ref={dropdownRef}>
+        <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
+          <img src={defaultProfile} alt="profile" />
+          <span>관리자 ▾</span>
       {isLoggedIn && (
         membershipType === "ADMIN" && (
         <div className="header-right" ref={dropdownRef}>

@@ -16,6 +16,8 @@ import MemberList from "../components/MemberList";
 import VisitorStats from "../components/VisitorStats";
 import AdminChat from "../components/AdminChat";
 import BannerManager from "../components/BannerManager";
+import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/ErrorPage";
+import ProfileView from "../components/profileView";
 
 const AppRouter = () => {
   return (
@@ -40,9 +42,15 @@ const AppRouter = () => {
         <Route path="visitorStats" element={<VisitorStats />}/>
         <Route path="adminChat" element={<AdminChat />}/>
         <Route path="bannerManager" element={<BannerManager />}/>
+          <Route path="/admin/profile-view" element={<ProfileView />} />
+            <Route path="/error/401" element={<Unauthorized />} /> {/* 401 Unauthorized 페이지 */}
+            <Route path="/error/403" element={<Forbidden />} />    {/* 403 Unauthorized 페이지 */}
+            <Route path="/error/500" element={<ServerError />} />  {/* 500 Server Error 페이지 */}
+            <Route path="*" element={<NotFound />} />              {/* 404 Not Found 페이지 */}
       </Route>
     </Routes>
   );
+
 };
 
 export default AppRouter;
