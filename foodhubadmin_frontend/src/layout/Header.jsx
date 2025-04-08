@@ -9,8 +9,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { membershipType , setMembershipType , isLoggedIn , setIsLoggedIn } = useContext(AuthContext);
-  
+  const { membershipType, setMembershipType, isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
 
   // 외부 클릭 시 드롭다운 닫기
   useEffect(() => {
@@ -29,7 +29,7 @@ const Header = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setMembershipType(null);
-    navigate("/" , {replace:true});
+    navigate("/", { replace: true });
   };
 
   return (
@@ -38,26 +38,21 @@ const Header = () => {
       <div className="header-left">
         <Link to="/admin/dashboard" className="logo">Food Hub</Link>
       </div>
-
-      <div className="header-right" ref={dropdownRef}>
-        <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
-          <img src={defaultProfile} alt="profile" />
-          <span>관리자 ▾</span>
       {isLoggedIn && (
         membershipType === "ADMIN" && (
-        <div className="header-right" ref={dropdownRef}>
-          <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
-            <img src={defaultProfile} alt="profile" />
-            <span>관리자 ▾</span>
-          </div>
-          {dropdownOpen && (
-            <div className="profile-dropdown">
-              <a><span>⚙️ 프로필 설정</span></a>
-              <a><span>📋 활동 로그</span></a>
-              <a><span onClick={handleLogout}>🚪 로그아웃</span></a>
+          <div className="header-right" ref={dropdownRef}>
+            <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
+              <img src={defaultProfile} alt="profile" />
+              <span>관리자 ▾</span>
             </div>
-          )}
-        </div>
+            {dropdownOpen && (
+              <div className="profile-dropdown">
+                <a href="/admin/profile-view">⚙ 프로필 설정</a>
+                <a href="/logs">📋 활동 로그</a>
+                <a><span onClick={handleLogout}>🚪 로그아웃</span></a>
+              </div>
+            )}
+          </div>
         )
       )}
     </header>
