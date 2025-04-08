@@ -13,7 +13,7 @@ const ProfileView = () => {
       // 백엔드가 없으므로 임시로 데트스 데이터 사용
       // 실제 백엔드 연결 시 아래 주석 해제
       /*
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/profile-view`, 
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
       setUser(data);
@@ -51,7 +51,7 @@ const ProfileView = () => {
   return (
     <div className="profile-view-container">
       <div className="profile-view-section">
-        <h2>{user.userId}님의 프로필 정보</h2>
+        <h2>{user.nickname}님의 프로필 정보</h2>
 
         <div className="profile-photo-wrapper">
           <img

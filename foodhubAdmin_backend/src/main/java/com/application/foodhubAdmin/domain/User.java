@@ -67,4 +67,7 @@ public class User {
 
     @Column(name = "MODIFY_AT", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime modifyAt;
+
+    @Column(name = "BIRTHDAY")
+    private LocalDate birthday;
 }

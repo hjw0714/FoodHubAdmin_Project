@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,13 @@ public class UserMsService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
+    public String getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("로그인되지 않은 사용자입니다.");
+        }
+        return authentication.getName(); // memberId 반환
+    }
 
     // 로그인
     public String logIn(UserLogInRequest requestDto) {
@@ -65,4 +73,12 @@ public class UserMsService {
     public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
         return userMsRepository.getDailyNewUserCnt();
     }
+
+    // 마이페이지
+    public UserProfileResponse getProfile() {
+        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        return UserProfileResponse.of(user);
+    }
+
+
 }
