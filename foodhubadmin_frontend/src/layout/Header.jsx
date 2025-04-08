@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
-import '../assets/css/header.css';
+
+import '../assets/header.css';
+import { AuthContext } from '../App';
+import { useNavigate } from 'react-router-dom';
+
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -18,24 +22,35 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // 로그아웃
+  const {setMembershipType, setIsLoggedIn} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setMembershipType(null);
+    navigate("/login");
+  };
+
   return (
     <header className="global-header">
-      <div className="header-left">
-        <Link to="/admin/dashboard" className="logo">Food Hub</Link>
-      </div>
-      <div className="header-right" ref={dropdownRef}>
-        <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
-          <img src={defaultProfile} alt="profile" />
-          <span>관리자 ▾</span>
+
+        <div className="header-left">
+            <div className="logo">Food Hub</div>
         </div>
-        {dropdownOpen && (
-          <div className="profile-dropdown">
-            <a href="/settings">⚙️ 프로필 설정</a>
-            <a href="/logs">📋 활동 로그</a>
-            <a href="/logout">🚪 로그아웃</a>
-          </div>
-        )}
-      </div>
+        <div className="header-right" ref={dropdownRef}>
+            <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
+            <img src={defaultProfile} alt="profile" />
+            <span>관리자 ▾</span>
+            </div>
+            {dropdownOpen && (
+            <div className="profile-dropdown">
+                <a href="/settings">⚙️ 프로필 설정</a>
+                <a href="/logs">📋 활동 로그</a>
+                <span onClick={handleLogout}>🚪 로그아웃</span>
+            </div>
+            )}
+
     </header>
 
   );
