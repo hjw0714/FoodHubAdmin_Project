@@ -20,10 +20,10 @@ public class JwtUtil {
     }
 
     // JWT 생성
-    public String generateToken(String username , String role) {
+    public String generateToken(String userId , String membershipType) {
         return Jwts.builder()
-                .setSubject(username)
-                .claim("role", role) // 토큰에 권한(ADMIN or USER) 정보 추가
+                .setSubject(userId)
+                .claim("membershipType", membershipType) // 토큰에 권한(ADMIN or USER) 정보 추가
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)

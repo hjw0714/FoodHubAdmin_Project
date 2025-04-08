@@ -17,7 +17,7 @@ import AppRouter from './routes/AppRouter';
  };
  
  
- export const getMembershipTypeToken = (token) => {
+ export const getMembershipTypeFromToken = (token) => {
    try {
      const payload = JSON.parse(atob(token.split('.')[1]));
      return payload.membershipType || null;

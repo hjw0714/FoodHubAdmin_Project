@@ -1,20 +1,46 @@
-import React, { useState } from 'react';
+import axios from "axios";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import '../assets/css/adminLogin.css';
+import { AuthContext, getMembershipTypeFromToken } from "../App";
 
 const AdminLogin = () => {
-  const [userId, setUserId] = useState('');
-  const [passwd, setPasswd] = useState('');
-  const [error, setError] = useState('');
+  const navigate = useNavigate();
+    const {setIsLoggedIn , setMembershipType } = useContext(AuthContext); // 로그인 상태 업데이트를 위한 context 사용 (+ 권한)
+
+    const [userId, setUserId] = useState(''); 
+    const [passwd, setPasswd] = useState(''); 
+    const [failMsg, setFailMsg] = useState('');  
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // 예시: 관리자 계정 확인
-    if (userId === 'admin' && passwd === 'admin123') {
-      window.location.href = '/admin/dashboard'; // 실제 경로로 수정
-    } else {
-      setError('아이디와 비밀번호를 확인하세요.');
+    if (userId.trim() === '' || passwd.trim() === '') {
+      alert('아이디와 비밀번호를 입력하세요.');
+      return;
     }
+
+    try {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/user/logIn`, { userId, passwd });
+      localStorage.setItem('token', data);  
+      setIsLoggedIn(true); 
+      setFailMsg(''); 
+      
+      const extractedMembershipType = getMembershipTypeFromToken(data);
+      setMembershipType(extractedMembershipType); 
+      if (extractedMembershipType === 'ADMIN') { 
+        navigate("/admin/dashboard");
+      }
+      else {
+        setFailMsg('아이디 또는 비밀번호가 일치하지 않습니다');
+      }
+    
+
+    } catch (error) {
+      console.error(error);
+      setFailMsg('아이디 또는 비밀번호가 일치하지 않습니다.');   
+    }
+
   };
 
   return (
@@ -38,7 +64,7 @@ const AdminLogin = () => {
             onChange={(e) => setPasswd(e.target.value)}
             required
           />
-          {error && <div className="login-error">{error}</div>}
+          {failMsg && <p className="error-text">{failMsg}</p>}
           <button type="submit" className="btn btn-primary w-100 mt-3">
             로그인
           </button>
