@@ -17,7 +17,10 @@ import VisitorStats from "../components/VisitorStats";
 import AdminChat from "../components/AdminChat";
 import BannerManager from "../components/BannerManager";
 import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/ErrorPage";
-import ProfileView from "../components/profileView";
+
+import ChangePasswd from "../components/ChangePasswd";
+import ProfileView from "../components/ProfileView";
+
 
 const AppRouter = () => {
   return (
@@ -26,6 +29,8 @@ const AppRouter = () => {
       <Route path="/" element={<AdminLogin />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/profile-view" element={<ProfileView />} />
+      <Route path="/admin/change-passwd" element={<ChangePasswd />} />
+
       <Route path="/error/401" element={<Unauthorized />} /> {/* 401 Unauthorized 페이지 */}
       <Route path="/error/403" element={<Forbidden />} />    {/* 403 Unauthorized 페이지 */}
       <Route path="/error/500" element={<ServerError />} />  {/* 500 Server Error 페이지 */}
