@@ -8,6 +8,12 @@
     min-height: 90vh;
   }
   
+  .error-text {
+    color: red;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  
   .login-box {
     max-width: 400px;
     width: 100%;
