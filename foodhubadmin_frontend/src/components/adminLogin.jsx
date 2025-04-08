@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../assets/adminLogin.css';
+import '../assets/css/adminLogin.css';
 
 const AdminLogin = () => {
   const [userId, setUserId] = useState('');
