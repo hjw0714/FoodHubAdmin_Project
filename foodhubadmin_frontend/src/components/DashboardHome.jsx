@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from "axios";
 import {
   BarChart, Bar, LineChart, Line,
   XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
 } from 'recharts';
 import '../assets/css/adminDashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 
@@ -19,7 +21,22 @@ const data = months.map((month, i) => ({
   visitors: [988, 1183, 828, 928, 856, 1022, 1130, 1195, 1230, 1301, 1255, 1344][i]
 }));
 
+
 const DashboardHome = () => {
+
+  const navigate = useNavigate();
+  const [yearlyNewPostCnt, setYearlyNewPostCnt] = useState([]);
+  const [monthlyNewPostCnt, setMonthlyNewPostCnt] = useState([]);
+  const [dailyNewPostCnt, setDailyNewPostCnt] = useState([]);
+
+  const fetchPostData = async(endpoint) => {
+    try {
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/posts/`)
+    } catch(error) {
+      console.log();
+    }
+  };
+
   return (
     <>
       <div className="dashboard-section">
