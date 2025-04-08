@@ -27,7 +27,7 @@ public class Post {
     @Column(name = "CATEGORY_ID", nullable = false)
     private Long categoryId;
 
-    @Column(name = "SUB_CATE_NM", nullable = false)
+    @Column(name = "SUB_CATE_ID", nullable = false)
     private Long subCateId;
 
     @Column(name = "CATEGORY_NM", nullable = false)
