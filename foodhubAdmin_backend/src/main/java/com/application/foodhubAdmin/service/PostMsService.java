@@ -1,8 +1,6 @@
 package com.application.foodhubAdmin.service;
 
-import com.application.foodhubAdmin.dto.response.DailyTotalPostCntResponse;
-import com.application.foodhubAdmin.dto.response.MonthlyTotalPostCntResponse;
-import com.application.foodhubAdmin.dto.response.YearlyTotalPostCntResponse;
+import com.application.foodhubAdmin.dto.response.*;
 import com.application.foodhubAdmin.repository.PostMsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ public class PostMsService {
 
     // 연도별 총 게시글
     public List<YearlyTotalPostCntResponse> getYearlyTotalPostCnt() {
-        System.out.println(postMsRepository.getYearlyTotalPostCnt());
         return postMsRepository.getYearlyTotalPostCnt();
     }
 
@@ -31,6 +28,21 @@ public class PostMsService {
     // 일별 총 게시글
     public List<DailyTotalPostCntResponse> getDailyTotalPostCnt() {
         return postMsRepository.getDailyTotalPostCnt();
+    }
+
+    // 연도별 새 게시글
+    public List<YearlyNewPostCntResponse> getYearlyNewPostCnt() {
+        return postMsRepository.getYearlyNewPostCnt();
+    }
+
+    // 월별 새 게시글
+    public List<MonthlyNewPostCntResponse> getMonthlyNewPostCnt() {
+        return postMsRepository.getMonthlyNewPostCnt();
+    }
+
+    // 일별 새 게시글
+    public List<DailyNewPostCntResponse> getDailyNewPostCnt() {
+        return postMsRepository.getDailyNewPostCnt();
     }
 
 }
