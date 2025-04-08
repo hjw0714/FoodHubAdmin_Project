@@ -1,15 +1,14 @@
 package com.application.foodhubAdmin.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 @AllArgsConstructor
-public class MonthlyTotalPostCntResponse {
+public class MonthlyNewPostCntResponse {
 
     private Object month;
     private Long postCnt;
+
 
 }
