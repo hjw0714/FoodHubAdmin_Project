@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from "axios";
 import {
   LineChart, Line, BarChart, Bar,
   XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
 } from 'recharts';
 import '../assets/css/adminDashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const sampleData = [
   { name: 'Jan', users: 120, posts: 200, comments: 300, visitors: 500 },
@@ -12,7 +14,22 @@ const sampleData = [
   { name: 'Apr', users: 200, posts: 240, comments: 400, visitors: 600 },
 ];
 
+
 const DashboardHome = () => {
+
+  const navigate = useNavigate();
+  const [yearlyNewPostCnt, setYearlyNewPostCnt] = useState([]);
+  const [monthlyNewPostCnt, setMonthlyNewPostCnt] = useState([]);
+  const [dailyNewPostCnt, setDailyNewPostCnt] = useState([]);
+
+  const fetchPostData = async(endpoint) => {
+    try {
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/posts/`)
+    } catch(error) {
+      console.log();
+    }
+  };
+
   return (
     <>
       <div className="dashboard-section">
@@ -28,7 +45,7 @@ const DashboardHome = () => {
         </ResponsiveContainer>
       </div>
       <div className="dashboard-section">
-            <h3>게시글 및 댓글 통계</h3>
+            <h3>월별 새 게시글 및 댓글 통계</h3>
             <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={sampleData}>
                 <CartesianGrid strokeDasharray="3 3" />
