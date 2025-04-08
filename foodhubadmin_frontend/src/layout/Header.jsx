@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
-
-import '../assets/header.css';
+import '../assets/css/header.css';
 import { AuthContext } from '../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -23,7 +21,7 @@ const Header = () => {
   }, []);
 
   // 로그아웃
-  const {setMembershipType, setIsLoggedIn} = useContext(AuthContext);
+  const { setMembershipType, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -35,21 +33,22 @@ const Header = () => {
   return (
     <header className="global-header">
 
-        <div className="header-left">
-            <div className="logo">Food Hub</div>
+      <div className="header-left">
+        <Link to="/admin/dashboard" className="logo">Food Hub</Link>
+      </div>
+      <div className="header-right" ref={dropdownRef}>
+        <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
+          <img src={defaultProfile} alt="profile" />
+          <span>관리자 ▾</span>
         </div>
-        <div className="header-right" ref={dropdownRef}>
-            <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
-            <img src={defaultProfile} alt="profile" />
-            <span>관리자 ▾</span>
-            </div>
-            {dropdownOpen && (
-            <div className="profile-dropdown">
-                <a href="/settings">⚙️ 프로필 설정</a>
-                <a href="/logs">📋 활동 로그</a>
-                <span onClick={handleLogout}>🚪 로그아웃</span>
-            </div>
-            )}
+        {dropdownOpen && (
+          <div className="profile-dropdown">
+            <a href="/settings">⚙️ 프로필 설정</a>
+            <a href="/logs">📋 활동 로그</a>
+            <span onClick={handleLogout}>🚪 로그아웃</span>
+          </div>
+        )}
+      </div>
 
     </header>
 
