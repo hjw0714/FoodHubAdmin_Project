@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AdminDashboard from "../components/AdminDashboard";
 import DashboardHome from "../components/DashboardHome";
 import PostReport from "../components/PostReport";
-import AdminLogin from "../components/adminLogin";
+import AdminLogin from "../components/AdminLogin";
 import UserStats from "../components/UserStatus";
 import UserJoin from "../components/UserJoin";
 import UserLeave from "../components/UserLeave";

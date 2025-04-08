@@ -40,17 +40,17 @@ public class SecurityConfig {
     };
 
     // CORS 설정
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("http://localhost:5173");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/api/admin/**", config);
-//        return source;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/admin/**", config);
+        return source;
+    }
 
     // 비밀번호 암호화 (BCrypt)
     @Bean
@@ -67,15 +67,15 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션사용 안 함
                 // URL접근권한 설정 권한 설정
                 .authorizeHttpRequests(auth -> auth
-//                    .requestMatchers(permitList).permitAll() // 인증없이 접근가능
-//                    .requestMatchers(authenticateList).authenticated() // 인증 필요
-//                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 권한필요(ROLE_ADMIN) > 403오류
+                    .requestMatchers(permitList).permitAll() // 인증없이 접근가능
+                    .requestMatchers(authenticateList).authenticated() // 인증 필요
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 권한필요(ROLE_ADMIN) > 403오류
                         .anyRequest().permitAll()) // 나머지 요청은 인증없이 접근가능
                 // 예외 처리
                 .exceptionHandling(exception -> exception
                 .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication required")) // 인증 실패
-                .accessDeniedHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied"))); // 권한 부족
-           // .addFilterBefore(securityFilter(), UsernamePasswordAuthenticationFilter.class); // JwtAuthFilter를 기존필터 UsernamePasswordAuthenticationFilter전에 추가해 JWT로 먼저 인증시도
+                .accessDeniedHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied"))) // 권한 부족
+            .addFilterBefore(securityFilter(), UsernamePasswordAuthenticationFilter.class); // JwtAuthFilter를 기존필터 UsernamePasswordAuthenticationFilter전에 추가해 JWT로 먼저 인증시도
         return http.build(); // 완성된 보안규칙 반환
     }
 
