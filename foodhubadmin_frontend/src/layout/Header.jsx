@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
+
 import '../assets/header.css';
 import { AuthContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -31,6 +34,7 @@ const Header = () => {
 
   return (
     <header className="global-header">
+
         <div className="header-left">
             <div className="logo">Food Hub</div>
         </div>
@@ -46,7 +50,7 @@ const Header = () => {
                 <span onClick={handleLogout}>🚪 로그아웃</span>
             </div>
             )}
-        </div>
+
     </header>
 
   );
