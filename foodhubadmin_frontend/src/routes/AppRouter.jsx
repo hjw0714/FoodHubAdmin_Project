@@ -25,6 +25,11 @@ const AppRouter = () => {
       <Route path="" element={<AdminLogin />} />
       <Route path="/" element={<AdminLogin />} />
       <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/profile-view" element={<ProfileView />} />
+      <Route path="/error/401" element={<Unauthorized />} /> {/* 401 Unauthorized 페이지 */}
+      <Route path="/error/403" element={<Forbidden />} />    {/* 403 Unauthorized 페이지 */}
+      <Route path="/error/500" element={<ServerError />} />  {/* 500 Server Error 페이지 */}
+      <Route path="*" element={<NotFound />} />              {/* 404 Not Found 페이지 */}
 
       <Route path="/admin/dashboard" element={<AdminDashboard />}>
         <Route index element={<DashboardHome />} />
@@ -33,20 +38,16 @@ const AppRouter = () => {
         <Route path="userStatus" element={<UserStats />} />
         <Route path="userJoin" element={<UserJoin />} />
         <Route path="userLeave" element={<UserLeave />} />
-        <Route path="postListTotal" element={<PostListTotal />}/>
-        <Route path="categoryPostList" element={<CategoryPostList />}/>
-        <Route path="commentStats" element={<CommentStats />}/>
-        <Route path="postReportStats" element={<PostReportStats />}/>
-        <Route path="commentReportStats" element={<CommentReportStats />}/>
-        <Route path="memberList" element={<MemberList />}/>
-        <Route path="visitorStats" element={<VisitorStats />}/>
-        <Route path="adminChat" element={<AdminChat />}/>
-        <Route path="bannerManager" element={<BannerManager />}/>
-          <Route path="/admin/profile-view" element={<ProfileView />} />
-            <Route path="/error/401" element={<Unauthorized />} /> {/* 401 Unauthorized 페이지 */}
-            <Route path="/error/403" element={<Forbidden />} />    {/* 403 Unauthorized 페이지 */}
-            <Route path="/error/500" element={<ServerError />} />  {/* 500 Server Error 페이지 */}
-            <Route path="*" element={<NotFound />} />              {/* 404 Not Found 페이지 */}
+        <Route path="postListTotal" element={<PostListTotal />} />
+        <Route path="categoryPostList" element={<CategoryPostList />} />
+        <Route path="commentStats" element={<CommentStats />} />
+        <Route path="postReportStats" element={<PostReportStats />} />
+        <Route path="commentReportStats" element={<CommentReportStats />} />
+        <Route path="memberList" element={<MemberList />} />
+        <Route path="visitorStats" element={<VisitorStats />} />
+        <Route path="adminChat" element={<AdminChat />} />
+        <Route path="bannerManager" element={<BannerManager />} />
+
       </Route>
     </Routes>
   );
