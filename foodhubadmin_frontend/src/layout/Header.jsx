@@ -43,7 +43,7 @@ const Header = () => {
         </div>
         {dropdownOpen && (
           <div className="profile-dropdown">
-            <a href="/settings">⚙️ 프로필 설정</a>
+            <a href="/admin/profile-view">⚙️ 프로필 설정</a>
             <a href="/logs">📋 활동 로그</a>
             <span onClick={handleLogout}>🚪 로그아웃</span>
           </div>
