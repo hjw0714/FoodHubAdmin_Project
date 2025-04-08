@@ -1,118 +1,121 @@
 /* 전체 컨테이너 스타일 */
 .error-container {
-   text-align: center;
-   padding: 2rem 1rem;
-   min-height: auto;
-   height: auto;
-   max-width: 500px;
-   margin: 10rem auto; /* 상단과 하단 여백을 4rem으로 늘려서 더 띄움 */
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   background: #ffffff;
-   border-radius: 10px;
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
- }
- 
- /* 이모지 스타일 */
- .error-illustration {
-   font-size: 3rem;
-   margin-bottom: 1rem;
-   animation: fadeIn 1s ease-in-out;
- }
- 
- /* 에러 코드 스타일 */
- .error-code {
-   font-size: 5rem;
-   font-weight: bold;
-   color: #e74c3c;
-   margin-bottom: 1rem;
-   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-   animation: fadeIn 1s ease-in-out;
- }
- 
- /* 에러 메시지 스타일 */
- .error-message {
-   font-size: 1.25rem;
-   color: #333;
-   margin-bottom: 2rem;
-   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-   line-height: 1.6;
- }
- 
- /* 버튼 컨테이너 */
- .error-actions {
-   display: flex;
-   justify-content: center;
-   gap: 1rem;
- }
- 
- /* 버튼 스타일 */
- .error-actions button {
-   margin: 0;
-   padding: 0.6rem 1.2rem;
-   font-size: 1rem;
-   font-weight: 500;
-   border: none;
-   border-radius: 6px;
-   cursor: pointer;
-   background-color: #3498db;
-   color: white;
-   transition: all 0.3s ease;
-   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-   display: flex;
-   align-items: center;
-   gap: 0.5rem;
- }
- 
- /* 버튼 호버 효과 */
- .error-actions button:hover {
-   background-color: #2980b9;
-   transform: translateY(-2px);
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
- }
- 
- /* 버튼 활성화 효과 */
- .error-actions button:active {
-   transform: translateY(0);
-   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
- }
- 
- /* 반응형 디자인 */
- @media (max-width: 768px) {
-   .error-container {
-     max-width: 90%;
-     margin: 2rem auto; /* 모바일에서는 여백을 줄임 */
-     padding: 1.5rem 1rem;
-   }
- 
-   .error-illustration {
-     font-size: 2.5rem;
-   }
- 
-   .error-code {
-     font-size: 4rem;
-   }
- 
-   .error-message {
-     font-size: 1.1rem;
-   }
- 
-   .error-actions button {
-     padding: 0.5rem 1rem;
-     font-size: 0.9rem;
-   }
- }
- 
- /* 애니메이션 정의 */
- @keyframes fadeIn {
-   0% {
-     opacity: 0;
-     transform: scale(0.8);
-   }
-   100% {
-     opacity: 1;
-     transform: scale(1);
-   }
- }
+  text-align: center;
+  padding: 2rem 1rem;
+  min-height: auto;
+  height: auto;
+  max-width: 500px;
+  margin: 10rem auto;
+  /* 상단과 하단 여백을 4rem으로 늘려서 더 띄움 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 이모지 스타일 */
+.error-illustration {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* 에러 코드 스타일 */
+.error-code {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* 버튼 컨테이너 */
+.error-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* 버튼 스타일 */
+.error-actions button {
+  margin: 0;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 버튼 호버 효과 */
+.error-actions button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 버튼 활성화 효과 */
+.error-actions button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .error-container {
+    max-width: 90%;
+    margin: 2rem auto;
+    /* 모바일에서는 여백을 줄임 */
+    padding: 1.5rem 1rem;
+  }
+
+  .error-illustration {
+    font-size: 2.5rem;
+  }
+
+  .error-code {
+    font-size: 4rem;
+  }
+
+  .error-message {
+    font-size: 1.1rem;
+  }
+
+  .error-actions button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* 애니메이션 정의 */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
