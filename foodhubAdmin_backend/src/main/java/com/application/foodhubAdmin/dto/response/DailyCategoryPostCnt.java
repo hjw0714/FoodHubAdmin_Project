@@ -9,5 +9,6 @@ public class DailyCategoryPostCnt {
 
     private Object day;
     private Long postCnt;
+    private String subCateNm;
 
 }

@@ -17,24 +17,6 @@ public class PostMsController {
 
     private final PostMsService postMsService;
 
-    // 연도별 총 게시글
-    @GetMapping("/yearlyTotalPost")
-    public ResponseEntity<List<YearlyTotalPostCntResponse>> yearlyTotalPost() {
-        return ResponseEntity.ok(postMsService.getYearlyTotalPostCnt());
-    }
-
-    // 월별 총 게시글
-    @GetMapping("/monthlyTotalPost")
-    public ResponseEntity<List<MonthlyTotalPostCntResponse>> monthlyTotalPost() {
-        return ResponseEntity.ok(postMsService.getMonthlyTotalPostCnt());
-    }
-
-    // 일별 총 게시글
-    @GetMapping("/dailyTotalPost")
-    public ResponseEntity<List<DailyTotalPostCntResponse>> dailyTotalPost() {
-        return ResponseEntity.ok(postMsService.getDailyTotalPostCnt());
-    }
-
     // 연도별 새 게시글
     @GetMapping("/yearlyNewPost")
     public ResponseEntity<List<YearlyNewPostCntResponse>> yearlyNewPost() {

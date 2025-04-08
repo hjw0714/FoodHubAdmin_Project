@@ -13,24 +13,9 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PostMsService {
 
-    private PostMsRepository postMsRepository;
+    private final PostMsRepository postMsRepository;
 
-    // 연도별 총 게시글
-    public List<YearlyTotalPostCntResponse> getYearlyTotalPostCnt() {
-        return postMsRepository.getYearlyTotalPostCnt();
-    }
-
-    // 월별 총 게시글
-    public List<MonthlyTotalPostCntResponse> getMonthlyTotalPostCnt() {
-        return postMsRepository.getMonthlyTotalPostCnt();
-    }
-
-    // 일별 총 게시글
-    public List<DailyTotalPostCntResponse> getDailyTotalPostCnt() {
-        return postMsRepository.getDailyTotalPostCnt();
-    }
-
-    // 연도별 새 게시글
+        // 연도별 새 게시글
     public List<YearlyNewPostCntResponse> getYearlyNewPostCnt() {
         return postMsRepository.getYearlyNewPostCnt();
     }
@@ -44,5 +29,11 @@ public class PostMsService {
     public List<DailyNewPostCntResponse> getDailyNewPostCnt() {
         return postMsRepository.getDailyNewPostCnt();
     }
+
+    // 연도, 카테고리별 게시글
+
+    // 월, 카테고리별 게시글
+
+    // 일, 카테고리별 게시글
 
 }

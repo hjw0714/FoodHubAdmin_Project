@@ -9,5 +9,6 @@ public class MonthlyCategoryPostCnt {
 
     private Object month;
     private Long postCnt;
+    private String subCateNm;
 
 }
