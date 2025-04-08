@@ -6,27 +6,38 @@ import '../assets/css/profileView.css';
 
 const ProfileView = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null); // 초기값을 null로 변경
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/myInfo`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      setUser({
-        ...data,
-        profilePhoto: data.profileUuid
-          ? `${import.meta.env.VITE_API_URL}/images/${data.profileUuid}`
-          : defaultProfile,
-        birthday: data.birthday ? new Date(data.birthday).toLocaleDateString() : ''
-      });
+      // 백엔드가 없으므로 임시로 데트스 데이터 사용
+      // 실제 백엔드 연결 시 아래 주석 해제
+      /*
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/profile-view`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+      );
+      setUser(data);
+      */
+
+      // 데스트 데이터로 시뮬레이션  (백엔드 연결 시 테스트 데이터 삭제)
+      const testData = {
+        userId: 'testuser',
+        nickname: '테스트유저',
+        email: 'test@example.com',
+        tel: '010-1234-5678',
+        gender: '남성',
+        birthday: '1990-01-01',
+        profileUuid: 'default-profile-uuid',
+      };
+      setUser(testData);
     } catch (error) {
-      if (error.response?.status === 403) {
-        navigate('/error/403');
-      } else if (error.response?.status === 401) {
-        navigate('/error/401');
-      } else {
-        console.error(error);
+      // error.response가 있는지 먼저 확인
+      if (error.response) {
+        if (error.response.status === 401) {
+          navigate('/error/401');
+        } else if (error.response.status === 500) {
+          navigate('/error/500');
+        }
       }
     }
   };
@@ -35,7 +46,7 @@ const ProfileView = () => {
     fetchUser();
   }, []);
 
-  if (!user) return <div>로딩 중...</div>;
+  if (!user) return <div>로딩 중...</div>; // user가 null일 때 로딩 표시
 
   return (
     <div className="profile-view-container">
@@ -43,7 +54,12 @@ const ProfileView = () => {
         <h2>{user.userId}님의 프로필 정보</h2>
 
         <div className="profile-photo-wrapper">
-          <img src={user.profilePhoto} alt="Profile" className="profile-photo" />
+          <img
+            src={user.profileUuid ? `${import.meta.env.VITE_API_URL}/images/${user.profileUuid}` : defaultProfile}
+            alt="Profile"
+            className="profile-photo"
+            onError={(e) => (e.target.src = defaultProfile)} // 이미지 로드 실패 시 기본 이미지 사용
+          />
         </div>
 
         <div className="profile-item">
@@ -63,7 +79,7 @@ const ProfileView = () => {
 
         <div className="profile-item">
           <label>전화번호</label>
-          <span>{user.phone}</span>
+          <span>{user.tel}</span>
         </div>
 
         <div className="profile-item">
@@ -77,10 +93,10 @@ const ProfileView = () => {
         </div>
 
         <div className="button-group">
-          <button className="edit-button" onClick={() => navigate('/edit-user')}>
+          <button className="edit-button" onClick={() => navigate('/edit-profile')}>
             ✏️ 회원정보 수정
           </button>
-          <button className="edit-button" onClick={() => navigate('/change-password')}>
+          <button className="edit-button" onClick={() => navigate('/admin/change-passwd')}>
             🔐 비밀번호 변경
           </button>
           <button className="edit-button" onClick={() => navigate('/delete-user')}>
