@@ -44,10 +44,10 @@ public class UserMsController {
         return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
     }
 
-//    @GetMapping("/profile")
-//    public ResponseEntity<?> profile() {
-//        return ResponseEntity.ok(userMsService.getProfile);
-//    }
+    @GetMapping("/profile")
+    public ResponseEntity<?> profile() {
+        return ResponseEntity.ok(userMsService.getProfile());
+    }
 
 
 }

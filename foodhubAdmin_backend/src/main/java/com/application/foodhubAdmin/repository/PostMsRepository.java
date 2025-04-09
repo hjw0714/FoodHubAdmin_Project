@@ -44,6 +44,7 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
         """)
     List<DailyNewPostCntResponse> getDailyNewPostCnt();
 
+
     // 연도, 카테고리별 총 게시글
     @Query("""
             SELECT new com.application.foodhubAdmin.dto.response.post.YearlyCategoryPostCntResponse(
@@ -79,6 +80,7 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
             ORDER BY FUNCTION('DATE', p.createdAt) ASC
             """)
     List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt();
+
 
 
 }

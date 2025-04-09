@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
 } from 'recharts';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,17 +12,20 @@ const PostListTotal = () => {
   const [postYearData, setPostYearData] = useState();
   const [postMonthData, setPostMonthData] = useState();
   const [postDayData, setPostDayData] = useState();
+  const navigate = useNavigate();
 
   const fetchPosts = async () => {
     try {
-      const yearRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/yearlyNewPost`);
+      const yearRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/yearlyNewPost`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const formattedYear = yearRes.data.map(item => ({
         ...item,
         year: `${item.year}년`
       }));
       setPostYearData(formattedYear);
 
-      const monthRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyNewPost`);
+      const monthRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyNewPost`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const formattedMonth = monthRes.data.map(item => {
         const [year, month] = item.month.split('-');
         return {
@@ -31,7 +35,8 @@ const PostListTotal = () => {
       });
       setPostMonthData(formattedMonth);
 
-      const dayRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyNewPost`);
+      const dayRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyNewPost`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const formattedDay = dayRes.data.map(item => {
         const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/); // 마지막 날짜만 추출
         if (!parts) return item;
@@ -87,7 +92,7 @@ const PostListTotal = () => {
         </BarChart>
       </ResponsiveContainer>
 
-      <h4 style={{ marginTop: '30px' }}>🗓️ 일별 게시글 수 (2025년 3월)</h4>
+      <h4 style={{ marginTop: '30px' }}>🗓️ 일별 게시글 수 </h4>
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={postDayData}>
           <CartesianGrid strokeDasharray="3 3" />
