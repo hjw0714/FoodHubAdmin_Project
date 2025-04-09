@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DailyCategoryPostCnt {
+public class DailyCategoryPostCntResponse {
 
     private Object day;
     private Long postCnt;
