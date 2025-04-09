@@ -44,18 +44,18 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
         """)
     List<DailyNewPostCntResponse> getDailyNewPostCnt();
 
-    // 연도, 카테고리별 총 게시글
-    @Query("""
-            SELECT new com.application.foodhubAdmin.dto.response.YearlyCategoryPostCnt(
-                YEAR(p.createdAt) as year,
-                SUM(COUNT(p)) OVER (ORDER BY YEAR(p.createdAt) ASC) AS postCnt)
-            FROM Post p
-            GROUP BY YEAR(p.createdAt) AND p.categoryId
-            ORDER BY YEAR(p.createdAt) ASC
-            """)
-    List<YearlyCategoryPostCnt> getYearlyCategoryPostCnt();
-
-    // 월, 카테고리별 총 게시글
+//    // 연도, 카테고리별 총 게시글
+//    @Query("""
+//            SELECT new com.application.foodhubAdmin.dto.response.YearlyCategoryPostCnt(
+//                YEAR(p.createdAt) as year,
+//                SUM(COUNT(p)) OVER (ORDER BY YEAR(p.createdAt) ASC) AS postCnt)
+//            FROM Post p
+//            GROUP BY YEAR(p.createdAt) AND p.categoryId
+//            ORDER BY YEAR(p.createdAt) ASC
+//            """)
+//    List<YearlyCategoryPostCnt> getYearlyCategoryPostCnt();
+//
+//    // 월, 카테고리별 총 게시글
 //    @Query("""
 //            SELECT new com.application.foodhubAdmin.dto.response.MonthlyCategoryPostCnt(
 //                CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)),
@@ -65,13 +65,13 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
 //            ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) ASC
 //            """)
 //    List<MonthlyCategoryPostCnt> getMonthlyCategoryPostCnt();
-
-    // 일, 카테고리별 총 게시글
-    @Query("""
-            SELECT new com.application.foodhubAdmin.dto.response.DailyCategoryPostCnt(
-            FROM
-            """)
-    List<DailyCategoryPostCnt> getDailyCategoryPostCnt();
+//
+//    // 일, 카테고리별 총 게시글
+//    @Query("""
+//            SELECT new com.application.foodhubAdmin.dto.response.DailyCategoryPostCnt(
+//            FROM
+//            """)
+//    List<DailyCategoryPostCnt> getDailyCategoryPostCnt();
 
 
 }

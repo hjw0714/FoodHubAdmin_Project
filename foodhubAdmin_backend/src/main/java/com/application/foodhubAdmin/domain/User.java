@@ -70,4 +70,10 @@ public class User {
 
     @Column(name = "BIRTHDAY")
     private LocalDate birthday;
+
+    @Column(name = "DELETED_AT")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "STATUS")
+    private String status;
 }
