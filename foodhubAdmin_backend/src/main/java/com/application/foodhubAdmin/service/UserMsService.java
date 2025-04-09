@@ -1,6 +1,11 @@
 package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.config.JwtUtil;
+
+
+
+import com.application.foodhubAdmin.dto.response.user.*;
+
 import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.domain.User;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
@@ -9,6 +14,7 @@ import com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse;
 import com.application.foodhubAdmin.dto.response.user.UserProfileResponse;
 import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
 import com.application.foodhubAdmin.repository.StatsRepository;
+
 import com.application.foodhubAdmin.repository.UserMsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,6 +93,13 @@ public class UserMsService {
         return UserProfileResponse.of(user);
     }
 
+    // 유저 정보 리스트
+    public List<UserListResponse> getUserList() {
+        return userMsRepository.findAll()
+                .stream()
+                .map(UserListResponse::of)
+                .toList();
+    }
 
     public void updateUserStats(LocalDate date) {
         LocalDateTime start = date.atStartOfDay();

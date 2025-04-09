@@ -3,6 +3,7 @@ package com.application.foodhubAdmin.controller;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
 import com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse;
 import com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.UserListResponse;
 import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
 import com.application.foodhubAdmin.service.UserMsService;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +50,10 @@ public class UserMsController {
         return ResponseEntity.ok(userMsService.getProfile());
     }
 
+    // 유저 정보 리스트
+    @GetMapping("/memberList")
+    public ResponseEntity<List<UserListResponse>> memberList() {
+        return ResponseEntity.ok(userMsService.getUserList());
+    }
 
 }

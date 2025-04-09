@@ -51,8 +51,4 @@ public class Post {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
 }
