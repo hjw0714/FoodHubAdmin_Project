@@ -47,7 +47,7 @@ public class UserMsController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {
-        return ResponseEntity.ok(userMsService.getProfile);
+        return ResponseEntity.ok(userMsService.getProfile());
     }
 
     // 유저 정보 리스트

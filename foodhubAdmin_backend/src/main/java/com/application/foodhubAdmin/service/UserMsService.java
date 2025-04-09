@@ -1,9 +1,20 @@
 package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.config.JwtUtil;
+
+
+
+import com.application.foodhubAdmin.dto.response.user.*;
+
+import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.domain.User;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
-import com.application.foodhubAdmin.dto.response.user.*;
+import com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.UserProfileResponse;
+import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
+import com.application.foodhubAdmin.repository.StatsRepository;
+
 import com.application.foodhubAdmin.repository.UserMsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +27,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +40,7 @@ public class UserMsService {
     private String fileRepositoryPath;
 
     private final UserMsRepository userMsRepository;
+    private final StatsRepository statsRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
@@ -86,4 +101,31 @@ public class UserMsService {
                 .toList();
     }
 
+    public void updateUserStats(LocalDate date) {
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.plusDays(1).atStartOfDay();
+
+        Long joinCnt = userMsRepository.countByJoinAtBetween(start, end);
+        Long deletedCnt = userMsRepository.countByDeletedAtBetween(start, end);
+
+        Optional<Stats> existing = statsRepository.findByCateAndTerm("USER", date);
+
+        if (existing.isPresent()) {
+            Stats stats = existing.get();
+            stats.setJoinCnt(joinCnt);
+            stats.setDeletedCnt(deletedCnt);
+            stats.setUpdatedAt(LocalDateTime.now());
+            statsRepository.save(stats);
+        } else {
+            Stats newStats = Stats.builder()
+                    .cate("USER")
+                    .term(date)
+                    .joinCnt(joinCnt)
+                    .deletedCnt(deletedCnt)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+            statsRepository.save(newStats);
+        }
+    }
 }

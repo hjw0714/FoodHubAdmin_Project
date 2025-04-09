@@ -3,7 +3,6 @@ import AdminDashboard from "../components/AdminDashboard";
 import DashboardHome from "../components/DashboardHome";
 import PostReport from "../components/PostReport";
 import AdminLogin from "../components/AdminLogin";
-import UserStats from "../components/UserStatus";
 import UserJoin from "../components/UserJoin";
 import UserLeave from "../components/UserLeave";
 import PostListTotal from "../components/PostListTotal";
@@ -20,6 +19,7 @@ import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/Er
 
 import ChangePasswd from "../components/ChangePasswd";
 import ProfileView from "../components/ProfileView";
+import UserStatus from "../components/UserStatus";
 
 
 const AppRouter = () => {
@@ -40,7 +40,7 @@ const AppRouter = () => {
         <Route index element={<DashboardHome />} />
         <Route path="postReport" element={<PostReport />} />
         <Route path="commentReport" element={<CommentReport />} />
-        <Route path="userStatus" element={<UserStats />} />
+        <Route path="userStatus" element={<UserStatus />} />
         <Route path="userJoin" element={<UserJoin />} />
         <Route path="userLeave" element={<UserLeave />} />
         <Route path="postListTotal" element={<PostListTotal />} />

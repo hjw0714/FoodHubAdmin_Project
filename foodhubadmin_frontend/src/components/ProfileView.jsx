@@ -12,24 +12,24 @@ const ProfileView = () => {
     try {
       // 백엔드가 없으므로 임시로 데트스 데이터 사용
       // 실제 백엔드 연결 시 아래 주석 해제
-      /*
+     
       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
       setUser(data);
-      */
+      
 
-      // 데스트 데이터로 시뮬레이션  (백엔드 연결 시 테스트 데이터 삭제)
-      const testData = {
-        userId: 'testuser',
-        nickname: '테스트유저',
-        email: 'test@example.com',
-        tel: '010-1234-5678',
-        gender: '남성',
-        birthday: '1990-01-01',
-        profileUuid: 'default-profile-uuid',
-      };
-      setUser(testData);
+      // // 데스트 데이터로 시뮬레이션  (백엔드 연결 시 테스트 데이터 삭제)
+      // const testData = {
+      //   userId: 'testuser',
+      //   nickname: '테스트유저',
+      //   email: 'test@example.com',
+      //   tel: '010-1234-5678',
+      //   gender: '남성',
+      //   birthday: '1990-01-01',
+      //   profileUuid: 'default-profile-uuid',
+      // };
+      // setUser(testData);
     } catch (error) {
       // error.response가 있는지 먼저 확인
       if (error.response) {
@@ -84,7 +84,7 @@ const ProfileView = () => {
 
         <div className="profile-item">
           <label>성별</label>
-          <span>{user.gender}</span>
+          <span>{user.gender === 'M' ? '남성' : user.gender === 'F' ? '여성' : '기타'}</span>
         </div>
 
         <div className="profile-item">
