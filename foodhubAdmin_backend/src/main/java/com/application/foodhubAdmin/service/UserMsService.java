@@ -1,11 +1,9 @@
 package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.config.JwtUtil;
+import com.application.foodhubAdmin.domain.User;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
-import com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse;
-import com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse;
-import com.application.foodhubAdmin.dto.response.user.UserProfileResponse;
-import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.*;
 import com.application.foodhubAdmin.repository.UserMsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -75,11 +72,18 @@ public class UserMsService {
         return userMsRepository.getDailyNewUserCnt();
     }
 
-//    // 마이페이지
-//    public UserProfileResponse getProfile() {
-//        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
-//        return UserProfileResponse.of(user);
-//    }
+    // 마이페이지
+    public UserProfileResponse getProfile() {
+        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        return UserProfileResponse.of(user);
+    }
 
+    // 유저 정보 리스트
+    public List<UserListResponse> getUserList() {
+        return userMsRepository.findAll()
+                .stream()
+                .map(UserListResponse::of)
+                .toList();
+    }
 
 }

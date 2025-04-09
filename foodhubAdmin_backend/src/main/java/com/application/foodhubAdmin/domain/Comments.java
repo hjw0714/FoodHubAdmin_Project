@@ -34,6 +34,7 @@ public class Comments {
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
-    private Staus staus;
+    @Column(name = "STATUS")
+    private Staus status;
 
 }
