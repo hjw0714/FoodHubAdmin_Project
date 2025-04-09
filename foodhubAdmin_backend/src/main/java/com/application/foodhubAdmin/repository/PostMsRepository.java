@@ -60,6 +60,7 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
     @Query("""
             SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyCatePostCntResponse(
                 CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)),
+                p.subCateNm,
                 COUNT(p))
             FROM Post p
             GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)), p.subCateId
