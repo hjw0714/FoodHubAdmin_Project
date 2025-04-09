@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DailyCategoryPostCnt {
+public class MonthlyCategoryPostCntResponse {
 
-    private Object day;
-    private Long postCnt;
+    private Object month;
     private String subCateNm;
+    private Long postCnt;
 
 }

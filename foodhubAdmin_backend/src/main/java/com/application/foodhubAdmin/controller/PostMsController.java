@@ -1,8 +1,6 @@
 package com.application.foodhubAdmin.controller;
 
-import com.application.foodhubAdmin.dto.response.post.DailyNewPostCntResponse;
-import com.application.foodhubAdmin.dto.response.post.MonthlyNewPostCntResponse;
-import com.application.foodhubAdmin.dto.response.post.YearlyNewPostCntResponse;
+import com.application.foodhubAdmin.dto.response.post.*;
 import com.application.foodhubAdmin.service.PostMsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +35,24 @@ public class PostMsController {
     @GetMapping("/dailyNewPost")
     public ResponseEntity<List<DailyNewPostCntResponse>> dailyNewPost() {
         return ResponseEntity.ok(postMsService.getDailyNewPostCnt());
+    }
+
+    // 연도, 카테고리별 새 게시글
+    @GetMapping("/yearlyCategoryPost")
+    public ResponseEntity<List<YearlyCategoryPostCntResponse>> yearlyCategoryPost() {
+        return ResponseEntity.ok(postMsService.getYearlyCategoryPostCnt());
+    }
+
+    // 월, 카테고리별 새 게시글
+    @GetMapping("/monthlyCategoryPost")
+    public ResponseEntity<List<MonthlyCategoryPostCntResponse>> monthlyCategoryPost() {
+        return ResponseEntity.ok(postMsService.getMonthlyCategoryPostCnt());
+    }
+
+    // 일, 카테고리별 새 게시글
+    @GetMapping("/dailyCategoryPost")
+    public ResponseEntity<List<DailyCategoryPostCntResponse>> dailyCategoryPost() {
+        return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt());
     }
 
 }
