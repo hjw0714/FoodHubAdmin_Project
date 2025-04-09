@@ -1,71 +1,109 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
   } from 'recharts';
   
-  const sampleData = {
-    year: [
-      { name: '2023', count: 1500 },
-      { name: '2024', count: 1400 },
-      { name: '2025', count: 2400 },
-    ],
-    month: [
-      { name: '1월', count: 100 }, { name: '2월', count: 120 },
-      { name: '3월', count: 140 }, { name: '4월', count: 160 },
-      { name: '5월', count: 180 }, { name: '6월', count: 200 },
-      { name: '7월', count: 190 }, { name: '8월', count: 170 },
-      { name: '9월', count: 160 }, { name: '10월', count: 150 },
-      { name: '11월', count: 140 }, { name: '12월', count: 130 },
-    ],
-    day: Array.from({ length: 31 }, (_, i) => {
-      const day = i + 1;
-      return {
-        name: `03-${day < 10 ? `0${day}` : day}`,
-        count: Math.floor(Math.random() * 30 + 10) // 10~39 사이 난수
-      };
-    }),
+
+const UserStatus = () => {
+
+  const [userYearData , setUserYearData] = useState([]);
+  const [userMonthData , setUserMonthData] = useState([]);
+  const [userDayData , setUserDayData] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchUser = async() => {
+    try {
+      const yearRes = await axios.get(`${import.meta.env.VITE_API_URL}/user/yearlyNewUser`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        const formattedYear = yearRes.data.map(item => ({
+          ...item,
+          year: `${item.year}년`
+        }));
+        setUserYearData(formattedYear); 
+
+      const monthRes = await axios.get(`${import.meta.env.VITE_API_URL}/user/monthlyNewUser`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        const formattedMonth = monthRes.data.map(item => {
+          const [year, month] = item.month.split('-');
+          return {
+            ...item,
+            month: `${year}년 ${month.padStart(2, '0')}월`
+          };
+        });
+        setUserMonthData(formattedMonth);
+
+      const dayRes = await axios.get(`${import.meta.env.VITE_API_URL}/user/dailyNewUser`, 
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        const formattedDay = dayRes.data.map(item => {
+          const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/); // 마지막 날짜만 추출
+          if (!parts) return item;
+  
+          const [, year, month, day] = parts;
+  
+          return {
+            ...item,
+            day: `${year}년 ${month.padStart(2, '0')}월 ${day.padStart(2, '0')}일`
+          };
+        });
+        setUserDayData(formattedDay);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          navigate('/error/401');
+        } else if (error.response.status === 500) {
+          navigate('/error/500');
+        }
+      }
+    }
+    
   };
+
+  useEffect(() => {
+    fetchUser();
+  } , []);
+
+  return (
+    <div className="dashboard-section">
+      <h3>👤 총 회원 수 통계</h3>
+      <p>년도별, 월별, 일별 회원 수 변화를 한 눈에 확인할 수 있습니다.</p>
+
+      <h4 style={{ marginTop: '30px' }}>📅 연도별 회원 수</h4>
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart data={userYearData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="year" />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          <Line type="monotone" dataKey="userCnt" stroke="#8884d8" />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <h4 style={{ marginTop: '30px' }}>📆 월별 회원 수</h4>
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart data={userMonthData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          <Line type="monotone" dataKey="userCnt" stroke="#82ca9d" />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <h4 style={{ marginTop: '30px' }}>🗓️ 일별 회원 수 </h4>
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart data={userDayData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="day" />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          <Line type="monotone" dataKey="userCnt" stroke="#ffc658" />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
   
-  const UserStats = () => {
-    return (
-      <div className="dashboard-section">
-        <h3>👤 총 회원 수 통계</h3>
-        <p>년도별, 월별, 일별 회원 수 변화를 한 눈에 확인할 수 있습니다.</p>
-  
-        <h4 style={{ marginTop: '30px' }}>📅 연도별 회원 수</h4>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={sampleData.year}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#8884d8" />
-          </LineChart>
-        </ResponsiveContainer>
-  
-        <h4 style={{ marginTop: '30px' }}>📆 월별 회원 수</h4>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={sampleData.month}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#82ca9d" />
-          </LineChart>
-        </ResponsiveContainer>
-  
-        <h4 style={{ marginTop: '30px' }}>🗓️ 일별 회원 수 (2025년 3월)</h4>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={sampleData.day}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#ffc658" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    );
-  };
-  
-  export default UserStats;
+  export default UserStatus;
   
