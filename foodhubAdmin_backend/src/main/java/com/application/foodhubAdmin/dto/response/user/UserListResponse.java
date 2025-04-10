@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
@@ -16,6 +15,7 @@ public class UserListResponse {
     private String nickname;
     private String email;
     private LocalDateTime joinAt;
+    private LocalDateTime deletedAt;
     private MembershipType membershipType;
 
     public static UserListResponse of(User user) {
@@ -24,6 +24,7 @@ public class UserListResponse {
                 .nickname(user.getNickname())
                 .email(user.getEmail())
                 .joinAt(user.getJoinAt())
+                .deletedAt(user.getDeletedAt())
                 .membershipType(user.getMembershipType())
                 .build();
     }

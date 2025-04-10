@@ -1,12 +1,10 @@
 package com.application.foodhubAdmin.controller;
 
-import com.application.foodhubAdmin.domain.MembershipType;
-
 import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
-
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
 import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
-import com.application.foodhubAdmin.dto.response.user.*;
+import com.application.foodhubAdmin.dto.response.user.UserListResponse;
+import com.application.foodhubAdmin.dto.response.user.UserUpdateResponse;
 import com.application.foodhubAdmin.service.UserMsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -97,17 +95,17 @@ public class UserMsController {
     }
 
     // 유저 탈퇴
-    @DeleteMapping("/memberList/{id}")
+    @DeleteMapping("/memberList/delete/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable("id") String id) {
         userMsService.deleteMember(id);
         return ResponseEntity.noContent().build();
     }
 
     // 유저 리스트에서 멤버십 변경
-    @PutMapping("/memberList/{id}")
+    @PutMapping("/memberList/update/{id}")
     public ResponseEntity<?> updateMembershipType(@PathVariable("id") String id,
-                                          @RequestBody MembershipType membershipType) {
-        userMsService.updateMembershipType(id, membershipType);
+                                          @RequestBody String membership) {
+        userMsService.updateMembershipType(id, membership);
         return ResponseEntity.ok().build();
     }
 
