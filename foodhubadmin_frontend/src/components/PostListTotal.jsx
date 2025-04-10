@@ -4,6 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
 } from 'recharts';
 import { useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
 
 
 
@@ -13,41 +14,55 @@ const PostListTotal = () => {
   const [postMonthData, setPostMonthData] = useState();
   const [postDayData, setPostDayData] = useState();
   const navigate = useNavigate();
+  const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM-DD')); // 날짜 설정용 dayjs 설치 
+  const [dayStartDate, setDayStartDate] = useState(dayjs().subtract(1, 'month').format('YYYY-MM-DD'));
 
   const fetchPosts = async () => {
     try {
-      const yearRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/yearlyNewPost`, 
+      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/yearlyNewPost`,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-      const formattedYear = yearRes.data.map(item => ({
+      const formattedYear = yearData.data.map(item => ({
         ...item,
         year: `${item.year}년`
       }));
       setPostYearData(formattedYear);
 
-      const monthRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyNewPost`, 
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-      const formattedMonth = monthRes.data.map(item => {
-        const [year, month] = item.month.split('-');
-        return {
-          ...item,
-          month: `${year}년 ${month.padStart(2, '0')}월`
-        };
+      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyNewPost`, {
+        params: { startDate: monthStartDate },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
+      const formattedMonth = monthData.data
+        .map(item => {
+          const [year, month] = item.month.split('-');
+          return {
+            ...item,
+            rawDate: `${year}-${month.padStart(2, '0')}`, // 정렬용
+            month: `${year}년 ${month.padStart(2, '0')}월` // 표시용
+          };
+        })
+        .sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate)); // 날짜 정렬
+
       setPostMonthData(formattedMonth);
 
-      const dayRes = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyNewPost`, 
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-      const formattedDay = dayRes.data.map(item => {
-        const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/); // 마지막 날짜만 추출
-        if (!parts) return item;
-
-        const [, year, month, day] = parts;
-
-        return {
-          ...item,
-          day: `${year}년 ${month.padStart(2, '0')}월 ${day.padStart(2, '0')}일`
-        };
+      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyNewPost`, {
+        params: { startDate: dayStartDate },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
+      const formattedDay = dayData.data
+        .map(item => {
+          const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/);
+          if (!parts) return item;
+
+          const [, year, month, day] = parts;
+
+          return {
+            ...item,
+            rawDate: `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`, // 정렬용
+            day: `${year}년 ${month.padStart(2, '0')}월 ${day.padStart(2, '0')}일` // 표시용
+          };
+        })
+        .sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate)); // 날짜 정렬
+
       setPostDayData(formattedDay);
 
     } catch (error) {
@@ -82,6 +97,9 @@ const PostListTotal = () => {
       </ResponsiveContainer>
 
       <h4 style={{ marginTop: '30px' }}>📆 월별 게시글 수</h4>
+      <label>조회 시작일: </label>
+      <input type="date" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} />
+      <button onClick={fetchPosts}>조회</button>
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={postMonthData}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -93,6 +111,9 @@ const PostListTotal = () => {
       </ResponsiveContainer>
 
       <h4 style={{ marginTop: '30px' }}>🗓️ 일별 게시글 수 </h4>
+      <label>조회 시작일: </label>
+      <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} />
+      <button onClick={fetchPosts}>조회</button>
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={postDayData}>
           <CartesianGrid strokeDasharray="3 3" />

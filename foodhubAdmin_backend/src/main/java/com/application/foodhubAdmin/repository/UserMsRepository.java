@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface UserMsRepository extends JpaRepository <User ,String> {
+public interface UserMsRepository extends JpaRepository <User, String> {
 
 //	// 년도별 신규 가입자 수
 //	@Query("""

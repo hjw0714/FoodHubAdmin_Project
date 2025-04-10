@@ -8,32 +8,24 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-public class UserProfileResponse {
+public class UserUpdateResponse {
 
     private String userId;
-    private String passwd;
     private String nickname;
+    private String profileOriginal;
     private String profileUuid;
     private String email;
-    private String tel;
-    private String gender;
     private LocalDate birthday;
 
-    public static UserProfileResponse of (User user) {
-        return  UserProfileResponse.builder()
+    public static UserUpdateResponse of (User user) {
+        return UserUpdateResponse.builder()
                 .userId(user.getId())
-                .passwd(user.getPasswd())
                 .nickname(user.getNickname())
+                .profileOriginal(user.getProfileOriginal())
                 .profileUuid(user.getProfileUuid())
                 .email(user.getEmail())
-                .tel(user.getTel())
-                .gender(user.getGender())
                 .birthday(user.getBirthday())
                 .build();
     }
-
-        
-
-
 
 }

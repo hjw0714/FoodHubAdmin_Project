@@ -33,7 +33,7 @@ public class User {
     private MembershipType membershipType;
 
     @Column(name = "PROFILE_UUID", length = 255)
-    private String profileUUID;
+    private String profileUuid;
 
     @Column(name = "PROFILE_ORIGINAL", length = 255)
     private String profileOriginal;
@@ -77,8 +77,22 @@ public class User {
     @Column(name = "STATUS")
     private String status;
 
+
     public void updateMemberShipType(MembershipType membershipType) {
         this.membershipType = membershipType;
+
+    // 프로필 업데이트
+    public void updateUser(String profileOriginal, String profileUuid, String tel, String email) {
+        if (profileOriginal != null) this.profileOriginal = profileOriginal;
+        if (profileUuid != null)     this.profileUuid = profileUuid;
+        this.tel = tel;
+        this.email = email;
+    }
+
+    // 비밀번호 변경
+    public void changePasswd(String passwd) {
+        this.passwd = passwd;
+
     }
 
 }
