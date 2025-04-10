@@ -1,12 +1,10 @@
 package com.application.foodhubAdmin.controller;
 
-import com.application.foodhubAdmin.domain.MembershipType;
-
 import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
-
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
 import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
-import com.application.foodhubAdmin.dto.response.user.*;
+import com.application.foodhubAdmin.dto.response.user.UserListResponse;
+import com.application.foodhubAdmin.dto.response.user.UserUpdateResponse;
 import com.application.foodhubAdmin.service.UserMsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,25 +29,6 @@ public class UserMsController {
         return ResponseEntity.ok(token);
     }
 
-
-//    // 년도별 신규 가입자 수
-//    @GetMapping("/yearlyNewUser")
-//    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
-//        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
-//    }
-//
-//    // 월별 신규 가입자 수
-//    @GetMapping("/monthlyNewUser")
-//    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
-//        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
-//    }
-//
-//    // 일별 신규 가입자 수
-//    @GetMapping("/dailyNewUser")
-//    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
-//        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
-//    }
-
     // 마이 페이지
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {
@@ -69,6 +48,27 @@ public class UserMsController {
         userMsService.changePasswd(requestDto);
         return ResponseEntity.ok().build();
     }
+
+
+//    // 년도별 신규 가입자 수
+//    @GetMapping("/yearlyNewUser")
+//    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
+//        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
+//    }
+//
+//    // 월별 신규 가입자 수
+//    @GetMapping("/monthlyNewUser")
+//    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
+//        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
+//    }
+//
+//    // 일별 신규 가입자 수
+//    @GetMapping("/dailyNewUser")
+//    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
+//        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
+//    }
+
+
 
 //    // 년도별 신규 가입자 수
 //    @GetMapping("/yearlyNewUser")
@@ -97,17 +97,17 @@ public class UserMsController {
     }
 
     // 유저 탈퇴
-    @DeleteMapping("/memberList/{id}")
+    @DeleteMapping("/memberList/delete/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable("id") String id) {
         userMsService.deleteMember(id);
         return ResponseEntity.noContent().build();
     }
 
     // 유저 리스트에서 멤버십 변경
-    @PutMapping("/memberList/{id}")
+    @PutMapping("/memberList/update/{id}")
     public ResponseEntity<?> updateMembershipType(@PathVariable("id") String id,
-                                          @RequestBody MembershipType membershipType) {
-        userMsService.updateMembershipType(id, membershipType);
+                                          @RequestBody String membership) {
+        userMsService.updateMembershipType(id, membership);
         return ResponseEntity.ok().build();
     }
 
