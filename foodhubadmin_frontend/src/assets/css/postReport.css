@@ -28,3 +28,31 @@
 .action-button:hover {
   background-color: #125ca1;
 }
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination button.active-page {
+  background-color: #007bff;
+  color: white; /* 🔥 숫자 하얗게! */
+  border-color: #007bff;
+  font-weight: bold;
+}

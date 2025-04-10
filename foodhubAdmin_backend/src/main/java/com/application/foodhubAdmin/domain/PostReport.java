@@ -17,37 +17,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class Post {
+public class PostReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID", nullable = false)
+    @Column(name = "REPORT_ID")
     private Long id;
 
-    @Column(name = "CATEGORY_ID", nullable = false)
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "POST_ID", nullable = false)
+    private Post post;
 
-    @Column(name = "SUB_CATE_ID", nullable = false)
-    private Long subCateId;
+    @Column(name = "USER_ID", nullable = false)
+    private String userId; // User 엔티티가 있으면 ManyToOne으로 변경
 
-    @Column(name = "CATEGORY_NM", nullable = false)
-    private String categoryNm;
-
-    @Column(name = "SUB_CATE_NM", nullable = false)
-    private String subCateNm;
-
-    @Column(name = "TITLE", nullable = false)
-    private String title;
-
-    @Column(name = "CONTENT", nullable = false)
+    @Column(name = "CONTENT", nullable = false, length = 2000)
     private String content;
-
-    @Column(name = "VIEW_CNT", nullable = false)
-    private Long viewCnt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false)
-    private PostStatus status;
+    private PostReportStatus status;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
@@ -55,9 +44,8 @@ public class Post {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    public void changeStatus(PostStatus status) {
+    public void changeStatus(PostReportStatus status) {
         this.status = status;
         this.updatedAt = LocalDateTime.now();
     }
-
 }

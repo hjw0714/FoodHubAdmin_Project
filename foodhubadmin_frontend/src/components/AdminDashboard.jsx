@@ -6,7 +6,6 @@ const AdminDashboard = () => {
 
   const [userStatsOpen , setUserStatsOpen] = useState(false);
   const [postStatsOpen , setPostStatsOpen] = useState(false);
-  const [reportStatsOpen , setReportStatsOpen] = useState(false);
   const [reportListOpen , setReportListOpen] = useState(false);
 
   return (
@@ -48,8 +47,6 @@ const AdminDashboard = () => {
             </div>
 
             <Link to="/admin/dashboard/commentStats">🗒️ 댓글 통계</Link>
-
-            
 
             <div className="dropdown">
               <div

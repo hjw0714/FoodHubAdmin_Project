@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const MemberList = () => {
   const navigate = useNavigate();
   const [members, setMembers] = useState([]);
