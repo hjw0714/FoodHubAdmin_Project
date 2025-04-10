@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface UserMsRepository extends JpaRepository <User ,String> {
+public interface UserMsRepository extends JpaRepository <User, String> {
 
 //	// 년도별 신규 가입자 수
 //	@Query("""
@@ -107,6 +107,7 @@ public interface UserMsRepository extends JpaRepository <User ,String> {
 			"WHERE FUNCTION('DATE', u.deletedAt) = :date")
 	Long countUserDeletedOn(@Param("date") LocalDate date); // 유저 탈퇴수 통계저장
 
+
 	@Query("SELECT COUNT(u) FROM User u WHERE u.deletedAt IS NULL")
 	Long countTotalUsers();	// 유저 통합수 통계저장
 
@@ -114,5 +115,8 @@ public interface UserMsRepository extends JpaRepository <User ,String> {
 
 
 
+
+
+	List<User> id(String id);
 
 }
