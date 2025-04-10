@@ -45,6 +45,10 @@ public class Post {
     @Column(name = "VIEW_CNT", nullable = false)
     private Long viewCnt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS" , nullable = false)
+    private Status status;
+
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 

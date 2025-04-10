@@ -31,25 +31,6 @@ public class UserMsController {
         return ResponseEntity.ok(token);
     }
 
-
-//    // 년도별 신규 가입자 수
-//    @GetMapping("/yearlyNewUser")
-//    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
-//        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
-//    }
-//
-//    // 월별 신규 가입자 수
-//    @GetMapping("/monthlyNewUser")
-//    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
-//        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
-//    }
-//
-//    // 일별 신규 가입자 수
-//    @GetMapping("/dailyNewUser")
-//    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
-//        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
-//    }
-
     // 마이 페이지
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {
@@ -70,26 +51,6 @@ public class UserMsController {
         return ResponseEntity.ok().build();
     }
 
-//    // 년도별 신규 가입자 수
-//    @GetMapping("/yearlyNewUser")
-//    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
-//        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
-//    }
-//
-//    // 월별 신규 가입자 수
-//    @GetMapping("/monthlyNewUser")
-//    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
-//        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
-//    }
-//
-//    // 일별 신규 가입자 수
-//    @GetMapping("/dailyNewUser")
-//    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
-//        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
-//    }
-
-
-
     // 유저 정보 리스트
     @GetMapping("/memberList")
     public ResponseEntity<List<UserListResponse>> memberList() {
@@ -106,9 +67,68 @@ public class UserMsController {
     // 유저 리스트에서 멤버십 변경
     @PutMapping("/memberList/{id}")
     public ResponseEntity<?> updateMembershipType(@PathVariable("id") String id,
-                                          @RequestBody MembershipType membershipType) {
+                                                  @RequestBody MembershipType membershipType) {
         userMsService.updateMembershipType(id, membershipType);
         return ResponseEntity.ok().build();
     }
+
+    // 년도별 신규 가입자 수
+    @GetMapping("/yearlyNewUser")
+    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
+        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
+    }
+
+    // 월별 신규 가입자 수
+    @GetMapping("/monthlyNewUser")
+    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
+        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
+    }
+
+    // 일별 신규 가입자 수
+    @GetMapping("/dailyNewUser")
+    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
+        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
+    }
+
+    // 년도별 총 회원 수
+    @GetMapping("/yearlyTotalUser")
+    public ResponseEntity<List<YearlyTotalUserCntResponse>> yearlyTotalUser() {
+        return ResponseEntity.ok(userMsService.getYearlyTotalUserCnt());
+    }
+
+    // 월별 총 회원 수
+    @GetMapping("/monthlyTotalUser")
+    public ResponseEntity<List<MonthlyTotalUserCntResponse>> monthlyTotalUser() {
+        return ResponseEntity.ok(userMsService.getMonthlyTotalUserCnt());
+    }
+
+    // 일별 총 회원 수
+    @GetMapping("/dailyTotalUser")
+    public ResponseEntity<List<DailyTotalUserCntResponse>> dailyTotalUser() {
+        return ResponseEntity.ok(userMsService.getDailyTotalUserCnt());
+    }
+
+    // 년도별 총 회원 수
+    @GetMapping("/yearlyDeleteUser")
+    public ResponseEntity<List<YearlyDeleteUserCntResponse>> yearlyDeleteUser() {
+        return ResponseEntity.ok(userMsService.getYearlyDeleteUserCnt());
+    }
+
+    // 월별 총 회원 수
+    @GetMapping("/monthlyDeleteUser")
+    public ResponseEntity<List<MonthlyDeleteUserCntResponse>> monthlyDeleteUser() {
+        return ResponseEntity.ok(userMsService.getMonthlyDeleteUserCnt());
+    }
+
+    // 일별 총 회원 수
+    @GetMapping("/dailyDeleteUser")
+    public ResponseEntity<List<DailyDeleteUserCntResponse>> dailyDeleteUser() {
+        return ResponseEntity.ok(userMsService.getDailyDeleteUserCnt());
+    }
+
+
+
+
+
 
 }

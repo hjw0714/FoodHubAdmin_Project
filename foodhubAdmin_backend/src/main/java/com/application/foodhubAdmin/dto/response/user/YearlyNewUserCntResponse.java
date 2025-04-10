@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class YearlyNewUserCntResponse {
-
     private Object year;
     private Long userCnt;
 }

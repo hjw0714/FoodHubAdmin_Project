@@ -14,79 +14,11 @@ import java.util.List;
 @Repository
 public interface PostMsRepository extends JpaRepository<Post, Long>{
 
-    // 년별 작성된 게시글 수
-    @Query("""
-    SELECT new com.application.foodhubAdmin.dto.response.post.YearlyNewPostCntResponse(
-        FUNCTION('YEAR', p.createdAt) AS YEAR,
-        COUNT(p) AS postCnt)
-    FROM Post p
-    GROUP BY FUNCTION('YEAR', p.createdAt)
-    ORDER BY FUNCTION('YEAR', p.createdAt) ASC    
-    """)
-    List<YearlyNewPostCntResponse> getYearlyNewPostCnt();
+    @Query("SELECT COUNT(p) FROM Post p WHERE p.status = 'ACTIVE'")
+    Long countTotalPosts();	// 게시글 통합수 통계저장
 
-    // 월별 작성된 게시글 수
-    @Query("""
-    SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyNewPostCntResponse(
-        CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)),
-        COUNT(p))
-    FROM Post p
-    WHERE FUNCTION('DATE', p.createdAt) >= :startDate
-    GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt))
-    ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)) ASC
-    """)
-    List<MonthlyNewPostCntResponse> getMonthlyNewPostCnt(@Param("startDate") LocalDate startDate);
-
-    // 일별 작성된 게시글 수
-    @Query("""
-    SELECT new com.application.foodhubAdmin.dto.response.post.DailyNewPostCntResponse(
-            CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) , '-', FUNCTION('DATE', p.createdAt)),
-            COUNT(p))
-    FROM Post p
-    WHERE FUNCTION('DATE', p.createdAt) >= :startDate
-    GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) , '-', FUNCTION('DATE', p.createdAt))
-    ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) , '-', FUNCTION('DATE', p.createdAt))ASC
-        """)
-    List<DailyNewPostCntResponse> getDailyNewPostCnt(@Param("startDate") LocalDate startDate);
-
-
-
-    // 연도, 카테고리별 총 게시글
-    @Query("""
-            SELECT new com.application.foodhubAdmin.dto.response.post.YearlyCategoryPostCntResponse(
-                YEAR(p.createdAt) as year,
-                p.subCateNm AS subCateNm,
-                COUNT(p) AS postCnt)
-            FROM Post p
-            GROUP BY YEAR(p.createdAt), p.subCateNm
-            ORDER BY YEAR(p.createdAt) ASC
-            """)
-    List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt();
-
-    // 월, 카테고리별 총 게시글
-    @Query("""
-            SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyCategoryPostCntResponse(
-                CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)),
-                p.subCateNm,
-                COUNT(p))
-            FROM Post p
-            GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)), p.subCateNm
-            ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)) ASC
-            """)
-    List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt();
-
-    // 일, 카테고리별 총 게시글
-    @Query("""
-            SELECT new com.application.foodhubAdmin.dto.response.post.DailyCategoryPostCntResponse(
-                FUNCTION('DATE', p.createdAt) AS day,
-                p.subCateNm AS subCateNm,
-                COUNT(p) AS postCnt)
-            FROM Post p
-            GROUP BY FUNCTION('DATE', p.createdAt), p.subCateNm
-            ORDER BY FUNCTION('DATE', p.createdAt) ASC
-            """)
-    List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt();
-
+    @Query("SELECT COUNT(p) FROM Post p WHERE p.categoryId = :findPostCategoryId AND p.status = 'ACTIVE'")
+    Long countTotalPostsByPostCategoryId(@Param("findPostCategoryId") Integer findPostCategoryId);	// 카테고리별 총 게시글 통계저장
 
 
 
