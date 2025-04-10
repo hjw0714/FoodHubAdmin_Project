@@ -1,55 +1,36 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../assets/css/changePassword.css';
 
-const ChangePasswd = ({ userId }) => {
+const ChangePasswd = () => {
   const navigate = useNavigate();
-  const [currentPasswd, setCurrentPasswd] = useState('');
-  const [newPasswd, setNewPasswd] = useState('');
-  const [confirmPasswd, setConfirmPasswd] = useState(''); // 오타 수정
+  const [passwd, setPasswd] = useState('');
+  const [confirmPasswd, setConfirmPasswd] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 기본 form 제출 방지
+    e.preventDefault();
 
-    if (!currentPasswd || !newPasswd || !confirmPasswd) {
+    if (!passwd || !confirmPasswd) {
       setErrorMsg('모든 작성란을 입력해주세요.');
       return;
     }
 
-    if (newPasswd !== confirmPasswd) {
-      setErrorMsg('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+    if (passwd !== confirmPasswd) {
+      setErrorMsg('비밀번호가 일치하지 않습니다.');
       return;
     }
 
-    if (newPasswd.length < 4) {
-      setErrorMsg('새 비밀번호는 4자 이상이어야 합니다.');
+    if (passwd.length < 4) {
+      setErrorMsg('비밀번호는 4자 이상이어야 합니다.');
       return;
     }
 
     try {
-
-      /*
-      // 현재 비밀번호 검증 (누락된 부분 추가)
-      const verifyResponse = await axios.put(
-        `${import.meta.env.VITE_API_URL}/verify-passwd`,
-        { userId, currentPasswd },
+      await axios.put(`${import.meta.env.VITE_API_URL}/user/changePasswd`, passwd, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
-
-      if (!verifyResponse.data.isValid) {
-        setErrorMsg('현재 비밀번호가 일치하지 않습니다.');
-        return;
-      }
-
-      // 비밀번호 변경 요청
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/change-passwd`,
-        { userId, newPasswd },
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-      );
-      */
 
       alert('비밀번호가 변경되었습니다.');
       navigate('/admin/profile-view');
@@ -67,30 +48,25 @@ const ChangePasswd = ({ userId }) => {
     }
   };
 
+  const handleCancel = () => {
+    confirm('비밀번호 변경을 취소하시겠습니까?');
+    navigate('/admin/profile-view');
+  };
+
   return (
     <div className="change-password-container">
       <div className="change-password-section">
         <h2>비밀번호 변경</h2>
 
         <form onSubmit={handleSubmit}>
-          <div className="password-item">
-            <label>현재 비밀번호</label>
-            <input
-              type="password"
-              name="currentPasswd"
-              value={currentPasswd}
-              onChange={(e) => setCurrentPasswd(e.target.value)}
-              className="password-input"
-            />
-          </div>
 
           <div className="password-item">
             <label>새 비밀번호</label>
             <input
               type="password"
-              name="newPasswd"
-              value={newPasswd}
-              onChange={(e) => setNewPasswd(e.target.value)}
+              name="passwd"
+              value={passwd}
+              onChange={(e) => setPasswd(e.target.value)}
               className="password-input"
             />
           </div>
@@ -115,7 +91,7 @@ const ChangePasswd = ({ userId }) => {
             <button
               type="button"
               className="cancel-button"
-              onClick={() => navigate('/admin/profile-view')}
+              onClick={handleCancel}
             >
               ↩ 취소
             </button>
