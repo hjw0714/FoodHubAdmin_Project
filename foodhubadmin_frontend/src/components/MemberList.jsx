@@ -97,7 +97,7 @@ const MemberList = () => {
     }
   };
 
-  // membershipType Update 미완성
+  // membershipType Update
   const handleUpdate = async(id, membershipType) => {
     
     try {
@@ -129,7 +129,7 @@ const MemberList = () => {
       <table className="report-table">
         <thead>
           <tr>
-            <th>#</th>
+            <th>아이디</th>
             <th>닉네임</th>
             <th>이메일</th>
             <th>가입일</th>
