@@ -15,7 +15,7 @@ const UserStatus = () => {
 
   const fetchUser = async() => {
     try {
-      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/user/yearlyNewUser`, 
+      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/user/yearlyTotalUser`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedYear = yearData.data.map(item => ({
           ...item,
@@ -23,7 +23,7 @@ const UserStatus = () => {
         }));
         setUserYearData(formattedYear); 
 
-      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/user/monthlyNewUser`, 
+      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/user/monthlyTotalUser`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedMonth = monthData.data.map(item => {
           const [year, month] = item.month.split('-');
@@ -34,7 +34,7 @@ const UserStatus = () => {
         });
         setUserMonthData(formattedMonth);
 
-      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/user/dailyNewUser`, 
+      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/user/dailyTotalUser`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedDay = dayData.data.map(item => {
           const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/); // 마지막 날짜만 추출
@@ -69,7 +69,7 @@ const UserStatus = () => {
       <h3>👤 총 회원 수 통계</h3>
       <p>년도별, 월별, 일별 회원 수 변화를 한 눈에 확인할 수 있습니다.</p>
 
-      <h4 style={{ marginTop: '30px' }}>📅 연도별 회원 수</h4>
+      <h4 style={{ marginTop: '30px' }}>📅 년도별 회원 수</h4>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userYearData}>
           <CartesianGrid strokeDasharray="3 3" />

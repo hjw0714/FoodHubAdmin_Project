@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class YearlyNewUserCntResponse {
-    private Object year;
+public class MonthlyTotalUserCntResponse {
+    private Object month;
     private Long userCnt;
 }

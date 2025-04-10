@@ -23,7 +23,9 @@ const MemberList = () => {
   
   const fetchMember = async() => {
     try {
+
       const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/user/memberList`, 
+
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const temp = data.map(user => ({
         ...user,

@@ -49,6 +49,7 @@ public class Post {
     @Column(name = "STATUS", nullable = false)
     private PostStatus status;
 
+
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 

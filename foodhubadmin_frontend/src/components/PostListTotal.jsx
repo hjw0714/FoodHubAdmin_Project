@@ -19,7 +19,7 @@ const PostListTotal = () => {
 
   const fetchPosts = async () => {
     try {
-      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/yearlyNewPost`,
+      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/yearlyTotalPost`,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const formattedYear = yearData.data.map(item => ({
         ...item,
@@ -27,7 +27,7 @@ const PostListTotal = () => {
       }));
       setPostYearData(formattedYear.slice(0, 5));
 
-      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyNewPost`, {
+      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyTotalPost`, {
         params: { startDate: monthStartDate },
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
@@ -44,7 +44,7 @@ const PostListTotal = () => {
 
       setPostMonthData(formattedMonth.slice(0, 12));
 
-      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyNewPost`, {
+      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyTotalPost`, {
         params: { startDate: dayStartDate },
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });

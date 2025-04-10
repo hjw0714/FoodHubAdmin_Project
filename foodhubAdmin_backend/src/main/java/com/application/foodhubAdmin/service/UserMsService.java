@@ -112,24 +112,6 @@ public class UserMsService {
     }
 
 
-//    // 월별 신규 가입자 수
-//    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
-//       return userMsRepository.getMonthlyNewUserCnt();
-//    }
-//
-//    // 년도별 신규 가입자 수
-//    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
-//        return userMsRepository.getYearlyNewUserCnt();
-//    }
-//
-//    // 일별 신규 가입자 수
-//    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
-//        return userMsRepository.getDailyNewUserCnt();
-//    }
-
-
-
-
     // 유저 정보 리스트
     public List<UserListResponse> getUserList() {
         return userMsRepository.findAll()
@@ -139,7 +121,7 @@ public class UserMsService {
     }
 
     // 유저 가입수 통계 저장
-    public void updateUserStatsJoin(LocalDate date) {
+    public void insertUserStatsJoin(LocalDate date) {
         // 1. 해당 날짜에 가입한 유저 수 조회
         Long joinCount = userMsRepository.countUserJoinedOn(date);
 
@@ -167,7 +149,7 @@ public class UserMsService {
     }
 
     // 유저 탈퇴수 통계 저장
-    public void updateUserStatsDelete(LocalDate date) {
+    public void insertUserStatsDelete(LocalDate date) {
 
         Long deletedCount = userMsRepository.countUserDeletedOn(date);
 
@@ -192,7 +174,7 @@ public class UserMsService {
     }
 
     // 유저 총회원수 통계 저장
-    public void updateUserStatsTotal(LocalDate date) {
+    public void insertUserStatsTotal(LocalDate date) {
         Long totalCount = userMsRepository.countTotalUsers();
 
         Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(3, date);
@@ -215,6 +197,18 @@ public class UserMsService {
         }
     }
 
+
+
+
+    // 년도별 총 회원수 조회
+    public List<YearlyTotalUserCntResponse> getYearlyTotalUserCnt() {
+        return statsRepository.getYearlyTotalUserCnt();
+    }
+
+    // 월별 총 회원수 조회
+    public List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt() {
+        return statsRepository.getMonthlyTotalUserCnt();
+
     // 유저 탈퇴
     @Transactional
     public void deleteMember(String id) {
@@ -230,7 +224,45 @@ public class UserMsService {
         User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
         user.updateMemberShipType(mem);
         userMsRepository.save(user);
+
     }
+
+    // 일별 총 회원수 조회
+    public List<DailyTotalUserCntResponse> getDailyTotalUserCnt() {
+        return statsRepository.getDailyTotalUserCnt();
+    }
+
+
+    // 년도별 신규 가입자 수 조회
+    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
+        return statsRepository.getYearlyNewUserCnt();
+    }
+
+    // 월별 신규 가입자 수 조회
+    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
+        return statsRepository.getMonthlyNewUserCnt();
+    }
+
+    // 일별 신규 가입자 수 조회
+    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
+        return statsRepository.getDailyNewUserCnt();
+    }
+
+    // 년도별 탈퇴 수 조회
+    public List<YearlyDeleteUserCntResponse> getYearlyDeleteUserCnt() {
+        return statsRepository.getYearlyDeleteUserCnt();
+    }
+
+    // 월별 탈퇴 수 조회
+    public List<MonthlyDeleteUserCntResponse> getMonthlyDeleteUserCnt() {
+        return statsRepository.getMonthlyDeleteUserCnt();
+    }
+
+    // 일별 탈퇴 수 조회
+    public List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt() {
+        return statsRepository.getDailyDeleteUserCnt();
+    }
+
 
 }
 
