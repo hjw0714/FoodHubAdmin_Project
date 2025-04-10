@@ -208,7 +208,7 @@ public class UserMsService {
     // 월별 총 회원수 조회
     public List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt() {
         return statsRepository.getMonthlyTotalUserCnt();
-
+    }
     // 유저 탈퇴
     @Transactional
     public void deleteMember(String id) {
