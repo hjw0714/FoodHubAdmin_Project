@@ -31,19 +31,19 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
                 CONCAT(FUNCTION('YEAR', c.createdAt), '-', FUNCTION('MONTH', c.createdAt)),
                 COUNT(c))
             FROM Comments c
-            GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt))
-            ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)) ASC
+            GROUP BY CONCAT(FUNCTION('YEAR', c.createdAt), '-', FUNCTION('MONTH', c.createdAt))
+            ORDER BY CONCAT(FUNCTION('YEAR', c.createdAt), '-', FUNCTION('MONTH', c.createdAt)) ASC
             """)
     List<MonthlyNewCommentsCntResponse> getMonthlyNewCommentsCnt();
 
     // 일별 새 댓글
     @Query("""
             SELECT new com.application.foodhubAdmin.dto.response.comments.DailyNewCommentsCntResponse(
-                FUNCTION('DATE', p.createdAt) AS day,
+                FUNCTION('DATE', c.createdAt) AS day,
                 COUNT(c))
             FROM Comments c
-            GROUP BY FUNCTION('DATE', p.createdAt)
-            ORDER BY FUNCTION('DATE', p.createdAt) ASC
+            GROUP BY FUNCTION('DATE', c.createdAt)
+            ORDER BY FUNCTION('DATE', c.createdAt) ASC
             """)
     List<DailyNewCommentsCntResponse> getDailyNewCommentsCnt();
 
