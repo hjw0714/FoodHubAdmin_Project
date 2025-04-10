@@ -3,7 +3,7 @@ package com.application.foodhubAdmin.service;
 import com.application.foodhubAdmin.config.JwtUtil;
 
 
-
+import com.application.foodhubAdmin.domain.MembershipType;
 import com.application.foodhubAdmin.dto.response.user.*;
 
 import com.application.foodhubAdmin.domain.Stats;
@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLOutput;
 import java.time.LocalDate;
@@ -34,6 +35,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserMsService {
 
     @Value("${file.repo.path}")
@@ -128,4 +130,17 @@ public class UserMsService {
             statsRepository.save(newStats);
         }
     }
+
+    // 유저 탈퇴
+    public void deleteMember(String id) {
+        userMsRepository.deleteById(id);
+    }
+
+    // 유저 리스트에서 멤버십 변경
+    @Transactional
+    public void updateMembershipType(String id, MembershipType membershipType) {
+        User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+        user.updateMemberShipType(membershipType);
+    }
+
 }

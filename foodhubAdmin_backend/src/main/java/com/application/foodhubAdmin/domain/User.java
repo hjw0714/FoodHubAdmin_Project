@@ -76,4 +76,9 @@ public class User {
 
     @Column(name = "STATUS")
     private String status;
+
+    public void updateMemberShipType(MembershipType membershipType) {
+        this.membershipType = membershipType;
+    }
+
 }

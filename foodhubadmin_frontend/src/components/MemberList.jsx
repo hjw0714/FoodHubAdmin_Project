@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const initialMembers = [
   { id: 1, nickname: 'user123', email: 'user123@example.com', joinDate: '2023-10-01', membershipType: '일반 회원' },
@@ -24,6 +26,7 @@ const initialMembers = [
 ];
 
 const MemberList = () => {
+  const navigate = useNavigate();
   const [members, setMembers] = useState(initialMembers);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -39,6 +42,79 @@ const MemberList = () => {
       m.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
+  const fetchMember = async() => {
+    try {
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/user/memberList`);
+      const temp = data.map(user => ({
+        ...user,
+        membershipType : user.membershipType === "COMMON"
+          ? "일반 회원"
+          : user.membershipType === "BUSSI"
+          ? "사업자 회원"
+          : "관리자"
+      }));
+      setMembers(temp);
+      
+    } catch(error) {
+      if(error.response) {
+        if(error.response.status === 401) {
+          navigate("/error/401");
+        }
+        else if (error.response.status === 500) {
+          navigate("/error/500")
+        }
+        else if(error.response.status === 403) {
+          navigate("/error/403");
+        }
+        else {
+          console.log(error);
+        }
+      }
+    }
+
+  };
+
+  useEffect(() =>  {
+    fetchMember();
+  }, []);
+
+  const handleSignOut = async(id) => {
+    const deleteMem = window.confirm("정말 탈퇴시키시겠습니까?");
+    if(deleteMem) {
+      try{
+        await axios.delete(`${import.meta.env.VITE_API_URL}/user/memberList/${id}`);
+        alert("탈퇴되었습니다.");
+        window.location.reload();
+
+      } catch(error) {
+        console.log(error.message);
+        alert("탈퇴 실패");
+      }
+    }
+  };
+
+  // membershipType Update 미완성
+  const handleUpdate = async(id, membershipType) => {
+    if(membershipType === "일반 회원") {
+      membershipType = "COMMON";
+    }
+    else if (membershipType === "사업자 회원") {
+      membershipType = "BUSSI";
+    }
+    console.log(id, membershipType);
+    
+    try {
+      await axios.put(`${import.meta.env.VITE_API_URL}/user/memberList/${id}`, {membershipType : membershipType});
+      alert("변경 완료");
+      navigate.location.reload();
+
+    } catch(error) {
+      console.log(error);
+      alert("변경 실패");
+    }
+
+  };
 
   return (
     <div className="dashboard-section">
@@ -62,6 +138,7 @@ const MemberList = () => {
             <th>가입일</th>
             <th>멤버십</th>
             <th>변경</th>
+            <th>탈퇴</th>
           </tr>
         </thead>
         <tbody>
@@ -71,7 +148,7 @@ const MemberList = () => {
                 <td>{member.id}</td>
                 <td>{member.nickname}</td>
                 <td>{member.email}</td>
-                <td>{member.joinDate}</td>
+                <td>{new Date(member.joinAt).toLocaleDateString()}</td>
                 <td>{member.membershipType}</td>
                 <td>
                   <select
@@ -80,7 +157,11 @@ const MemberList = () => {
                   >
                     <option value="일반 회원">일반 회원</option>
                     <option value="사업자 회원">사업자 회원</option>
-                  </select>
+                  </select>  {" "}
+                  <button onClick={() => handleUpdate(member.id, member.membershipType)}>변경</button>
+                </td>
+                <td>
+                  <button onClick={() => handleSignOut(member.id)}>탈퇴</button>
                 </td>
               </tr>
             ))
