@@ -30,13 +30,14 @@ public class SecurityConfig {
 
     // 인증이 필요없는 URL 목록
     private final String[] permitList = {
-            "/api/admin/user/logIn"           // 로그인
+            "/api/admin/user/logIn",           // 로그인
     };
 
 
     // 인증이 필요한 URL 목록
     private final String[] authenticateList = {
-            "/api/admin/**"               // 관리자
+            "/api/admin/**",               // 관리자
+            "/api/images/**"
     };
 
     // CORS 설정
@@ -69,8 +70,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers(permitList).permitAll() // 인증없이 접근가능
                     .requestMatchers(authenticateList).authenticated() // 인증 필요
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 권한필요(ROLE_ADMIN) > 403오류
-                        .anyRequest().permitAll()) // 나머지 요청은 인증없이 접근가능
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 권한필요(ROLE_ADMIN) > 403오류
+                    .anyRequest().permitAll()) // 나머지 요청은 인증없이 접근가능
                 // 예외 처리
                 .exceptionHandling(exception -> exception
                 .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication required")) // 인증 실패

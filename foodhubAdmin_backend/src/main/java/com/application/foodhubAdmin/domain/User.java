@@ -33,7 +33,7 @@ public class User {
     private MembershipType membershipType;
 
     @Column(name = "PROFILE_UUID", length = 255)
-    private String profileUUID;
+    private String profileUuid;
 
     @Column(name = "PROFILE_ORIGINAL", length = 255)
     private String profileOriginal;
@@ -70,4 +70,17 @@ public class User {
 
     @Column(name = "BIRTHDAY")
     private LocalDate birthday;
+
+
+    public void updateUser(String profileOriginal, String profileUuid, String tel, String email) {
+        if (profileOriginal != null) this.profileOriginal = profileOriginal;
+        if (profileUuid != null)     this.profileUuid = profileUuid;
+        this.tel = tel;
+        this.email = email;
+    }
+
+    public void changePasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
 }

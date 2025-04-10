@@ -1,43 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import defaultProfile from '../assets/defaultProfile.png';
 import '../assets/css/profileView.css';
+import defaultProfile from '../assets/defaultProfile.png';
 
 const ProfileView = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null); // 초기값을 null로 변경
+  // const { setUserId } = useContext(AuthContext);
+  const [user, setUser] = useState({}); // 초기값을 null로 변경
 
   const fetchUser = async () => {
     try {
-      // 백엔드가 없으므로 임시로 데트스 데이터 사용
-      // 실제 백엔드 연결 시 아래 주석 해제
-      /*
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, 
+
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
-      setUser(data);
-      */
 
-      // 데스트 데이터로 시뮬레이션  (백엔드 연결 시 테스트 데이터 삭제)
-      const testData = {
-        userId: 'testuser',
-        nickname: '테스트유저',
-        email: 'test@example.com',
-        tel: '010-1234-5678',
-        gender: '남성',
-        birthday: '1990-01-01',
-        profileUuid: 'default-profile-uuid',
-      };
-      setUser(testData);
+
+
+
+      console.log(`http://localhost:8080/api/images/${user.profileUuid}`);
+      console.log('User data:', data);
+      setUser(data);
+      
     } catch (error) {
-      // error.response가 있는지 먼저 확인
-      if (error.response) {
-        if (error.response.status === 401) {
-          navigate('/error/401');
-        } else if (error.response.status === 500) {
-          navigate('/error/500');
-        }
+      console.error('Fetch error:', error.response ? error.response.data : error.message);
+      if (error.response.status === 401) {
+        navigate('/error/401');
+      } else if (error.response.status === 500) {
+        // navigate('/error/500');
+        console.error(error);
       }
     }
   };
@@ -46,19 +38,21 @@ const ProfileView = () => {
     fetchUser();
   }, []);
 
-  if (!user) return <div>로딩 중...</div>; // user가 null일 때 로딩 표시
+  if (!user) return <h1>로딩 중...</h1>; // user가 null일 때 로딩 표시
 
   return (
     <div className="profile-view-container">
       <div className="profile-view-section">
-        <h2>{user.nickname}님의 프로필 정보</h2>
+        <h2>'{user.nickname}'님의 프로필 정보</h2>
 
         <div className="profile-photo-wrapper">
+          
           <img
-            src={user.profileUuid ? `${import.meta.env.VITE_API_URL}/images/${user.profileUuid}` : defaultProfile}
+            //src={user.profileUUID ? `${import.meta.env.VITE_API_URL}/images/${user.profileUuid}` : defaultProfile}
+            src={`http://localhost:8080/api/images/${user.profileUuid}`}
             alt="Profile"
             className="profile-photo"
-            onError={(e) => (e.target.src = defaultProfile)} // 이미지 로드 실패 시 기본 이미지 사용
+            //onError={(e) => (e.target.src = defaultProfile)}  // 이미지 로드 실패 시 기본 이미지 사용
           />
         </div>
 
@@ -93,15 +87,15 @@ const ProfileView = () => {
         </div>
 
         <div className="button-group">
-          <button className="edit-button" onClick={() => navigate('/edit-profile')}>
+          <button className="edit-button" onClick={() => navigate('/admin/edit-profile')}>
             ✏️ 회원정보 수정
           </button>
-          <button className="edit-button" onClick={() => navigate('/admin/change-passwd')}>
+          <button className="edit-button" onClick={() => navigate('/admin/change-passwd', { state: { userId: user.userId } })} >
             🔐 비밀번호 변경
           </button>
-          <button className="edit-button" onClick={() => navigate('/delete-user')}>
+          {/* <button className="edit-button" onClick={() => navigate('/delete-user')}>
             ❌ 회원 탈퇴
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

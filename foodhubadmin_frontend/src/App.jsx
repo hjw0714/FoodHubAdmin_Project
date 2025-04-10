@@ -25,12 +25,23 @@ import AppRouter from './routes/AppRouter';
      return null;
    }
  }
+
+ // 토큰에서 userId를 추출하는 함수 추가
+export const getUserIdFromToken = (token) => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.userId || null;
+  } catch (error) {
+    return null;
+  }
+};
  
  
  function App() {
  
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const [membershipType, setMembershipType] = useState(null);
+   const [userId, setUserId] = useState(null);
  
    useEffect(() => { // 컴포넌트가 마운트될 때 로컬 스토리지에서 토큰을 가져와 로그인 상태를 설정 
      const token = localStorage.getItem('token');
@@ -38,6 +49,8 @@ import AppRouter from './routes/AppRouter';
        setIsLoggedIn(true);
        const extractedMembershipType = getMembershipTypeFromToken(token);
        setMembershipType(extractedMembershipType);
+       const extractedUserId = getUserIdFromToken(token);
+       setUserId(extractedUserId);
      }
      else {
        localStorage.removeItem('token'); // 만료된 토큰 제거
@@ -50,7 +63,7 @@ import AppRouter from './routes/AppRouter';
  
    return (
      <>
-       <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, membershipType, setMembershipType }}>
+       <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, membershipType, setMembershipType,  userId, setUserId }}>
          <Header />
          <AppRouter />
          <Footer />
