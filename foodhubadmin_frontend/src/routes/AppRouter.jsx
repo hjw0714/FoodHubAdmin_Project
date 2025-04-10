@@ -8,8 +8,6 @@ import UserLeave from "../components/UserLeave";
 import PostListTotal from "../components/PostListTotal";
 import CategoryPostList from "../components/CategoryPostList";
 import CommentStats from "../components/CommentStats";
-import PostReportStats from "../components/PostReportStats ";
-import CommentReportStats from "../components/CommentReportStats ";
 import CommentReport from "../components/CommentReport";
 import MemberList from "../components/MemberList";
 import VisitorStats from "../components/VisitorStats";
@@ -17,7 +15,6 @@ import AdminChat from "../components/AdminChat";
 import BannerManager from "../components/BannerManager";
 import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/ErrorPage";
 
-import ChangePasswd from "../components/ChangePasswd";
 import ProfileView from "../components/ProfileView";
 import UserStatus from "../components/UserStatus";
 
@@ -29,7 +26,6 @@ const AppRouter = () => {
       <Route path="/" element={<AdminLogin />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/profile-view" element={<ProfileView />} />
-      <Route path="/admin/change-passwd" element={<ChangePasswd />} />
 
       <Route path="/error/401" element={<Unauthorized />} /> {/* 401 Unauthorized 페이지 */}
       <Route path="/error/403" element={<Forbidden />} />    {/* 403 Unauthorized 페이지 */}
@@ -46,8 +42,6 @@ const AppRouter = () => {
         <Route path="postListTotal" element={<PostListTotal />} />
         <Route path="categoryPostList" element={<CategoryPostList />} />
         <Route path="commentStats" element={<CommentStats />} />
-        <Route path="postReportStats" element={<PostReportStats />} />
-        <Route path="commentReportStats" element={<CommentReportStats />} />
         <Route path="memberList" element={<MemberList />} />
         <Route path="visitorStats" element={<VisitorStats />} />
         <Route path="adminChat" element={<AdminChat />} />

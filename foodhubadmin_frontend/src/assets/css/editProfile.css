@@ -1,55 +1,75 @@
-.change-password-container {
-  max-width: 400px; /* 이미지에서 폼 너비가 좁아 보임 */
+.edit-profile-container {
+  max-width: 400px; /* 폼 너비 */
   margin: 0 auto;
   padding: 80px 20px 20px; /* 헤더 높이 고려 */
 }
 
-.change-password-section {
+.edit-profile-section {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 30px; /* 이미지에서 패딩이 더 넓어 보임 */
+  padding: 30px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
-.change-password-section h2 {
+.edit-profile-section h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
   color: #333;
-  text-align: center; /* 제목 중앙 정렬 */
+  text-align: center;
 }
 
-.password-item {
+.edit-profile-item {
   display: flex;
-  flex-direction: column; /* 레이블과 입력 필드를 수직으로 배치 */
-  margin-bottom: 20px; /* 간격 조정 */
+  flex-direction: column; /* 레이블과 입력 필드 수직 배치 */
+  margin-bottom: 20px;
   gap: 8px; /* 레이블과 입력 필드 간 간격 */
 }
 
-.password-item label {
+.edit-profile-item label {
   color: #333;
   font-weight: 500;
   font-size: 0.9rem;
 }
 
-.password-input {
-  padding: 10px; /* 입력 필드 패딩 조정 */
+.edit-profile-input {
+  padding: 10px;
   border-radius: 5px;
   border: 1px solid #ddd;
-  width: 100%; /* 입력 필드가 전체 너비를 차지 */
+  width: 100%;
   font-size: 0.9rem;
   color: #666;
 }
 
-
-.password-input:focus {
+.edit-profile-input:focus {
   outline: none;
-  border-color: #6b87b4;
+  border-color: #6b87b4; /* 포커스 시 테두리 색상 */
   box-shadow: 0 0 5px rgba(55, 65, 81, 0.2);
 }
 
-.password-input::placeholder {
-  color: #aaa;
+.edit-profile-input::placeholder {
+  color: #aaa; /* 플레이스홀더 색상 */
+}
+
+.profile-photo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.file-input {
+  width: 100%;
+  font-size: 0.9rem;
 }
 
 .error-message {
@@ -59,22 +79,15 @@
   text-align: center;
 }
 
-.success-message {
-  color: #2e7d32;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  text-align: center;
-}
-
 .button-group {
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  gap: 10px; /* 버튼 간 간격 */
+  gap: 10px;
 }
 
 .submit-button {
-  padding: 8px 16px; /* 버튼 크기 조정 */
+  padding: 8px 16px;
   font-size: 0.9rem;
   background-color: #374151;
   color: #fff;

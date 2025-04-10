@@ -49,20 +49,7 @@ const AdminDashboard = () => {
 
             <Link to="/admin/dashboard/commentStats">🗒️ 댓글 통계</Link>
 
-            <div className="dropdown">
-              <div
-                className="dropdown-toggle"
-                onClick={() => setReportStatsOpen(!reportStatsOpen)}
-              >
-                🚨 신고 통계 {reportStatsOpen ? '▴' : '▾'}
-              </div>
-              {reportStatsOpen && (
-                <div className="dropdown-menu">
-                  <Link to="/admin/dashboard/postReportStats"> - 게시글 신고 수 </Link>
-                  <Link to="/admin/dashboard/commentReportStats">- 댓글 신고 수 </Link>
-                </div>
-              )}
-            </div>
+            
 
             <div className="dropdown">
               <div
