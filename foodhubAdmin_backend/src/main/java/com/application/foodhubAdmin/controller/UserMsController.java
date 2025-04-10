@@ -27,23 +27,23 @@ public class UserMsController {
         return ResponseEntity.ok(token);
     }
 
-    // 년도별 신규 가입자 수
-    @GetMapping("/yearlyNewUser")
-    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
-        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
-    }
-
-    // 월별 신규 가입자 수
-    @GetMapping("/monthlyNewUser")
-    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
-        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
-    }
-
-    // 일별 신규 가입자 수
-    @GetMapping("/dailyNewUser")
-    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
-        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
-    }
+//    // 년도별 신규 가입자 수
+//    @GetMapping("/yearlyNewUser")
+//    public ResponseEntity<List<YearlyNewUserCntResponse>> yearlyNewUser() {
+//        return ResponseEntity.ok(userMsService.getYearlyNewUserCnt());
+//    }
+//
+//    // 월별 신규 가입자 수
+//    @GetMapping("/monthlyNewUser")
+//    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
+//        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
+//    }
+//
+//    // 일별 신규 가입자 수
+//    @GetMapping("/dailyNewUser")
+//    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
+//        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
+//    }
 
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {

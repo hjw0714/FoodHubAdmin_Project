@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface StatsRepository extends JpaRepository<Stats, Long> {
-    Optional<Stats> findByCateAndTerm(String cate, LocalDate term);
+    Optional<Stats> findByCategoryIdAndStatDate(Integer categoryId, LocalDate statDate);
 }

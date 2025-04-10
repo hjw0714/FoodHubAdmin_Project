@@ -56,7 +56,7 @@ public class UserMsService {
     // 로그인
     public String logIn(UserLogInRequest requestDto) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(requestDto.getUserId() ,requestDto.getPasswd())
+                new UsernamePasswordAuthenticationToken(requestDto.getUserId(), requestDto.getPasswd())
         );
 
         org.springframework.security.core.userdetails.User principal =
@@ -68,24 +68,24 @@ public class UserMsService {
         if (memberShip.startsWith("ROLE_")) {
             memberShip = memberShip.substring(5);
         }
-        return jwtUtil.generateToken(requestDto.getUserId() , memberShip);
+        return jwtUtil.generateToken(requestDto.getUserId(), memberShip);
 
     }
 
-    // 월별 신규 가입자 수
-    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
-       return userMsRepository.getMonthlyNewUserCnt();
-    }
-
-    // 년도별 신규 가입자 수
-    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
-        return userMsRepository.getYearlyNewUserCnt();
-    }
-
-    // 일별 신규 가입자 수
-    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
-        return userMsRepository.getDailyNewUserCnt();
-    }
+//    // 월별 신규 가입자 수
+//    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
+//       return userMsRepository.getMonthlyNewUserCnt();
+//    }
+//
+//    // 년도별 신규 가입자 수
+//    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
+//        return userMsRepository.getYearlyNewUserCnt();
+//    }
+//
+//    // 일별 신규 가입자 수
+//    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
+//        return userMsRepository.getDailyNewUserCnt();
+//    }
 
     // 마이페이지
     public UserProfileResponse getProfile() {
@@ -101,31 +101,81 @@ public class UserMsService {
                 .toList();
     }
 
-    public void updateUserStats(LocalDate date) {
-        LocalDateTime start = date.atStartOfDay();
-        LocalDateTime end = date.plusDays(1).atStartOfDay();
+    // 유저 가입수 통계 저장
+    public void updateUserStatsJoin(LocalDate date) {
+        // 1. 해당 날짜에 가입한 유저 수 조회
+        Long joinCount = userMsRepository.countUserJoinedOn(date);
 
-        Long joinCnt = userMsRepository.countByJoinAtBetween(start, end);
-        Long deletedCnt = userMsRepository.countByDeletedAtBetween(start, end);
+        // 2. 기존 통계가 존재하는지 확인
+        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(1, date);
 
-        Optional<Stats> existing = statsRepository.findByCateAndTerm("USER", date);
-
-        if (existing.isPresent()) {
-            Stats stats = existing.get();
-            stats.setJoinCnt(joinCnt);
-            stats.setDeletedCnt(deletedCnt);
-            stats.setUpdatedAt(LocalDateTime.now());
-            statsRepository.save(stats);
+        if (optionalStats.isPresent()) {
+            // 3. 존재하면 업데이트
+            Stats existing = optionalStats.get();
+            existing.setStatCnt(joinCount);
+            existing.setUpdatedAt(LocalDateTime.now());
+            statsRepository.save(existing);
         } else {
-            Stats newStats = Stats.builder()
-                    .cate("USER")
-                    .term(date)
-                    .joinCnt(joinCnt)
-                    .deletedCnt(deletedCnt)
+            // 4. 없으면 새로 삽입
+            Stats stats = Stats.builder()
+                    .categoryId(1)
+                    .statDate(date)
+                    .statCnt(joinCount)
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
-            statsRepository.save(newStats);
+
+            statsRepository.save(stats);
+        }
+    }
+
+    // 유저 탈퇴수 통계 저장
+    public void updateUserStatsDelete(LocalDate date) {
+
+        Long deletedCount = userMsRepository.countUserDeletedOn(date);
+
+        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(2, date);
+
+        if (optionalStats.isPresent()) {
+            Stats existing = optionalStats.get();
+            existing.setStatCnt(deletedCount);
+            existing.setUpdatedAt(LocalDateTime.now());
+            statsRepository.save(existing);
+        } else {
+            Stats stats = Stats.builder()
+                    .categoryId(2) // 탈퇴자 통계
+                    .statDate(date)
+                    .statCnt(deletedCount)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            statsRepository.save(stats);
+        }
+    }
+
+    // 유저 총회원수 통계 저장
+    public void updateUserStatsTotal(LocalDate date) {
+        Long totalCount = userMsRepository.countTotalUsers();
+
+        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(3, date);
+
+        if (optionalStats.isPresent()) {
+            Stats existing = optionalStats.get();
+            existing.setStatCnt(totalCount);
+            existing.setUpdatedAt(LocalDateTime.now());
+            statsRepository.save(existing);
+        } else {
+            Stats stats = Stats.builder()
+                    .categoryId(3) // 총회원수
+                    .statDate(date)
+                    .statCnt(totalCount)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            statsRepository.save(stats);
         }
     }
 }
+
