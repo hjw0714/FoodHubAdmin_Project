@@ -77,12 +77,21 @@ public class User {
     @Column(name = "STATUS")
     private String status;
 
+    // 유저 리스트에서 멤버십 변경
+    public void updateMemberShipType(String mem) {
+        if(mem.startsWith("사업자")) {
+            this.membershipType = MembershipType.BUSSI;
+        }
+        else if (mem.startsWith("일반")) {
+            this.membershipType = MembershipType.COMMON;
+        }
+        this.modifyAt = LocalDateTime.now();
+    }
 
-    public void updateMemberShipType(MembershipType membershipType) {
-        this.membershipType = membershipType;
-
-
-
+    // 회원 탈퇴
+    public void deleteMember() {
+        this.deletedAt = LocalDateTime.now();
+        this.status = Staus.DELETED.name();
     }
 
     // 프로필 업데이트

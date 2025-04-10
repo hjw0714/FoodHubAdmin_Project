@@ -2,43 +2,35 @@ package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.config.JwtUtil;
 
-
-
 import com.application.foodhubAdmin.domain.MembershipType;
-
-import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
-import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
-
 import com.application.foodhubAdmin.dto.response.user.*;
-
 import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.domain.User;
+import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
-import com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse;
-import com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
+import com.application.foodhubAdmin.dto.response.user.UserListResponse;
 import com.application.foodhubAdmin.dto.response.user.UserProfileResponse;
-import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
+import com.application.foodhubAdmin.dto.response.user.UserUpdateResponse;
 import com.application.foodhubAdmin.repository.StatsRepository;
-
 import com.application.foodhubAdmin.repository.UserMsRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -86,10 +78,16 @@ public class UserMsService {
 
     }
 
+    // 마이페이지
+    public UserProfileResponse getProfile() {
+        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        return UserProfileResponse.of(user);
+    }
+
     // 회원정보 수정
     @Transactional
     public UserUpdateResponse updateUser(MultipartFile uploadProfile, UserUpdateRequest requestDto) throws IOException {
-        com.application.foodhubAdmin.domain.User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
         String originalFile = null;
         String profileUuid = null;
 
@@ -102,24 +100,17 @@ public class UserMsService {
         }
 
         user.updateUser(originalFile, profileUuid, requestDto.getTel(), requestDto.getEmail());
-        com.application.foodhubAdmin.domain.User updatedUser = userMsRepository.save(user);
+        User updatedUser = userMsRepository.save(user);
         return UserUpdateResponse.of(updatedUser);
     }
 
     // 비밀번호 변경
     @Transactional
     public void changePasswd(UserChangePasswdRequest requestDto) {
-        com.application.foodhubAdmin.domain.User user = userMsRepository.findById(requestDto.getUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = userMsRepository.findById(requestDto.getUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
         user.changePasswd(passwordEncoder.encode(requestDto.getPasswd()));
     }
 
-
-
-    // 마이페이지
-    public UserProfileResponse getProfile() {
-        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
-        return UserProfileResponse.of(user);
-    }
 
     // 유저 정보 리스트
     public List<UserListResponse> getUserList() {
@@ -127,20 +118,6 @@ public class UserMsService {
                 .stream()
                 .map(UserListResponse::of)
                 .toList();
-    }
-
-
-
-    // 유저 탈퇴
-    public void deleteMember(String id) {
-        userMsRepository.deleteById(id);
-    }
-
-    // 유저 리스트에서 멤버십 변경
-    @Transactional
-    public void updateMembershipType(String id, MembershipType membershipType) {
-        User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
-        user.updateMemberShipType(membershipType);
     }
 
     // 유저 가입수 통계 저장
@@ -222,6 +199,7 @@ public class UserMsService {
 
 
 
+
     // 년도별 총 회원수 조회
     public List<YearlyTotalUserCntResponse> getYearlyTotalUserCnt() {
         return statsRepository.getYearlyTotalUserCnt();
@@ -230,6 +208,23 @@ public class UserMsService {
     // 월별 총 회원수 조회
     public List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt() {
         return statsRepository.getMonthlyTotalUserCnt();
+
+    // 유저 탈퇴
+    @Transactional
+    public void deleteMember(String id) {
+        User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+        user.deleteMember();
+        userMsRepository.save(user);
+    }
+
+    // 유저 리스트에서 멤버십 변경
+    @Transactional
+    public void updateMembershipType(String id, String membership) {
+        String mem = membership.substring(membership.lastIndexOf(":")).substring(2);
+        User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+        user.updateMemberShipType(mem);
+        userMsRepository.save(user);
+
     }
 
     // 일별 총 회원수 조회
