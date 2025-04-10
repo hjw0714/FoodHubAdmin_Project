@@ -32,7 +32,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +47,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class UserMsService {
 
     @Value("${file.repo.path}")
@@ -131,20 +129,20 @@ public class UserMsService {
         user.changePasswd(passwordEncoder.encode(requestDto.getPasswd()));
     }
 
-    // 월별 신규 가입자 수
-    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
-       return userMsRepository.getMonthlyNewUserCnt();
-    }
-
-    // 년도별 신규 가입자 수
-    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
-        return userMsRepository.getYearlyNewUserCnt();
-    }
-
-    // 일별 신규 가입자 수
-    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
-        return userMsRepository.getDailyNewUserCnt();
-    }
+//    // 월별 신규 가입자 수
+//    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
+//       return userMsRepository.getMonthlyNewUserCnt();
+//    }
+//
+//    // 년도별 신규 가입자 수
+//    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
+//        return userMsRepository.getYearlyNewUserCnt();
+//    }
+//
+//    // 일별 신규 가입자 수
+//    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
+//        return userMsRepository.getDailyNewUserCnt();
+//    }
 
 
     // 마이페이지

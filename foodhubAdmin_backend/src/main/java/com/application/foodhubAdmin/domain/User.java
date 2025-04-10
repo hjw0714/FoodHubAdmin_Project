@@ -81,18 +81,21 @@ public class User {
     public void updateMemberShipType(MembershipType membershipType) {
         this.membershipType = membershipType;
 
+
+
+    }
+
     // 프로필 업데이트
-    public void updateUser(String profileOriginal, String profileUuid, String tel, String email) {
+    public void updateUser (String profileOriginal, String profileUuid, String tel, String email){
         if (profileOriginal != null) this.profileOriginal = profileOriginal;
-        if (profileUuid != null)     this.profileUuid = profileUuid;
+        if (profileUuid != null) this.profileUuid = profileUuid;
         this.tel = tel;
         this.email = email;
     }
 
     // 비밀번호 변경
-    public void changePasswd(String passwd) {
+    public void changePasswd (String passwd){
         this.passwd = passwd;
 
     }
-
 }
