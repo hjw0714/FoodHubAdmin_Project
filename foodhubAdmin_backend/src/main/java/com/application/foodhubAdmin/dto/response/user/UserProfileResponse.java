@@ -13,7 +13,7 @@ public class UserProfileResponse {
     private String userId;
     private String passwd;
     private String nickname;
-    private String profileUUID;
+    private String profileUuid;
     private String email;
     private String tel;
     private String gender;
@@ -24,7 +24,7 @@ public class UserProfileResponse {
                 .userId(user.getId())
                 .passwd(user.getPasswd())
                 .nickname(user.getNickname())
-                .profileUUID(user.getProfileUUID())
+                .profileUuid(user.getProfileUuid())
                 .email(user.getEmail())
                 .tel(user.getTel())
                 .gender(user.getGender())
