@@ -67,7 +67,7 @@ const MemberList = () => {
       try{
         await axios.delete(`${import.meta.env.VITE_API_URL}/user/memberList/delete/${id}`, 
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-        alert(id, "님 탈퇴되었습니다.");
+        alert(id + "님 탈퇴되었습니다.");
         window.location.reload();
 
       } catch(error) {

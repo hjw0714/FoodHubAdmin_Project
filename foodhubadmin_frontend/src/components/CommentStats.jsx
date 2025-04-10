@@ -1,27 +1,86 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
   } from 'recharts';
   
-  // 더미 데이터
-  const commentData = {
-    year: [
-      { name: '2023', count: 2300 },
-      { name: '2024', count: 2600 },
-      { name: '2025', count: 3000 },
-    ],
-    month: [
-      { name: '1월', count: 200 }, { name: '2월', count: 220 }, { name: '3월', count: 250 },
-      { name: '4월', count: 240 }, { name: '5월', count: 230 }, { name: '6월', count: 260 },
-      { name: '7월', count: 280 }, { name: '8월', count: 300 }, { name: '9월', count: 310 },
-      { name: '10월', count: 290 }, { name: '11월', count: 270 }, { name: '12월', count: 250 },
-    ],
-    day: Array.from({ length: 31 }, (_, i) => ({
-      name: `03-${String(i + 1).padStart(2, '0')}`,
-      count: Math.floor(Math.random() * 50 + 10) // 10~59개
-    }))
-  };
-  
   const CommentStats = () => {
+    const navigate = useNavigate();
+    const [commentsYearData, setCommentsYearData] = useState();
+    const [commentsMonthData, setCommentsMonthData] = useState();
+    const[commentsDayData, setCommentsDayData] = useState();
+
+    const fetchComments = async() => {
+      try {
+        
+        // 연도별
+        const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/comments/yearlyNewComments`,
+          { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        const formattedYear = yearData.data.map(item => ({
+          ...item,
+          year: `${item.year}년`
+        }));
+        setCommentsYearData(formattedYear);
+        
+        // 월별
+        const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/comments/monthlyNewComments`,
+          { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        const formattedMonth = monthData.data.map(item => {
+          const [year, month] = item.month.split("-");
+          return {
+            ...item,
+            rawData: `${year}-${month.padStart(2, "0")}`,
+            month: `${year}년 ${month.padStart(2, "0")}월`
+          };
+        })
+        .sort((a, b) => new Date(a.rawData) - new Date(b.rawData));
+        setCommentsMonthData(formattedMonth);
+
+        // 일별
+        const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/comments/dailyNewComments`,
+          { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        const formattedDay = dayData.data.map(item => {
+          const temp = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/);
+          if(!temp) {
+            return item;
+          }
+          const [, year, month, day] = temp;
+
+          return {
+            ...item,
+            rawData: `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`,
+            day: `${year}년 ${month.padStart(2, "0")}월 ${day.padStart(2, "0")}일`
+          };
+
+        })
+        .sort((a, b) => new Date(a.rawData) - new Date(b.rawData));
+        setCommentsDayData(formattedDay);
+        
+
+      } catch(error) {
+        if(error.response) {
+          if(error.response.status === 401) {
+            navigate("/error/401");
+          }
+          else if(error.response.status === 403) {
+            navigate("/error/403");
+          }
+          else if(error.response.status === 500) {
+            navigate("/error/500");
+          }
+          else {
+            console.log(error);
+          }
+        }
+      }
+
+    };
+
+    useEffect(() => {
+      fetchComments();
+    }, []);
+
     return (
       <div className="dashboard-section">
         <h3>💬 댓글 작성 수 통계</h3>
@@ -29,34 +88,34 @@ import {
   
         <h4>📅 연도별</h4>
         <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={commentData.year}>
+          <BarChart data={commentsYearData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="year" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="count" fill="#42a5f5" />
+            <Bar dataKey="commentsCnt" fill="#42a5f5" />
           </BarChart>
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>📆 월별</h4>
         <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={commentData.month}>
+          <BarChart data={commentsMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="count" fill="#66bb6a" />
+            <Bar dataKey="commentsCnt" fill="#66bb6a" />
           </BarChart>
         </ResponsiveContainer>
   
-        <h4 style={{ marginTop: '30px' }}>🗓️ 일별 (2025년 3월)</h4>
+        <h4 style={{ marginTop: '30px' }}>🗓️ 일별</h4>
         <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={commentData.day}>
+          <BarChart data={commentsDayData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" interval={2} />
+            <XAxis dataKey="day" interval={2} />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="count" fill="#ffa726" />
+            <Bar dataKey="commentsCnt" fill="#ffa726" />
           </BarChart>
         </ResponsiveContainer>
       </div>
