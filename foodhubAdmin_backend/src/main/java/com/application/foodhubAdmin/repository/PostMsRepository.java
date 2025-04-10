@@ -4,8 +4,11 @@ import com.application.foodhubAdmin.domain.Post;
 import com.application.foodhubAdmin.dto.response.post.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -28,10 +31,11 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
         CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)),
         COUNT(p))
     FROM Post p
+    WHERE FUNCTION('DATE', p.createdAt) >= :startDate
     GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt))
     ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt)) ASC
     """)
-    List<MonthlyNewPostCntResponse> getMonthlyNewPostCnt();
+    List<MonthlyNewPostCntResponse> getMonthlyNewPostCnt(@Param("startDate") LocalDate startDate);
 
     // 일별 작성된 게시글 수
     @Query("""
@@ -39,10 +43,12 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
             CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) , '-', FUNCTION('DATE', p.createdAt)),
             COUNT(p))
     FROM Post p
+    WHERE FUNCTION('DATE', p.createdAt) >= :startDate
     GROUP BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) , '-', FUNCTION('DATE', p.createdAt))
     ORDER BY CONCAT(FUNCTION('YEAR', p.createdAt), '-', FUNCTION('MONTH', p.createdAt) , '-', FUNCTION('DATE', p.createdAt))ASC
         """)
-    List<DailyNewPostCntResponse> getDailyNewPostCnt();
+    List<DailyNewPostCntResponse> getDailyNewPostCnt(@Param("startDate") LocalDate startDate);
+
 
 
     // 연도, 카테고리별 총 게시글
@@ -80,6 +86,7 @@ public interface PostMsRepository extends JpaRepository<Post, Long>{
             ORDER BY FUNCTION('DATE', p.createdAt) ASC
             """)
     List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt();
+
 
 
 
