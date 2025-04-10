@@ -98,10 +98,5 @@ public interface UserMsRepository extends JpaRepository <User, String> {
 	Long countByDeletedAtBetween(LocalDateTime start, LocalDateTime end);
 
 
-
-
-
-
-
-
+	List<User> id(String id);
 }

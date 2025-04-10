@@ -1,6 +1,9 @@
 package com.application.foodhubAdmin.controller;
 
+import com.application.foodhubAdmin.domain.MembershipType;
+
 import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
+
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
 import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
 import com.application.foodhubAdmin.dto.response.user.*;
@@ -71,6 +74,21 @@ public class UserMsController {
     @GetMapping("/memberList")
     public ResponseEntity<List<UserListResponse>> memberList() {
         return ResponseEntity.ok(userMsService.getUserList());
+    }
+
+    // 유저 탈퇴
+    @DeleteMapping("/memberList/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable("id") String id) {
+        userMsService.deleteMember(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 유저 리스트에서 멤버십 변경
+    @PutMapping("/memberList/{id}")
+    public ResponseEntity<?> updateMembershipType(@PathVariable("id") String id,
+                                          @RequestBody MembershipType membershipType) {
+        userMsService.updateMembershipType(id, membershipType);
+        return ResponseEntity.ok().build();
     }
 
 }

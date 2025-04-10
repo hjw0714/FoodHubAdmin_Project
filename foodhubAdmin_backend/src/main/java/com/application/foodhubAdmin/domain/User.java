@@ -77,6 +77,10 @@ public class User {
     @Column(name = "STATUS")
     private String status;
 
+
+    public void updateMemberShipType(MembershipType membershipType) {
+        this.membershipType = membershipType;
+
     // 프로필 업데이트
     public void updateUser(String profileOriginal, String profileUuid, String tel, String email) {
         if (profileOriginal != null) this.profileOriginal = profileOriginal;
@@ -88,6 +92,7 @@ public class User {
     // 비밀번호 변경
     public void changePasswd(String passwd) {
         this.passwd = passwd;
+
     }
 
 }
