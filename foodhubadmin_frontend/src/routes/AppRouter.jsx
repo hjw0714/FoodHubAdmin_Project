@@ -8,8 +8,6 @@ import UserLeave from "../components/UserLeave";
 import PostListTotal from "../components/PostListTotal";
 import CategoryPostList from "../components/CategoryPostList";
 import CommentStats from "../components/CommentStats";
-import PostReportStats from "../components/PostReportStats ";
-import CommentReportStats from "../components/CommentReportStats ";
 import CommentReport from "../components/CommentReport";
 import MemberList from "../components/MemberList";
 import VisitorStats from "../components/VisitorStats";
@@ -46,8 +44,6 @@ const AppRouter = () => {
         <Route path="postListTotal" element={<PostListTotal />} />
         <Route path="categoryPostList" element={<CategoryPostList />} />
         <Route path="commentStats" element={<CommentStats />} />
-        <Route path="postReportStats" element={<PostReportStats />} />
-        <Route path="commentReportStats" element={<CommentReportStats />} />
         <Route path="memberList" element={<MemberList />} />
         <Route path="visitorStats" element={<VisitorStats />} />
         <Route path="adminChat" element={<AdminChat />} />

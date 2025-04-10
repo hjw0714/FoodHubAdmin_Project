@@ -1,4 +1,6 @@
 package com.application.foodhubAdmin.domain;
 
-public enum PostStaus {
+public enum PostStatus {
+    ACTIVE,
+    DELETED
 }

@@ -45,10 +45,19 @@ public class Post {
     @Column(name = "VIEW_CNT", nullable = false)
     private Long viewCnt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS", nullable = false)
+    private PostStatus status;
+
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
+
+    public void changeStatus(PostStatus status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }

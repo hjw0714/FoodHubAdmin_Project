@@ -25,7 +25,7 @@ const PostListTotal = () => {
         ...item,
         year: `${item.year}년`
       }));
-      setPostYearData(formattedYear);
+      setPostYearData(formattedYear.slice(0, 5));
 
       const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/monthlyNewPost`, {
         params: { startDate: monthStartDate },
@@ -42,7 +42,7 @@ const PostListTotal = () => {
         })
         .sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate)); // 날짜 정렬
 
-      setPostMonthData(formattedMonth);
+      setPostMonthData(formattedMonth.slice(0, 12));
 
       const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/posts/dailyNewPost`, {
         params: { startDate: dayStartDate },
@@ -63,7 +63,7 @@ const PostListTotal = () => {
         })
         .sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate)); // 날짜 정렬
 
-      setPostDayData(formattedDay);
+      setPostDayData(formattedDay.slice(0, 31));
 
     } catch (error) {
       if (error.response) {
