@@ -3,7 +3,6 @@ package com.application.foodhubAdmin.service;
 import com.application.foodhubAdmin.config.JwtUtil;
 
 
-
 import com.application.foodhubAdmin.domain.MembershipType;
 
 import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
@@ -21,7 +20,6 @@ import com.application.foodhubAdmin.dto.response.user.YearlyNewUserCntResponse;
 import com.application.foodhubAdmin.repository.StatsRepository;
 
 import com.application.foodhubAdmin.repository.UserMsRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -86,26 +85,16 @@ public class UserMsService {
 
     }
 
-
-//    // 월별 신규 가입자 수
-//    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
-//       return userMsRepository.getMonthlyNewUserCnt();
-//    }
-//
-//    // 년도별 신규 가입자 수
-//    public List<YearlyNewUserCntResponse> getYearlyNewUserCnt() {
-//        return userMsRepository.getYearlyNewUserCnt();
-//    }
-//
-//    // 일별 신규 가입자 수
-//    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
-//        return userMsRepository.getDailyNewUserCnt();
-//    }
+    // 마이페이지
+    public UserProfileResponse getProfile() {
+        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        return UserProfileResponse.of(user);
+    }
 
     // 회원정보 수정
     @Transactional
     public UserUpdateResponse updateUser(MultipartFile uploadProfile, UserUpdateRequest requestDto) throws IOException {
-        com.application.foodhubAdmin.domain.User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
         String originalFile = null;
         String profileUuid = null;
 
@@ -118,16 +107,17 @@ public class UserMsService {
         }
 
         user.updateUser(originalFile, profileUuid, requestDto.getTel(), requestDto.getEmail());
-        com.application.foodhubAdmin.domain.User updatedUser = userMsRepository.save(user);
+        User updatedUser = userMsRepository.save(user);
         return UserUpdateResponse.of(updatedUser);
     }
 
     // 비밀번호 변경
     @Transactional
     public void changePasswd(UserChangePasswdRequest requestDto) {
-        com.application.foodhubAdmin.domain.User user = userMsRepository.findById(requestDto.getUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        User user = userMsRepository.findById(requestDto.getUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
         user.changePasswd(passwordEncoder.encode(requestDto.getPasswd()));
     }
+
 
 //    // 월별 신규 가입자 수
 //    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
@@ -145,11 +135,7 @@ public class UserMsService {
 //    }
 
 
-    // 마이페이지
-    public UserProfileResponse getProfile() {
-        User user = userMsRepository.findById(getCurrentUserId()).orElseThrow(() -> new RuntimeException("User Not Found"));
-        return UserProfileResponse.of(user);
-    }
+
 
     // 유저 정보 리스트
     public List<UserListResponse> getUserList() {
