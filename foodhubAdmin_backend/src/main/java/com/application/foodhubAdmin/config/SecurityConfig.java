@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     // 인증이 필요없는 URL 목록
     private final String[] permitList = {
-            "/api/admin/user/logIn"           // 로그인
+            "/api/auth/logIn"           // 로그인
     };
 
 
@@ -48,7 +48,7 @@ public class SecurityConfig {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/admin/**", config);
+        source.registerCorsConfiguration("/api/**", config);
         return source;
     }
 
