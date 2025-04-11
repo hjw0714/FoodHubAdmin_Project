@@ -11,6 +11,12 @@ import {
     const [commentsMonthData, setCommentsMonthData] = useState();
     const[commentsDayData, setCommentsDayData] = useState();
 
+    const [years, setYears] = useState([]);
+    const [months, setMonths] = useState([]);
+
+    const [searchYear, setSearchYear] = useState("");
+    const [searchMonth, setSearchMonth] = useState("");
+
     const fetchComments = async() => {
       try {
         
@@ -25,7 +31,8 @@ import {
         
         // 월별
         const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/monthlyNewComments`,
-          { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+          { params : {searchDate : searchYear}, 
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedMonth = monthData.data.map(item => {
           const [year, month] = item.month.split("-");
           return {
@@ -36,6 +43,7 @@ import {
         })
         .sort((a, b) => new Date(a.rawData) - new Date(b.rawData));
         setCommentsMonthData(formattedMonth);
+        setYears(yearData.data.map(item => item.year));
 
         // 일별
         const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/dailyNewComments`,
@@ -56,7 +64,7 @@ import {
         })
         .sort((a, b) => new Date(a.rawData) - new Date(b.rawData));
         setCommentsDayData(formattedDay);
-        
+        setMonths(monthData.data.map(item => item.month));
 
       } catch(error) {
         if(error.response) {
@@ -98,6 +106,15 @@ import {
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>📆 월별</h4>
+        <label>조회할 연도 </label>
+        <select onChange={(e) => setSearchYear(e.target.value)} value={searchYear}>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select> {" "}
+        <button>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -109,6 +126,15 @@ import {
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>🗓️ 일별</h4>
+        <label>조회할 월 </label>
+        <select onChange={(e) => setSearchMonth(e.target.value)} value={searchMonth}>
+          {months.map((month) => (
+            <option key={month} value={month}>
+              {month}
+            </option>
+          ))}
+        </select> {" "}
+        <button>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsDayData}>
             <CartesianGrid strokeDasharray="3 3" />

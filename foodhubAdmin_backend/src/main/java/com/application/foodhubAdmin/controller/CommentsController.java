@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class CommentsController {
 
     // 월별 새 댓글
     @GetMapping("/monthlyNewComments")
-    public ResponseEntity<List<MonthlyNewCommentsCntResponse>> monthlyNewComments() {
+    public ResponseEntity<List<MonthlyNewCommentsCntResponse>> monthlyNewComments(@RequestParam String searchDate) {
         return ResponseEntity.ok(commentsService.getMonthlyNewCommentsCnt());
     }
 
