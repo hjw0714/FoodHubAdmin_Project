@@ -36,22 +36,25 @@ public class PostMsController {
         return ResponseEntity.ok(postMsService.getDailyTotalPostCnt());
     }
 
-//    // 연도, 카테고리별 총 게시글
-//    @GetMapping("/yearlyCategoryPost")
-//    public ResponseEntity<List<YearlyCategoryPostCntResponse>> yearlyCategoryPost() {
-//        return ResponseEntity.ok(postMsService.getYearlyCategoryPostCnt());
-//    }
-//
-//    // 월, 카테고리별 총 게시글
-//    @GetMapping("/monthlyCategoryPost")
-//    public ResponseEntity<List<MonthlyCategoryPostCntResponse>> monthlyCategoryPost() {
-//        return ResponseEntity.ok(postMsService.getMonthlyCategoryPostCnt());
-//    }
-//
-//    // 일, 카테고리별 총 게시글
-//    @GetMapping("/dailyCategoryPost")
-//    public ResponseEntity<List<DailyCategoryPostCntResponse>> dailyCategoryPost() {
-//        return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt());
-//    }
+
+
+
+    // 연도, 카테고리별 총 게시글
+    @GetMapping("/yearlyCategoryPost")
+    public ResponseEntity<List<YearlyCategoryPostCntResponse>> yearlyCategoryPost(@RequestParam("categoryId") Integer categoryId) {
+        return ResponseEntity.ok(postMsService.getYearlyCategoryPostCnt(categoryId));
+    }
+
+    // 월, 카테고리별 총 게시글
+    @GetMapping("/monthlyCategoryPost")
+    public ResponseEntity<List<MonthlyCategoryPostCntResponse>> monthlyCategoryPost(@RequestParam("categoryId") Integer categoryId) {
+        return ResponseEntity.ok(postMsService.getMonthlyCategoryPostCnt(categoryId));
+    }
+
+    // 일, 카테고리별 총 게시글
+    @GetMapping("/dailyCategoryPost")
+    public ResponseEntity<List<DailyCategoryPostCntResponse>> dailyCategoryPost(@RequestParam("categoryId") Integer categoryId) {
+        return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt(categoryId));
+    }
 
 }

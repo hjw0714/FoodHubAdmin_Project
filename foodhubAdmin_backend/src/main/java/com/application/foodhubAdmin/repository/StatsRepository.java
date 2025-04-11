@@ -1,12 +1,11 @@
 package com.application.foodhubAdmin.repository;
 
 import com.application.foodhubAdmin.domain.Stats;
-import com.application.foodhubAdmin.dto.response.post.DailyTotalPostCntResponse;
-import com.application.foodhubAdmin.dto.response.post.MonthlyTotalPostCntResponse;
-import com.application.foodhubAdmin.dto.response.post.YearlyTotalPostCntResponse;
+import com.application.foodhubAdmin.dto.response.post.*;
 import com.application.foodhubAdmin.dto.response.user.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -113,6 +112,39 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             "WHERE s.categoryId = 4 " +
             "ORDER BY s.statDate")
     List<DailyTotalPostCntResponse> getDailyTotalPostCnt();
+
+
+    @Query("""
+        SELECT new com.application.foodhubAdmin.dto.response.post.YearlyCategoryPostCntResponse(YEAR(s.statDate), SUM(s.statCnt) , s.categoryId)
+        FROM Stats s
+        WHERE s.categoryId = :categoryId
+        GROUP BY YEAR(s.statDate)
+        ORDER BY YEAR(s.statDate)
+    """)
+    List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(@Param("categoryId") Integer categoryId);
+
+
+    // 월별 통계
+    @Query("""
+        SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyCategoryPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt) , s.categoryId)
+        FROM Stats s
+        WHERE s.categoryId = :categoryId
+        GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), s.categoryId
+        ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+    """)
+    List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(@Param("categoryId") Integer categoryId);
+
+    // 일별 통계
+    @Query("""
+        SELECT new com.application.foodhubAdmin.dto.response.post.DailyCategoryPostCntResponse(s.statDate , SUM(s.statCnt) , s.categoryId)
+        FROM Stats s
+        WHERE s.categoryId = :categoryId
+        GROUP BY s.statDate, s.categoryId
+        ORDER BY s.statDate
+    """)
+    List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(@Param("categoryId") Integer categoryId);
+
+
 
 
 

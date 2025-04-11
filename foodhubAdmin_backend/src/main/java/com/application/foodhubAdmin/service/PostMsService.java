@@ -89,19 +89,32 @@ public List<DailyTotalPostCntResponse> getDailyTotalPostCnt() {
     return statsRepository.getDailyTotalPostCnt();
 }
 
+
+public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(Integer categoryId) {
+    return statsRepository.getYearlyCategoryPostCnt(categoryId);
+}
+
+public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(Integer  categoryId) {
+    return statsRepository.getMonthlyCategoryPostCnt(categoryId);
+}
+
+public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer categoryId) {
+    return  statsRepository.getDailyCategoryPostCnt(categoryId);
+}
+
 //    // 연도, 카테고리별 총 게시글 조회
-//    public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt() {
-//        return postMsRepository.getYearlyCategoryPostCnt();
+//    public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(category) {
+//        return statsRepository.getYearlyCategoryPostCnt();
 //    }
 //
 //    // 월, 카테고리별 총 게시글 조회
 //    public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt() {
-//        return postMsRepository.getMonthlyCategoryPostCnt();
+//        return statsRepository.getMonthlyCategoryPostCnt();
 //    }
 //
 //    // 일, 카테고리별 총 게시글 조회
 //    public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt() {
-//        return postMsRepository.getDailyCategoryPostCnt();
+//        return statsRepository.getDailyCategoryPostCnt();
 //    }
 
 }
