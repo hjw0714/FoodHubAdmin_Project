@@ -13,6 +13,7 @@ public class StatsSchedulerService {
 
     private final UserMsService userMsService;
     private final PostMsService postMsService;
+    private final CommentsService commentsService;
 
 //    @Scheduled(cron = "0 0 0 * * *")
 //    @Transactional
@@ -25,7 +26,7 @@ public class StatsSchedulerService {
 //            postMsService.insertPostCategoryStatsTotal(yesterday); // 게시글 카테고리별 총 작성수
 //    }
 
-    @Scheduled(cron = "0 11 10 * * *")
+    @Scheduled(cron = "0 6 13 * * *")
     @Transactional
     public void runStats() {
         LocalDate today = LocalDate.now();
@@ -36,7 +37,7 @@ public class StatsSchedulerService {
             userMsService.insertUserStatsTotal(yesterday); // 유저 총수
             postMsService.insertPostStatsTotal(yesterday); // 게시글 총 작성수
             postMsService.insertPostCategoryStatsTotal(yesterday); // 게시글 카테고리별 총 작성수
-
+            commentsService.insertCommentsStatsTotal(yesterday); // 댓글 총 작성수
 
         }
     }

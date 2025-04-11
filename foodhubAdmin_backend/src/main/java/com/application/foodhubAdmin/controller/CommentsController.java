@@ -20,22 +20,22 @@ public class CommentsController {
 
     private final CommentsService commentsService;
 
-    // 연도별 새 댓글
-    @GetMapping("/yearlyNewComments")
-    public ResponseEntity<List<YearlyNewCommentsCntResponse>> yearlyNewComments() {
-        return ResponseEntity.ok(commentsService.getYearlyNewCommentsCnt());
-    }
-
-    // 월별 새 댓글
-    @GetMapping("/monthlyNewComments")
-    public ResponseEntity<List<MonthlyNewCommentsCntResponse>> monthlyNewComments(@RequestParam String searchDate) {
-        return ResponseEntity.ok(commentsService.getMonthlyNewCommentsCnt());
-    }
-
-    // 일별 새 댓글
-    @GetMapping("/dailyNewComments")
-    public ResponseEntity<List<DailyNewCommentsCntResponse>> dailyNewComments() {
-        return ResponseEntity.ok(commentsService.getDailyNewCommentsCnt());
-    }
+//    // 연도별 새 댓글
+//    @GetMapping("/yearlyNewComments")
+//    public ResponseEntity<List<YearlyNewCommentsCntResponse>> yearlyNewComments() {
+//        return ResponseEntity.ok(commentsService.getYearlyNewCommentsCnt());
+//    }
+//
+//    // 월별 새 댓글
+//    @GetMapping("/monthlyNewComments")
+//    public ResponseEntity<List<MonthlyNewCommentsCntResponse>> monthlyNewComments(@RequestParam String searchDate) {
+//        return ResponseEntity.ok(commentsService.getMonthlyNewCommentsCnt());
+//    }
+//
+//    // 일별 새 댓글
+//    @GetMapping("/dailyNewComments")
+//    public ResponseEntity<List<DailyNewCommentsCntResponse>> dailyNewComments() {
+//        return ResponseEntity.ok(commentsService.getDailyNewCommentsCnt());
+//    }
 
 }

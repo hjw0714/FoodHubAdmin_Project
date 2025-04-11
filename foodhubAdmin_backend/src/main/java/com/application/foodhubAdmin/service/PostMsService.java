@@ -47,7 +47,7 @@ public class PostMsService {
     }
 
 
-    // 총 게시글 수 통계 저장                // 5 - 12
+    // 카테고리별 게시글 수 통계 저장                // 5 - 12
     public void insertPostCategoryStatsTotal( LocalDate date) {
 
         List<Stats> statsList = new ArrayList<>();
@@ -89,32 +89,21 @@ public List<DailyTotalPostCntResponse> getDailyTotalPostCnt() {
     return statsRepository.getDailyTotalPostCnt();
 }
 
-
+// 연도, 카테고리별 총 게시글 조회
 public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(Integer categoryId) {
     return statsRepository.getYearlyCategoryPostCnt(categoryId);
 }
 
+// 월, 카테고리별 총 게시글 조회
 public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(Integer  categoryId) {
     return statsRepository.getMonthlyCategoryPostCnt(categoryId);
 }
 
+// 일, 카테고리별 총 게시글 조회
 public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer categoryId) {
     return  statsRepository.getDailyCategoryPostCnt(categoryId);
 }
 
-//    // 연도, 카테고리별 총 게시글 조회
-//    public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(category) {
-//        return statsRepository.getYearlyCategoryPostCnt();
-//    }
-//
-//    // 월, 카테고리별 총 게시글 조회
-//    public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt() {
-//        return statsRepository.getMonthlyCategoryPostCnt();
-//    }
-//
-//    // 일, 카테고리별 총 게시글 조회
-//    public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt() {
-//        return statsRepository.getDailyCategoryPostCnt();
-//    }
+
 
 }
