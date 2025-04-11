@@ -1,19 +1,46 @@
 .global-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #e3f2fd;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 999;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  body, .admin-login-page {
-    padding-top: 0px; /* 헤더 높이만큼 패딩 주기 */
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #e3f2fd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 999;
+  border-bottom: 1px solid #ccc;
+}
+
+body,
+.admin-login-page {
+  padding-top: 0px;
+  /* 헤더 높이만큼 패딩 주기 */
+}
+
+.pagination button {
+  margin: 0 3px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination button.active-page {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination span {
+  margin: 0 5px;
+  font-weight: bold;
+}

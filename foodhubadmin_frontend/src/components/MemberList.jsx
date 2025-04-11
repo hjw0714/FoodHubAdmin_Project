@@ -8,6 +8,21 @@ const MemberList = () => {
   const [members, setMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const membersPerPage = 10;
+
+  const indexOfLast = currentPage * membersPerPage;
+  const indexOfFirst = indexOfLast - membersPerPage;
+
+  const filteredMembers = members.filter(
+    (m) =>
+      m.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      m.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const currentMembers = filteredMembers.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+
   const handleMembershipChange = (id, newType) => {
     const updated = members.map((m) =>
       m.id === id ? { ...m, membershipType: newType } : m
@@ -15,37 +30,31 @@ const MemberList = () => {
     setMembers(updated);
   };
 
-  const filteredMembers = members.filter(
-    (m) =>
-      m.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      m.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
-  const fetchMember = async() => {
+  const fetchMember = async () => {
     try {
 
-      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/memberList`, 
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/memberList`,
 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const temp = data.map(user => ({
         ...user,
-        membershipType : user.membershipType === "COMMON"
+        membershipType: user.membershipType === "COMMON"
           ? "일반 회원"
           : user.membershipType === "BUSSI"
-          ? "사업자 회원"
-          : "관리자"
+            ? "사업자 회원"
+            : "관리자"
       }));
       setMembers(temp);
-      
-    } catch(error) {
-      if(error.response) {
-        if(error.response.status === 401) {
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
           navigate("/error/401");
         }
         else if (error.response.status === 500) {
           navigate("/error/500")
         }
-        else if(error.response.status === 403) {
+        else if (error.response.status === 403) {
           navigate("/error/403");
         }
         else {
@@ -56,21 +65,21 @@ const MemberList = () => {
 
   };
 
-  useEffect(() =>  {
+  useEffect(() => {
     fetchMember();
   }, []);
 
   // 탈퇴
-  const handleSignOut = async(id) => {
+  const handleSignOut = async (id) => {
     const deleteMem = window.confirm("정말 탈퇴시키시겠습니까?");
-    if(deleteMem) {
-      try{
-        await axios.delete(`${import.meta.env.VITE_API_URL}/admin/user/memberList/delete/${id}`, 
+    if (deleteMem) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/admin/user/memberList/delete/${id}`,
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         alert(id + "님 탈퇴되었습니다.");
         window.location.reload();
 
-      } catch(error) {
+      } catch (error) {
         console.log(error.message);
         alert("탈퇴 실패");
       }
@@ -78,15 +87,15 @@ const MemberList = () => {
   };
 
   // membershipType Update
-  const handleUpdate = async(id, membershipType) => {
-    
+  const handleUpdate = async (id, membershipType) => {
+
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/memberList/update/${id}`, {membershipType}, 
-          { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/memberList/update/${id}`, { membershipType },
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       alert("변경 완료");
       window.location.reload();
 
-    } catch(error) {
+    } catch (error) {
       console.log(error);
       alert("변경 실패");
     }
@@ -120,8 +129,8 @@ const MemberList = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredMembers.length > 0 ? (
-            filteredMembers.map((member) => (
+          {currentMembers.length > 0 ? (
+            currentMembers.map((member) => (
               <tr key={member.id}>
                 <td>{member.id}</td>
                 <td>{member.nickname}</td>
@@ -136,7 +145,7 @@ const MemberList = () => {
                   >
                     <option value="일반 회원">일반 회원</option>
                     <option value="사업자 회원">사업자 회원</option>
-                  </select>  {" "}
+                  </select>{" "}
                   <button onClick={() => handleUpdate(member.id, member.membershipType)}>변경</button>
                 </td>
                 <td>
@@ -148,11 +157,68 @@ const MemberList = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6">검색 결과가 없습니다.</td>
+              <td colSpan="8">검색 결과가 없습니다.</td>
             </tr>
           )}
         </tbody>
+
       </table>
+      {totalPages > 1 && (
+        <div className="pagination" style={{ marginTop: '15px' }}>
+          {/* ⏮ 맨 앞으로 */}
+          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+            ⏮
+          </button>
+
+          {/* ◀ 이전 */}
+          <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+            ◀
+          </button>
+
+          {/* 페이지 번호들 */}
+          {(() => {
+            const pageNumbers = [];
+            let startPage = Math.max(currentPage - 2, 1);
+            let endPage = Math.min(startPage + 4, totalPages);
+
+            if (endPage - startPage < 4) {
+              startPage = Math.max(endPage - 4, 1);
+            }
+
+            if (startPage > 1) {
+              pageNumbers.push(<span key="start-ellipsis">...</span>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+              pageNumbers.push(
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i)}
+                  className={currentPage === i ? 'active-page' : ''}
+                >
+                  {i}
+                </button>
+              );
+            }
+
+            if (endPage < totalPages) {
+              pageNumbers.push(<span key="end-ellipsis">...</span>);
+            }
+
+            return pageNumbers;
+          })()}
+
+          {/* ▶ 다음 */}
+          <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+            ▶
+          </button>
+
+          {/* ⏭ 맨 끝으로 */}
+          <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>
+            ⏭
+          </button>
+        </div>
+      )}
     </div>
   );
 };
