@@ -80,13 +80,13 @@ public List<YearlyTotalPostCntResponse> getYearlyTotalPostCnt() {
 }
 
 // 월별 총 게시글 조회
-public List<MonthlyTotalPostCntResponse> getMonthlyTotalPostCnt() {
-    return statsRepository.getMonthlyTotalPostCnt();
+public List<MonthlyTotalPostCntResponse> getMonthlyTotalPostCnt(String startDate) {
+    return statsRepository.getMonthlyTotalPostCnt(startDate);
 }
 
 // 일별 총 게시글 조회
-public List<DailyTotalPostCntResponse> getDailyTotalPostCnt() {
-    return statsRepository.getDailyTotalPostCnt();
+public List<DailyTotalPostCntResponse> getDailyTotalPostCnt(String startDate) {
+    return statsRepository.getDailyTotalPostCnt(startDate);
 }
 
 // 연도, 카테고리별 총 게시글 조회
@@ -95,13 +95,13 @@ public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(Integer cate
 }
 
 // 월, 카테고리별 총 게시글 조회
-public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(Integer  categoryId) {
-    return statsRepository.getMonthlyCategoryPostCnt(categoryId);
+public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(Integer  categoryId, String startDate) {
+    return statsRepository.getMonthlyCategoryPostCnt(categoryId, startDate);
 }
 
 // 일, 카테고리별 총 게시글 조회
-public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer categoryId) {
-    return  statsRepository.getDailyCategoryPostCnt(categoryId);
+public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer categoryId, String startDate) {
+    return  statsRepository.getDailyCategoryPostCnt(categoryId, startDate);
 }
 
 

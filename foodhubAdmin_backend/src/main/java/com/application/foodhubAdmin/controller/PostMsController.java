@@ -3,11 +3,9 @@ package com.application.foodhubAdmin.controller;
 import com.application.foodhubAdmin.dto.response.post.*;
 import com.application.foodhubAdmin.service.PostMsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -26,14 +24,14 @@ public class PostMsController {
 
     // 월별 새 게시글
     @GetMapping("/monthlyTotalPost")
-    public ResponseEntity<List<MonthlyTotalPostCntResponse>> monthlyTotalPost()  {
-        return ResponseEntity.ok(postMsService.getMonthlyTotalPostCnt());
+    public ResponseEntity<List<MonthlyTotalPostCntResponse>> monthlyTotalPost(@RequestParam("startDate") String startDate)  {
+        return ResponseEntity.ok(postMsService.getMonthlyTotalPostCnt(startDate));
     }
 
     // 일별 새 게시글
     @GetMapping("/dailyTotalPost")
-    public ResponseEntity<List<DailyTotalPostCntResponse>> dailyNewPost() {
-        return ResponseEntity.ok(postMsService.getDailyTotalPostCnt());
+    public ResponseEntity<List<DailyTotalPostCntResponse>> dailyNewPost(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(postMsService.getDailyTotalPostCnt(startDate));
     }
 
 
@@ -47,14 +45,16 @@ public class PostMsController {
 
     // 월, 카테고리별 총 게시글
     @GetMapping("/monthlyCategoryPost")
-    public ResponseEntity<List<MonthlyCategoryPostCntResponse>> monthlyCategoryPost(@RequestParam("categoryId") Integer categoryId) {
-        return ResponseEntity.ok(postMsService.getMonthlyCategoryPostCnt(categoryId));
+    public ResponseEntity<List<MonthlyCategoryPostCntResponse>> monthlyCategoryPost(@RequestParam("categoryId") Integer categoryId,
+                                                                                    @RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(postMsService.getMonthlyCategoryPostCnt(categoryId, startDate));
     }
 
     // 일, 카테고리별 총 게시글
     @GetMapping("/dailyCategoryPost")
-    public ResponseEntity<List<DailyCategoryPostCntResponse>> dailyCategoryPost(@RequestParam("categoryId") Integer categoryId) {
-        return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt(categoryId));
+    public ResponseEntity<List<DailyCategoryPostCntResponse>> dailyCategoryPost(@RequestParam("categoryId") Integer categoryId,
+                                                                                @RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt(categoryId, startDate));
     }
 
 }
