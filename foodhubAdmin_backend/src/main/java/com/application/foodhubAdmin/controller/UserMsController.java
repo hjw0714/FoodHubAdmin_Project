@@ -21,13 +21,6 @@ public class UserMsController {
 
     private final UserMsService userMsService;
 
-    // 로그인
-    @PostMapping("/logIn")
-    public ResponseEntity<?> logIn (@RequestBody UserLogInRequest requestDto) {
-        String token = userMsService.logIn(requestDto);
-        return ResponseEntity.ok(token);
-    }
-
     // 마이 페이지
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {
