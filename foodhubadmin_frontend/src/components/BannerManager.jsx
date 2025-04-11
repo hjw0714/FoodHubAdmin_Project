@@ -1,35 +1,9 @@
 import { useState } from 'react';
 import '../assets/css/bannerManager.css';
-import banner1 from '../assets/img/banner-1.jpg';
-import banner2 from '../assets/img/banner-2.jpg';
-import banner3 from '../assets/img/banner-3.jpg';
 
-const initialBanners = [
-    {
-      id: 1,
-      imageUrl: banner1,
-      title: '[이벤트] 신규 가입자 30% 할인 쿠폰 증정!',
-      description: '지금 가입하고 할인 혜택을 받아보세요.',
-      link: '/event.html',
-    },
-    {
-      id: 2,
-      imageUrl: banner2,
-      title: '[베스트 글] 이번주 가장 많은 추천을 받은 게시글!',
-      description: 'Food Hub 유저들이 추천하는 핫한 주제 TOP 5!',
-      link: '/foodhub/post/postDetail?postId=1',
-    },
-    {
-      id: 3,
-      imageUrl: banner3,
-      title: '[매장 홍보] 특별 할인 진행 중!',
-      description: '지금 방문하면 추가 할인 혜택까지!',
-      link: '/store-promo.html',
-    },
-  ];
 
 const BannerManager = () => {
-  const [banners, setBanners] = useState(initialBanners);
+  const [banners, setBanners] = useState([]);
 
   const handleChange = (id, key, value) => {
     const updated = banners.map(b =>
