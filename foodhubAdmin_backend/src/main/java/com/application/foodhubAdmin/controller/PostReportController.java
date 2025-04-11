@@ -33,4 +33,10 @@ public class PostReportController {
         postReportService.deletePost(postId);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/{postId}/restore")
+    public ResponseEntity<Void> restorePost(@PathVariable Long postId) {
+        postReportService.restorePost(postId);
+        return ResponseEntity.ok().build();
+    }
 }

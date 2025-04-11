@@ -82,6 +82,19 @@ const CommentReport = () => {
     }
   }
 
+  const handleRestoreComment = async (commentId) => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/admin/comment-report/${commentId}/restore`, null, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setCommentReports((prev) => prev.map((report) =>
+        report.commentId === commentId ? { ...report, commentStatus: 'VISIBLE' } : report
+      ));
+    } catch (error) {
+      console.log("댓글 복구 실패", error);
+    }
+  }
+
   useEffect(() => {
     fetchReports();
   }, []);
@@ -127,9 +140,11 @@ const CommentReport = () => {
               </td>
               <td>
                 {commentReports.commentStatus === 'DELETED' ? (
-                  <span style={{ color: 'gray' }}>삭제 완료</span>
+                  <button className="action-button restore" onClick={() => handleRestoreComment(commentReports.commentId)}>
+                    댓글 복구
+                  </button>
                 ) : (
-                  <button className="action-button" onClick={() => handleDeleteComment(commentReports.commentId)}>
+                  <button className="action-button delete" onClick={() => handleDeleteComment(commentReports.commentId)}>
                     댓글 삭제
                   </button>
                 )}
@@ -141,39 +156,60 @@ const CommentReport = () => {
 
       {totalPages > 1 && (
         <div className="pagination">
-          {/* ◀ 이전 버튼 */}
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
+          {/* ⏮ 맨 앞으로 이동 */}
+          <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+            ⏮
+          </button>
+
+          {/* ◀ 이전 */}
+          <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
             ◀
           </button>
 
-          {/* 동적으로 페이지 번호 5개 보여주기 */}
-          {Array.from({ length: totalPages }, (_, i) => i + 1)
-            .filter((page) => {
-              // 현재 페이지 기준 ±2 페이지만 보여줌
-              return (
-                page >= Math.max(currentPage - 2, 1) &&
-                page <= Math.min(currentPage + 2, totalPages)
-              );
-            })
-            .map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={currentPage === page ? 'active-page' : ''}
-              >
-                {page}
-              </button>
-            ))}
+          {/* 페이지 번호들 */}
+          {(() => {
+            const pageNumbers = [];
+            let startPage = Math.max(currentPage - 2, 1);
+            let endPage = Math.min(startPage + 4, totalPages);
 
-          {/* ▶ 다음 버튼 */}
-          <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-          >
+            // 페이지 범위 보정
+            if (endPage - startPage < 4) {
+              startPage = Math.max(endPage - 4, 1);
+            }
+
+            // ... 앞
+            if (startPage > 1) {
+              pageNumbers.push(<span key="start-ellipsis">...</span>);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+              pageNumbers.push(
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i)}
+                  className={currentPage === i ? 'active-page' : ''}
+                >
+                  {i}
+                </button>
+              );
+            }
+
+            // ... 뒤
+            if (endPage < totalPages) {
+              pageNumbers.push(<span key="end-ellipsis">...</span>);
+            }
+
+            return pageNumbers;
+          })()}
+
+          {/* ▶ 다음 */}
+          <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
             ▶
+          </button>
+
+          {/* ⏭ 맨 끝으로 이동 */}
+          <button onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages}>
+            ⏭
           </button>
         </div>
       )}

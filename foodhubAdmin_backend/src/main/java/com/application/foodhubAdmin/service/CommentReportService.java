@@ -39,5 +39,11 @@ public class CommentReportService {
         comments.changeStatus(CommentStatus.DELETED);
     }
 
+    @Transactional
+    public void restoreComment(Long commentId) {
+        Comments comments = commentsRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment Not Found"));
+        comments.changeStatus(CommentStatus.VISIBLE);
+    }
+
 
 }

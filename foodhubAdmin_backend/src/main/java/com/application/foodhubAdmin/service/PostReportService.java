@@ -41,4 +41,10 @@ public class PostReportService {
         post.changeStatus(PostStatus.DELETED);
     }
 
+    @Transactional
+    public void restorePost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("PostNot Found"));
+        post.changeStatus(PostStatus.ACTIVE);
+    }
+
 }
