@@ -8,7 +8,7 @@ import lombok.Data;
 public class MonthlyCategoryPostCntResponse {
 
     private Object month;
-    private String subCateNm;
     private Long postCnt;
+    private Integer categoryId;
 
 }

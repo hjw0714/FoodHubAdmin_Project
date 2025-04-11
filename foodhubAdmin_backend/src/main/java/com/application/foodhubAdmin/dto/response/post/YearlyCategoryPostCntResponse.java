@@ -9,6 +9,6 @@ public class YearlyCategoryPostCntResponse {
 
     private Object year;
     private Long postCnt;
-    private String subCateNm;
+    private Integer categoryId;
 
 }
