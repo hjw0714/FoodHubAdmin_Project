@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -13,6 +14,9 @@ const UserStatus = () => {
   const [userDayData , setUserDayData] = useState([]);
   const navigate = useNavigate();
 
+  const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM'));
+  const [dayStartDate, setDayStartDate] = useState(dayjs().subtract(1, 'month').format('YYYY-MM-DD'));
+
   const fetchUser = async() => {
     try {
       const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/yearlyTotalUser`, 
@@ -24,7 +28,8 @@ const UserStatus = () => {
         setUserYearData(formattedYear); 
 
       const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/monthlyTotalUser`, 
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        { params : {startDate : monthStartDate}, 
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedMonth = monthData.data.map(item => {
           const [year, month] = item.month.split('-');
           return {
@@ -35,7 +40,8 @@ const UserStatus = () => {
         setUserMonthData(formattedMonth);
 
       const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/dailyTotalUser`, 
-        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+        { params : {startDate : dayStartDate}, 
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedDay = dayData.data.map(item => {
           const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/); // 마지막 날짜만 추출
           if (!parts) return item;
@@ -81,6 +87,9 @@ const UserStatus = () => {
       </ResponsiveContainer>
 
       <h4 style={{ marginTop: '30px' }}>📆 월별 회원 수</h4>
+      <label>조회 시작일: </label>
+      <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
+      <button onClick={fetchUser}>조회</button>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userMonthData}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -92,6 +101,9 @@ const UserStatus = () => {
       </ResponsiveContainer>
 
       <h4 style={{ marginTop: '30px' }}>🗓️ 일별 회원 수 </h4>
+      <label>조회 시작일: </label>
+      <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} /> {" "}
+      <button onClick={fetchUser}>조회</button>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userDayData}>
           <CartesianGrid strokeDasharray="3 3" />

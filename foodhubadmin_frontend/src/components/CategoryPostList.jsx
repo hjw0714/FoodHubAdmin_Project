@@ -12,7 +12,7 @@ const CategoryPostList = () => {
     const [postMonthData, setPostMonthData] = useState();
     const [postDayData, setPostDayData] = useState();
     const navigate = useNavigate();
-    const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM-DD')); // 날짜 설정용 dayjs 설치 
+    const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM')); // 날짜 설정용 dayjs 설치 
     const [dayStartDate, setDayStartDate] = useState(dayjs().subtract(1, 'month').format('YYYY-MM-DD'));
 
 
@@ -123,7 +123,7 @@ const CategoryPostList = () => {
 
             <h4>📆 월별</h4>
             <label>조회 시작일: </label>
-            <input type="date" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} />
+            <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
             <button onClick={fetchPosts}>조회</button>
             <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={postMonthData}>
@@ -137,7 +137,7 @@ const CategoryPostList = () => {
 
             <h4>🗓️ 일별</h4>
             <label>조회 시작일: </label>
-            <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} />
+            <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} /> {" "}
             <button onClick={fetchPosts}>조회</button>
             <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={postDayData}>

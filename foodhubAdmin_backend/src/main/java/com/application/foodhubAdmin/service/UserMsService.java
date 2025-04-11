@@ -1,17 +1,12 @@
 package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.config.JwtUtil;
-
-import com.application.foodhubAdmin.domain.MembershipType;
-import com.application.foodhubAdmin.dto.response.user.*;
 import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.domain.User;
 import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
 import com.application.foodhubAdmin.dto.request.UserLogInRequest;
 import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
-import com.application.foodhubAdmin.dto.response.user.UserListResponse;
-import com.application.foodhubAdmin.dto.response.user.UserProfileResponse;
-import com.application.foodhubAdmin.dto.response.user.UserUpdateResponse;
+import com.application.foodhubAdmin.dto.response.user.*;
 import com.application.foodhubAdmin.repository.StatsRepository;
 import com.application.foodhubAdmin.repository.UserMsRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -206,8 +197,8 @@ public class UserMsService {
     }
 
     // 월별 총 회원수 조회
-    public List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt() {
-        return statsRepository.getMonthlyTotalUserCnt();
+    public List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt(String startDate) {
+        return statsRepository.getMonthlyTotalUserCnt(startDate);
     }
     // 유저 탈퇴
     @Transactional
@@ -228,8 +219,8 @@ public class UserMsService {
     }
 
     // 일별 총 회원수 조회
-    public List<DailyTotalUserCntResponse> getDailyTotalUserCnt() {
-        return statsRepository.getDailyTotalUserCnt();
+    public List<DailyTotalUserCntResponse> getDailyTotalUserCnt(String startDate) {
+        return statsRepository.getDailyTotalUserCnt(startDate);
     }
 
 
@@ -239,13 +230,13 @@ public class UserMsService {
     }
 
     // 월별 신규 가입자 수 조회
-    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt() {
-        return statsRepository.getMonthlyNewUserCnt();
+    public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt(String startDate) {
+        return statsRepository.getMonthlyNewUserCnt(startDate);
     }
 
     // 일별 신규 가입자 수 조회
-    public List<DailyNewUserCntResponse> getDailyNewUserCnt() {
-        return statsRepository.getDailyNewUserCnt();
+    public List<DailyNewUserCntResponse> getDailyNewUserCnt(String startDate) {
+        return statsRepository.getDailyNewUserCnt(startDate);
     }
 
     // 년도별 탈퇴 수 조회
@@ -254,13 +245,13 @@ public class UserMsService {
     }
 
     // 월별 탈퇴 수 조회
-    public List<MonthlyDeleteUserCntResponse> getMonthlyDeleteUserCnt() {
-        return statsRepository.getMonthlyDeleteUserCnt();
+    public List<MonthlyDeleteUserCntResponse> getMonthlyDeleteUserCnt(String startDate) {
+        return statsRepository.getMonthlyDeleteUserCnt(startDate);
     }
 
     // 일별 탈퇴 수 조회
-    public List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt() {
-        return statsRepository.getDailyDeleteUserCnt();
+    public List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(String startDate) {
+        return statsRepository.getDailyDeleteUserCnt(startDate);
     }
 
 
