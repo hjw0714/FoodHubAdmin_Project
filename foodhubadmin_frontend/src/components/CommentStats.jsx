@@ -37,8 +37,10 @@ import dayjs from 'dayjs';
         // 월별
         const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/monthlyTotalComments`,
           { params : {startDate: monthStartDate}, 
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-        const formattedMonth = monthData.data.map(item => {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } 
+          });
+        const formattedMonth = monthData.data
+        .map(item => {
           const [year, month] = item.month.split("-");
           return {
             ...item,
@@ -123,7 +125,7 @@ import dayjs from 'dayjs';
         <button>조회</button>*/}
       <label>조회 시작일: </label>
       <input type="date" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} />
-      <button onClick={fetchPosts}>조회</button>
+      <button onClick={fetchComments}>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -146,7 +148,7 @@ import dayjs from 'dayjs';
         <button>조회</button>*/}
         <label>조회 시작일: </label>
       <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} />
-      <button onClick={fetchPosts}>조회</button>
+      <button onClick={fetchComments}>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsDayData}>
             <CartesianGrid strokeDasharray="3 3" />

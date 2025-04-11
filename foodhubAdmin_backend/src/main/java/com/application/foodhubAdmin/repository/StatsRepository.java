@@ -1,6 +1,9 @@
 package com.application.foodhubAdmin.repository;
 
 import com.application.foodhubAdmin.domain.Stats;
+import com.application.foodhubAdmin.dto.response.comments.DailyTotalCommentsCntResponse;
+import com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse;
+import com.application.foodhubAdmin.dto.response.comments.YearlyTotalCommentsCntResponse;
 import com.application.foodhubAdmin.dto.response.post.*;
 import com.application.foodhubAdmin.dto.response.user.*;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -144,7 +147,30 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
     """)
     List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(@Param("categoryId") Integer categoryId);
 
+    /*댓글 조회*/
 
+    // 년도별 총 댓글 수
+    @Query("SELECT new com.application.foodhubAdmin.dto.response.comments.YearlyTotalCommentsCntResponse(YEAR(s.statDate), SUM(s.statCnt)) " +
+            "FROM Stats s " +
+            "WHERE s.categoryId = 13 " +
+            "GROUP BY YEAR(s.statDate) " +
+            "ORDER BY YEAR(s.statDate)")
+    List<YearlyTotalCommentsCntResponse> getYearlyTotalCommentsCnt();
+
+    // 월별 총 댓글 수
+    @Query("SELECT new com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt)) " +
+            "FROM Stats s " +
+            "WHERE s.categoryId = 13 " +
+            "GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') " +
+            "ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')")
+    List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt();
+
+    // 일별 총 댓글 수
+    @Query("SELECT new com.application.foodhubAdmin.dto.response.comments.DailyTotalCommentsCntResponse(s.statDate, s.statCnt) " +
+            "FROM Stats s " +
+            "WHERE s.categoryId = 13 " +
+            "ORDER BY s.statDate")
+    List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt();
 
 
 

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class YearlyNewCommentsCntResponse {
+public class YearlyTotalCommentsCntResponse {
 
     private Object year;
     private Long commentsCnt;
