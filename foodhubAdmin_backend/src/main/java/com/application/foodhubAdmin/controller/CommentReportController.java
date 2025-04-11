@@ -34,4 +34,10 @@ public class CommentReportController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/{commentId}/restore")
+    public ResponseEntity<Void> restoreComment(@PathVariable Long commentId) {
+        commentReportService.restoreComment(commentId);
+        return ResponseEntity.ok().build();
+    }
+
 }

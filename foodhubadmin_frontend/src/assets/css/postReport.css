@@ -16,19 +16,6 @@
   background-color: #f0f4f8;
 }
 
-.action-button {
-  padding: 6px 10px;
-  border: none;
-  background-color: #1976d2;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.action-button:hover {
-  background-color: #125ca1;
-}
-
 .pagination {
   margin-top: 20px;
   text-align: center;
@@ -55,4 +42,36 @@
   color: white; /* 🔥 숫자 하얗게! */
   border-color: #007bff;
   font-weight: bold;
+}
+
+/* 공통 버튼 스타일 */
+.action-button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+/* 파란색: 삭제 */
+.action-button.delete {
+  background-color: #1976d2;
+  color: white;
+}
+
+.action-button.delete:hover {
+  background-color: #125ca1;
+}
+
+/* 회색: 복구 */
+.action-button.restore {
+  background-color: #ccc;
+  color: #333;
+}
+
+.action-button.restore:hover {
+  background-color: #bbb;
 }
