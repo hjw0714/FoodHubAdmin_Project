@@ -15,7 +15,7 @@ const ProfileView = () => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/profile`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setUser(data);
@@ -49,7 +49,7 @@ const ProfileView = () => {
 
           <div className="profile-photo-wrapper">
             <img
-              // src={user.profileUuid ? `${import.meta.env.VITE_API_URL}/images/${user.profileUuid}` : defaultProfile}
+              // src={user.profileUuid ? `${import.meta.env.VITE_API_URL}/admin/images/${user.profileUuid}` : defaultProfile}
               src={user.profileUuid ? `${import.meta.env.VITE_IMAGE_URL}/images/${user.profileUuid}` : defaultProfile}
               alt="Profile"
               className="profile-photo"

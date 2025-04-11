@@ -68,8 +68,8 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
     }
 
     try {
-      // const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/user/editProfile`, formData, {
-      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/user/editProfile`, formData, {
+      // const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/editProfile`, formData, {
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/editProfile`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data'

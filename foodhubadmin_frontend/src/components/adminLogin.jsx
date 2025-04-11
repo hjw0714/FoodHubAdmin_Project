@@ -21,7 +21,7 @@ const AdminLogin = () => {
     }
 
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/user/logIn`, { userId, passwd });
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/admin/user/logIn`, { userId, passwd });
       localStorage.setItem('token', data);  
       setIsLoggedIn(true); 
       setFailMsg(''); 

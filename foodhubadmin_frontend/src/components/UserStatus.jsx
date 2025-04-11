@@ -15,7 +15,7 @@ const UserStatus = () => {
 
   const fetchUser = async() => {
     try {
-      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/user/yearlyTotalUser`, 
+      const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/yearlyTotalUser`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedYear = yearData.data.map(item => ({
           ...item,
@@ -23,7 +23,7 @@ const UserStatus = () => {
         }));
         setUserYearData(formattedYear); 
 
-      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/user/monthlyTotalUser`, 
+      const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/monthlyTotalUser`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedMonth = monthData.data.map(item => {
           const [year, month] = item.month.split('-');
@@ -34,7 +34,7 @@ const UserStatus = () => {
         });
         setUserMonthData(formattedMonth);
 
-      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/user/dailyTotalUser`, 
+      const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/dailyTotalUser`, 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedDay = dayData.data.map(item => {
           const parts = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/); // 마지막 날짜만 추출

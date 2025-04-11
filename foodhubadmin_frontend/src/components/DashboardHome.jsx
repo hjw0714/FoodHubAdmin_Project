@@ -31,7 +31,7 @@ const DashboardHome = () => {
 
   const fetchPostData = async(endpoint) => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/posts/`)
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/admin/posts/`)
     } catch(error) {
       console.log();
     }
