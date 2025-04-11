@@ -1,5 +1,5 @@
 package com.application.foodhubAdmin.domain;
 
-public enum Staus {
+public enum CommentStatus {
     VISIBLE, DELETED
 }
