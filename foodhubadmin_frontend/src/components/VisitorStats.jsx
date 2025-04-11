@@ -2,6 +2,8 @@ import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
   } from 'recharts';
   import '../assets/css/postReport.css'; // 공통 스타일 재사용
+import dayjs from 'dayjs';
+import { useState } from 'react';
   
   // 더미 데이터
   const visitorData = {
@@ -23,6 +25,11 @@ import {
   };
   
   const VisitorStats = () => {
+
+    const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM'));
+    const [dayStartDate, setDayStartDate] = useState(dayjs().subtract(1, 'month').format('YYYY-MM-DD'));
+  
+
     return (
       <div className="dashboard-section">
         <h3>👣 방문자 수 통계</h3>
@@ -40,6 +47,9 @@ import {
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>📆 월별</h4>
+        <label>조회 시작일: </label>
+        <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
+        <button>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={visitorData.month}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -51,6 +61,9 @@ import {
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>🗓️ 일별 (2025년 3월)</h4>
+        <label>조회 시작일: </label>
+        <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} /> {" "}
+        <button>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={visitorData.day}>
             <CartesianGrid strokeDasharray="3 3" />

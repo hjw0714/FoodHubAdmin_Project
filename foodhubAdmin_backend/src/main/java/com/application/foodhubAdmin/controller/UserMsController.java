@@ -1,7 +1,6 @@
 package com.application.foodhubAdmin.controller;
 
 import com.application.foodhubAdmin.dto.request.UserChangePasswdRequest;
-import com.application.foodhubAdmin.dto.request.UserLogInRequest;
 import com.application.foodhubAdmin.dto.request.UserUpdateRequest;
 import com.application.foodhubAdmin.dto.response.user.*;
 import com.application.foodhubAdmin.service.UserMsService;
@@ -72,14 +71,14 @@ public class UserMsController {
 
     // 월별 신규 가입자 수
     @GetMapping("/monthlyNewUser")
-    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser() {
-        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt());
+    public ResponseEntity<List<MonthlyNewUserCntResponse>> monthlyNewUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt(startDate));
     }
 
     // 일별 신규 가입자 수
     @GetMapping("/dailyNewUser")
-    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser() {
-        return ResponseEntity.ok(userMsService.getDailyNewUserCnt());
+    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getDailyNewUserCnt(startDate));
     }
 
     // 년도별 총 회원 수
@@ -90,32 +89,32 @@ public class UserMsController {
 
     // 월별 총 회원 수
     @GetMapping("/monthlyTotalUser")
-    public ResponseEntity<List<MonthlyTotalUserCntResponse>> monthlyTotalUser() {
-        return ResponseEntity.ok(userMsService.getMonthlyTotalUserCnt());
+    public ResponseEntity<List<MonthlyTotalUserCntResponse>> monthlyTotalUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getMonthlyTotalUserCnt(startDate));
     }
 
     // 일별 총 회원 수
     @GetMapping("/dailyTotalUser")
-    public ResponseEntity<List<DailyTotalUserCntResponse>> dailyTotalUser() {
-        return ResponseEntity.ok(userMsService.getDailyTotalUserCnt());
+    public ResponseEntity<List<DailyTotalUserCntResponse>> dailyTotalUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getDailyTotalUserCnt(startDate));
     }
 
-    // 년도별 총 회원 수
+    // 년도별 탈퇴 수
     @GetMapping("/yearlyDeleteUser")
     public ResponseEntity<List<YearlyDeleteUserCntResponse>> yearlyDeleteUser() {
         return ResponseEntity.ok(userMsService.getYearlyDeleteUserCnt());
     }
 
-    // 월별 총 회원 수
+    // 월별 탈퇴 수
     @GetMapping("/monthlyDeleteUser")
-    public ResponseEntity<List<MonthlyDeleteUserCntResponse>> monthlyDeleteUser() {
-        return ResponseEntity.ok(userMsService.getMonthlyDeleteUserCnt());
+    public ResponseEntity<List<MonthlyDeleteUserCntResponse>> monthlyDeleteUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getMonthlyDeleteUserCnt(startDate));
     }
 
-    // 일별 총 회원 수
+    // 일별 탈퇴 수
     @GetMapping("/dailyDeleteUser")
-    public ResponseEntity<List<DailyDeleteUserCntResponse>> dailyDeleteUser() {
-        return ResponseEntity.ok(userMsService.getDailyDeleteUserCnt());
+    public ResponseEntity<List<DailyDeleteUserCntResponse>> dailyDeleteUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getDailyDeleteUserCnt(startDate));
     }
 
 
