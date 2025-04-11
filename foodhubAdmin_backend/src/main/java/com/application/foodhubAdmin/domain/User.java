@@ -91,7 +91,7 @@ public class User {
     // 회원 탈퇴
     public void deleteMember() {
         this.deletedAt = LocalDateTime.now();
-        this.status = Staus.DELETED.name();
+        this.status = CommentStatus.DELETED.name();
     }
 
     // 프로필 업데이트

@@ -1,36 +1,90 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../assets/css/postReport.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const dummyCommentReports = [
-  { id: 1, comment: '이게 말이야 방구야?', reporter: 'cleanUser', reason: '욕설 포함', date: '2025-04-06', status: '처리 대기' },
-  { id: 2, comment: '광고 댓글입니다. 링크 포함', reporter: 'user88', reason: '스팸 광고', date: '2025-04-05', status: '처리 완료' },
-  { id: 3, comment: '멍청하네', reporter: 'truthSeeker', reason: '모욕적 언사', date: '2025-04-04', status: '처리 대기' },
-  { id: 4, comment: '욕설이 심합니다', reporter: 'adminTest', reason: '비속어 다수 포함', date: '2025-04-03', status: '처리 완료' },
-  { id: 5, comment: 'ㅋㅋㅋㅋㅋㅋㅋ 병맛이네', reporter: 'viewer22', reason: '비하성 표현', date: '2025-04-02', status: '처리 대기' },
-  { id: 6, comment: '진짜 역겹다', reporter: 'fairMind', reason: '혐오 표현', date: '2025-04-01', status: '처리 대기' },
-  { id: 7, comment: '신고합니다. 무례한 댓글', reporter: 'user001', reason: '무례한 표현', date: '2025-03-31', status: '처리 완료' },
-  { id: 8, comment: '이건 그냥 선 넘었지', reporter: 'goodPeople', reason: '도 넘은 비난', date: '2025-03-30', status: '처리 대기' },
-  { id: 9, comment: '쟤 진짜 이상함ㅋㅋ', reporter: 'watcher', reason: '조롱성 댓글', date: '2025-03-29', status: '처리 대기' },
-  { id: 10, comment: '야 넌 답이 없다', reporter: 'oldman', reason: '인신공격', date: '2025-03-28', status: '처리 완료' },
-];
+
 
 const CommentReport = () => {
-  const [commentReports, setCommentReports] = useState(dummyCommentReports);
+  const [commentReports, setCommentReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const reportsPerPage = 5; // 필요에 따라 조절 가능
+  const navigate = useNavigate();
+  const reportsPerPage = 10; // 필요에 따라 조절 가능
 
   const indexOfLast = currentPage * reportsPerPage;
   const indexOfFirst = indexOfLast - reportsPerPage;
   const currentReports = commentReports.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(commentReports.length / reportsPerPage);
 
-  const handleStatusChange = (id) => {
-    setCommentReports((prev) =>
-      prev.map((report) =>
-        report.id === id ? { ...report, status: '처리 완료' } : report
-      )
-    );
-  };
+  const fetchReports = async () => {
+
+    try {
+      const reportResponse = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comment-report`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      })
+
+      setCommentReports(reportResponse.data);
+
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          navigate('/error/401');
+        } else if (error.response.status === 500) {
+          navigate('/error/500');
+        } else if (error.response.status === 404) {
+          console.error('404: 해당 API 경로가 존재하지 않습니다.');
+        }
+      } else {
+        console.error('요청 실패:', error.message);
+      }
+    }
+  }
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case 'PENDING':
+        return '처리 대기';
+      case 'REVIEWED':
+        return '검토됨';
+      case 'RESOLVED':
+        return '처리 완료';
+      default:
+        return status;
+    }
+  }
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/admin/comment-report/${id}/status`,
+        { status: newStatus },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+
+      setCommentReports((prev) => prev.map((report) =>
+        report.id === id ? { ...report, commentReportStatus: newStatus } : report)
+      );
+    } catch (error) {
+      console.log('상태변경 실패', error);
+    }
+  }
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/admin/comment-report/${commentId}/delete`, null, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setCommentReports((prev) => prev.map((report) =>
+        report.commentId === commentId ? { ...report, commentStatus: 'DELETED' } : report
+      ));
+    } catch (error) {
+      console.log("댓글글 삭제 실패", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
 
   return (
     <div className="dashboard-section">
@@ -41,30 +95,43 @@ const CommentReport = () => {
         <thead>
           <tr>
             <th>#</th>
+            <th>댓글 아이디</th>
             <th>댓글 내용</th>
             <th>신고자</th>
             <th>신고 사유</th>
             <th>신고 날짜</th>
             <th>처리 상태</th>
             <th>조치</th>
+            <th>댓글 삭제</th>
           </tr>
         </thead>
         <tbody>
-          {currentReports.map((report, index) => (
-            <tr key={report.id}>
+          {currentReports.map((commentReports, index) => (
+            <tr key={commentReports.id}>
               <td>{indexOfFirst + index + 1}</td>
-              <td>{report.comment}</td>
-              <td>{report.reporter}</td>
-              <td>{report.reason}</td>
-              <td>{report.date}</td>
-              <td>{report.status}</td>
+              <td>{commentReports.commentId}</td>
+              <td>{commentReports.commentContent}</td>
+              <td>{commentReports.userId}</td>
+              <td>{commentReports.content}</td>
+              <td>{new Date(commentReports.createdAt).toLocaleDateString()}</td>
+              <td>{formatStatus(commentReports.commentReportStatus)}</td>
               <td>
-                {report.status === '처리 대기' ? (
-                  <button className="action-button" onClick={() => handleStatusChange(report.id)}>
-                    처리 완료
-                  </button>
+                <select
+                  value={commentReports.commentReportStatus}
+                  onChange={(e) => handleStatusChange(commentReports.id, e.target.value)}
+                >
+                  <option value="PENDING">처리 대기</option>
+                  <option value="REVIEWED">검토됨</option>
+                  <option value="RESOLVED">처리 완료</option>
+                </select>
+              </td>
+              <td>
+                {commentReports.commentStatus === 'DELETED' ? (
+                  <span style={{ color: 'gray' }}>삭제 완료</span>
                 ) : (
-                  <span style={{ color: 'gray' }}>완료됨</span>
+                  <button className="action-button" onClick={() => handleDeleteComment(commentReports.commentId)}>
+                    댓글 삭제
+                  </button>
                 )}
               </td>
             </tr>

@@ -27,6 +27,9 @@ public class Comments {
     @Column(name = "PARENT_ID")
     private Long parentId;
 
+    @Column(name = "CONTENT" , nullable = false)
+    private String content;
+
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
@@ -35,6 +38,11 @@ public class Comments {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private Staus status;
+    private CommentStatus status;
+
+    public void changeStatus(CommentStatus status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }
