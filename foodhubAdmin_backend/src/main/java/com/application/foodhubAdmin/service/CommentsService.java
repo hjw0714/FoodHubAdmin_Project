@@ -1,9 +1,9 @@
 package com.application.foodhubAdmin.service;
 
 import com.application.foodhubAdmin.domain.Stats;
-import com.application.foodhubAdmin.dto.response.comments.DailyNewCommentsCntResponse;
-import com.application.foodhubAdmin.dto.response.comments.MonthlyNewCommentsCntResponse;
-import com.application.foodhubAdmin.dto.response.comments.YearlyNewCommentsCntResponse;
+import com.application.foodhubAdmin.dto.response.comments.DailyTotalCommentsCntResponse;
+import com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse;
+import com.application.foodhubAdmin.dto.response.comments.YearlyTotalCommentsCntResponse;
 import com.application.foodhubAdmin.repository.CommentsRepository;
 import com.application.foodhubAdmin.repository.StatsRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +44,21 @@ public class CommentsService {
 
             statsRepository.save(stats);
         }
+    }
+
+    // 년도별 총 댓글 조회
+    public List<YearlyTotalCommentsCntResponse> getYearlyTotalCommentsCnt() {
+        return statsRepository.getYearlyTotalCommentsCnt();
+    }
+
+    // 월별 총 댓글 조회
+    public List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt() {
+        return statsRepository.getMonthlyTotalCommentsCnt();
+    }
+
+    // 일별 총 댓글 조회
+    public List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt() {
+        return statsRepository.getDailyTotalCommentsCnt();
     }
 
 
