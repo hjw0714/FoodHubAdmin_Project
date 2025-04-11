@@ -24,7 +24,7 @@ const MemberList = () => {
   const fetchMember = async() => {
     try {
 
-      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/user/memberList`, 
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/admin/user/memberList`, 
 
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       const temp = data.map(user => ({
@@ -65,7 +65,7 @@ const MemberList = () => {
     const deleteMem = window.confirm("정말 탈퇴시키시겠습니까?");
     if(deleteMem) {
       try{
-        await axios.delete(`${import.meta.env.VITE_API_URL}/user/memberList/delete/${id}`, 
+        await axios.delete(`${import.meta.env.VITE_API_URL}/admin/user/memberList/delete/${id}`, 
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         alert(id + "님 탈퇴되었습니다.");
         window.location.reload();
@@ -81,7 +81,7 @@ const MemberList = () => {
   const handleUpdate = async(id, membershipType) => {
     
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/user/memberList/update/${id}`, {membershipType}, 
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/memberList/update/${id}`, {membershipType}, 
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
       alert("변경 완료");
       window.location.reload();

@@ -15,7 +15,7 @@ const PostReport = () => {
   const fetchReports = async () => {
 
     try {
-      const reportResponse = await axios.get(`${import.meta.env.VITE_API_URL}/post-report`, {
+      const reportResponse = await axios.get(`${import.meta.env.VITE_API_URL}/admin/post-report`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 
@@ -51,7 +51,7 @@ const PostReport = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axios.patch(`${import.meta.env.VITE_API_URL}/post-report/${id}/status`, // 일부 데이터만 변경하는 것이라 patch  사용했음
+      await axios.patch(`${import.meta.env.VITE_API_URL}/admin/post-report/${id}/status`, // 일부 데이터만 변경하는 것이라 patch  사용했음
         { status: newStatus },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -67,7 +67,7 @@ const PostReport = () => {
 
   const handleDeletePost = async (postId) => {
     try {
-      await axios.patch(`${import.meta.env.VITE_API_URL}/post-report/${postId}/delete`, null, {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/admin/post-report/${postId}/delete`, null, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setPostReportData((prev) => prev.map((report) =>

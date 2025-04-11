@@ -15,7 +15,7 @@ import {
       try {
         
         // 연도별
-        const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/comments/yearlyNewComments`,
+        const yearData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/yearlyNewComments`,
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedYear = yearData.data.map(item => ({
           ...item,
@@ -24,7 +24,7 @@ import {
         setCommentsYearData(formattedYear);
         
         // 월별
-        const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/comments/monthlyNewComments`,
+        const monthData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/monthlyNewComments`,
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedMonth = monthData.data.map(item => {
           const [year, month] = item.month.split("-");
@@ -38,7 +38,7 @@ import {
         setCommentsMonthData(formattedMonth);
 
         // 일별
-        const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/comments/dailyNewComments`,
+        const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/dailyNewComments`,
           { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
         const formattedDay = dayData.data.map(item => {
           const temp = item.day.match(/(\d{4})-(\d{1,2})-(\d{1,2})$/);

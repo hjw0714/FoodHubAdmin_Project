@@ -27,7 +27,7 @@ const ChangePasswd = ({ userId, setViewMode }) => {
     }
 
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/user/changePasswd`, { userId, passwd }, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/changePasswd`, { userId, passwd }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 
