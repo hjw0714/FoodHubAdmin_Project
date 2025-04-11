@@ -8,13 +8,15 @@ import { useNavigate } from 'react-router-dom';
 const CommentReport = () => {
   const [commentReports, setCommentReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [statusFilter, setStatusFilter] = useState('ALL'); // 상태 필터용 변수
   const navigate = useNavigate();
   const reportsPerPage = 10; // 필요에 따라 조절 가능
 
+  const filteredReports = commentReports.filter((report) => statusFilter === 'ALL' ? true : report.commentReportStatus === statusFilter);
   const indexOfLast = currentPage * reportsPerPage;
   const indexOfFirst = indexOfLast - reportsPerPage;
-  const currentReports = commentReports.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(commentReports.length / reportsPerPage);
+  const currentReports = filteredReports.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
 
   const fetchReports = async () => {
 
@@ -23,7 +25,8 @@ const CommentReport = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
 
-      setCommentReports(reportResponse.data);
+      const sortedData = reportResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setCommentReports(sortedData);
 
     } catch (error) {
       if (error.response) {
@@ -103,6 +106,20 @@ const CommentReport = () => {
     <div className="dashboard-section">
       <h3>💬 댓글 신고 목록</h3>
       <p>신고된 댓글을 확인하고 처리할 수 있는 영역입니다.</p>
+
+      {/* 상태별 필터 걸기 */}
+      <div style={{ marginBottom: '15px' }}>
+        <label>처리 상태 필터: </label>
+        <select value={statusFilter} onChange={(e) => {
+          setCurrentPage(1); // 필터 변경 시 첫 페이지로
+          setStatusFilter(e.target.value);
+        }}>
+          <option value="ALL">전체</option>
+          <option value="PENDING">처리 대기</option>
+          <option value="REVIEWED">검토됨</option>
+          <option value="RESOLVED">처리 완료</option>
+        </select>
+      </div>
 
       <table className="report-table">
         <thead>

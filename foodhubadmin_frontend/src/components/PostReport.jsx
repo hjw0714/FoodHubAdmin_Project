@@ -9,6 +9,7 @@ const PostReport = () => {
 
   const [postReportData, setPostReportData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [statusFilter , setStatusFilter] = useState('ALL'); // 처리 상태별 필터를 걸기 위한 변수
   const reportsPerPage = 10;
   const navigate = useNavigate();
 
@@ -19,7 +20,8 @@ const PostReport = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 
-      setPostReportData(reportResponse.data);
+      const sortedData = reportResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setPostReportData(sortedData);
 
     } catch (error) {
       if (error.response) {
@@ -95,15 +97,30 @@ const PostReport = () => {
     fetchReports();
   }, []);
 
+  const filteredReports = postReportData.filter((report) => statusFilter === 'ALL' ? true : report.postReportStatus === statusFilter);
   const indexOfLast = currentPage * reportsPerPage;
   const indexOfFirst = indexOfLast - reportsPerPage;
-  const currentReports = postReportData.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(postReportData.length / reportsPerPage);
+  const currentReports = filteredReports.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredReports.length / reportsPerPage);
 
   return (
     <div className="dashboard-section">
       <h3>📋 게시글 신고 목록</h3>
       <p>신고된 게시글을 확인하고 처리할 수 있는 영역입니다.</p>
+
+      {/* 상태별 필터 걸기 */}
+      <div style={{ marginBottom: '15px' }}>
+        <label>처리 상태 필터: </label>
+        <select value={statusFilter} onChange={(e) => {
+          setCurrentPage(1); // 필터 변경 시 첫 페이지로
+          setStatusFilter(e.target.value);
+        }}>
+          <option value="ALL">전체</option>
+          <option value="PENDING">처리 대기</option>
+          <option value="REVIEWED">검토됨</option>
+          <option value="RESOLVED">처리 완료</option>
+        </select>
+      </div>
 
       <table className="report-table">
         <thead>
