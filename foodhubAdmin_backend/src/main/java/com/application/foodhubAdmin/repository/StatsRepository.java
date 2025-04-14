@@ -34,7 +34,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
             FROM Stats s
             WHERE s.categoryId = 1
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') >= :startDate
+            AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
             GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
             ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
     List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt(@Param("startDate") String startDate);
@@ -44,7 +44,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 1
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :startDate
             ORDER BY s.statDate""")
     List<DailyNewUserCntResponse> getDailyNewUserCnt(@Param("startDate") String startDate);
 
@@ -62,7 +62,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyTotalUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
             FROM Stats s
             WHERE s.categoryId = 3
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') >= :startDate
+            AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
             GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
             ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
             """)
@@ -73,7 +73,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyTotalUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 3
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :startDate
             ORDER BY s.statDate""")
     List<DailyTotalUserCntResponse> getDailyTotalUserCnt(@Param("startDate") String startDate);
 
@@ -90,7 +90,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyDeleteUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
             FROM Stats s
             WHERE s.categoryId = 2
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') >= :startDate
+            AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
             GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
             ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
     List<MonthlyDeleteUserCntResponse> getMonthlyDeleteUserCnt(@Param("startDate") String startDate);
@@ -100,7 +100,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyDeleteUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 2
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :startDate
             ORDER BY s.statDate""")
     List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(@Param("startDate") String startDate);
 
@@ -119,7 +119,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyTotalPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
             FROM Stats s
             WHERE s.categoryId = 4
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') >= :startDate
+            AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
             GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
             ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
     List<MonthlyTotalPostCntResponse> getMonthlyTotalPostCnt(@Param("startDate") String startDate);
@@ -129,7 +129,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.post.DailyTotalPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 4
-            AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :startDate
             ORDER BY s.statDate""")
     List<DailyTotalPostCntResponse> getDailyTotalPostCnt(@Param("startDate") String startDate);
 
@@ -149,7 +149,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
         SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyCategoryPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt) , s.categoryId)
         FROM Stats s
         WHERE s.categoryId = :categoryId
-        AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') >= :startDate
+        AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
         GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), s.categoryId
         ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
     """)
@@ -160,7 +160,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
         SELECT new com.application.foodhubAdmin.dto.response.post.DailyCategoryPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') , SUM(s.statCnt) , s.categoryId)
         FROM Stats s
         WHERE s.categoryId = :categoryId
-        AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :startDate
+        AND FUNCTION('DATE', s.statDate) >= :startDate
         GROUP BY s.statDate, s.categoryId
         ORDER BY s.statDate
     """)
