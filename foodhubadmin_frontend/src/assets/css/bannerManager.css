@@ -30,20 +30,6 @@
     border-radius: 6px;
 }
 
-.banner-item button {
-    align-self: flex-end;
-    padding: 6px 10px;
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.banner-item button:hover {
-    background-color: #b71c1c;
-}
-
 .add-btn {
     margin-top: 20px;
     padding: 10px 20px;
@@ -53,3 +39,45 @@
     border-radius: 6px;
     cursor: pointer;
 }
+
+.save-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .gray-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .gray-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  

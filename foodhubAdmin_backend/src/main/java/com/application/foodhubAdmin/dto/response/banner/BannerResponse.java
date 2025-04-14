@@ -15,7 +15,6 @@ public class BannerResponse {
     private String description;
     private String bannerOriginalName;
     private String bannerUuid;
-    private String link;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -26,7 +25,6 @@ public class BannerResponse {
                 .description(banner.getDescription())
                 .bannerOriginalName(banner.getBannerOriginalName())
                 .bannerUuid(banner.getBannerUuid())
-                .link(banner.getLink())
                 .createdAt(banner.getCreatedAt())
                 .updatedAt(banner.getUpdatedAt())
                 .build();

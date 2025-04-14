@@ -29,9 +29,6 @@ public class Banner {
     @Column(name = "BANNER_UUID" , nullable = false)
     private String bannerUuid;
 
-    @Column(name = "LINK" , nullable = false)
-    private String link;
-
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
