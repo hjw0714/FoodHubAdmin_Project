@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,13 +54,15 @@ public class CommentsService {
     }
 
     // 월별 총 댓글 조회
-    public List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt() {
-        return statsRepository.getMonthlyTotalCommentsCnt();
+    public List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt(String startDate) {
+        return statsRepository.getMonthlyTotalCommentsCnt(startDate);
     }
 
     // 일별 총 댓글 조회
-    public List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt() {
-        return statsRepository.getDailyTotalCommentsCnt();
+    public List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt(String startDate) throws Exception {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedStartDate = dateFormat.parse(startDate); // String → Date 변환
+        return statsRepository.getDailyTotalCommentsCnt(parsedStartDate);
     }
 
 

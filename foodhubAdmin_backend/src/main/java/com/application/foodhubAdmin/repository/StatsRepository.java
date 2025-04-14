@@ -161,7 +161,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
         SELECT new com.application.foodhubAdmin.dto.response.post.DailyCategoryPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') , SUM(s.statCnt) , s.categoryId)
         FROM Stats s
         WHERE s.categoryId = :categoryId
-        AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :parsedStartDate
+        AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
         GROUP BY s.statDate, s.categoryId
         ORDER BY s.statDate
     """)
@@ -178,19 +178,23 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
     List<YearlyTotalCommentsCntResponse> getYearlyTotalCommentsCnt();
 
     // 월별 총 댓글 수
-    @Query("SELECT new com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt)) " +
-            "FROM Stats s " +
-            "WHERE s.categoryId = 13 " +
-            "GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m') " +
-            "ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')")
-    List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt();
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 13
+            AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
+    List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt(@Param("startDate") String startDate);
 
     // 일별 총 댓글 수
-    @Query("SELECT new com.application.foodhubAdmin.dto.response.comments.DailyTotalCommentsCntResponse(s.statDate, s.statCnt) " +
-            "FROM Stats s " +
-            "WHERE s.categoryId = 13 " +
-            "ORDER BY s.statDate")
-    List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt();
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.comments.DailyTotalCommentsCntResponse(s.statDate, s.statCnt)
+            FROM Stats s
+            WHERE s.categoryId = 13
+            AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
+            ORDER BY s.statDate""")
+    List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt(@Param("parsedStartDate") Date parsedStartDate);
 
 
 
