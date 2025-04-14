@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -77,7 +78,7 @@ public class UserMsController {
 
     // 일별 신규 가입자 수
     @GetMapping("/dailyNewUser")
-    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser(@RequestParam("startDate") String startDate) {
+    public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser(@RequestParam("startDate") String startDate) throws ParseException {
         return ResponseEntity.ok(userMsService.getDailyNewUserCnt(startDate));
     }
 
@@ -95,7 +96,7 @@ public class UserMsController {
 
     // 일별 총 회원 수
     @GetMapping("/dailyTotalUser")
-    public ResponseEntity<List<DailyTotalUserCntResponse>> dailyTotalUser(@RequestParam("startDate") String startDate) {
+    public ResponseEntity<List<DailyTotalUserCntResponse>> dailyTotalUser(@RequestParam("startDate") String startDate) throws ParseException {
         return ResponseEntity.ok(userMsService.getDailyTotalUserCnt(startDate));
     }
 
@@ -113,7 +114,7 @@ public class UserMsController {
 
     // 일별 탈퇴 수
     @GetMapping("/dailyDeleteUser")
-    public ResponseEntity<List<DailyDeleteUserCntResponse>> dailyDeleteUser(@RequestParam("startDate") String startDate) {
+    public ResponseEntity<List<DailyDeleteUserCntResponse>> dailyDeleteUser(@RequestParam("startDate") String startDate) throws ParseException {
         return ResponseEntity.ok(userMsService.getDailyDeleteUserCnt(startDate));
     }
 

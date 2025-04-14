@@ -22,8 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -219,8 +222,10 @@ public class UserMsService {
     }
 
     // 일별 총 회원수 조회
-    public List<DailyTotalUserCntResponse> getDailyTotalUserCnt(String startDate) {
-        return statsRepository.getDailyTotalUserCnt(startDate);
+    public List<DailyTotalUserCntResponse> getDailyTotalUserCnt(String startDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedStartDate = dateFormat.parse(startDate); // String → Date 변환
+        return statsRepository.getDailyTotalUserCnt(parsedStartDate);
     }
 
 
@@ -235,8 +240,10 @@ public class UserMsService {
     }
 
     // 일별 신규 가입자 수 조회
-    public List<DailyNewUserCntResponse> getDailyNewUserCnt(String startDate) {
-        return statsRepository.getDailyNewUserCnt(startDate);
+    public List<DailyNewUserCntResponse> getDailyNewUserCnt(String startDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedStartDate = dateFormat.parse(startDate); // String → Date 변환
+        return statsRepository.getDailyNewUserCnt(parsedStartDate);
     }
 
     // 년도별 탈퇴 수 조회
@@ -250,8 +257,10 @@ public class UserMsService {
     }
 
     // 일별 탈퇴 수 조회
-    public List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(String startDate) {
-        return statsRepository.getDailyDeleteUserCnt(startDate);
+    public List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(String startDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedStartDate = dateFormat.parse(startDate); // String → Date 변환
+        return statsRepository.getDailyDeleteUserCnt(parsedStartDate);
     }
 
 

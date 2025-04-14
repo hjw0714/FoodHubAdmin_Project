@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class PostMsController {
 
     // 일별 새 게시글
     @GetMapping("/dailyTotalPost")
-    public ResponseEntity<List<DailyTotalPostCntResponse>> dailyNewPost(@RequestParam("startDate") String startDate) {
+    public ResponseEntity<List<DailyTotalPostCntResponse>> dailyNewPost(@RequestParam("startDate") String startDate) throws ParseException {
         return ResponseEntity.ok(postMsService.getDailyTotalPostCnt(startDate));
     }
 
@@ -53,7 +54,7 @@ public class PostMsController {
     // 일, 카테고리별 총 게시글
     @GetMapping("/dailyCategoryPost")
     public ResponseEntity<List<DailyCategoryPostCntResponse>> dailyCategoryPost(@RequestParam("categoryId") Integer categoryId,
-                                                                                @RequestParam("startDate") String startDate) {
+                                                                                @RequestParam("startDate") String startDate) throws ParseException {
         return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt(categoryId, startDate));
     }
 

@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,9 +45,9 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyNewUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 1
-            AND FUNCTION('DATE', s.statDate) >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
             ORDER BY s.statDate""")
-    List<DailyNewUserCntResponse> getDailyNewUserCnt(@Param("startDate") String startDate);
+    List<DailyNewUserCntResponse> getDailyNewUserCnt(@Param("parsedStartDate") Date parsedStartDate);
 
 
     // 년도별 신규 가입자 수
@@ -73,9 +74,9 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyTotalUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 3
-            AND FUNCTION('DATE', s.statDate) >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
             ORDER BY s.statDate""")
-    List<DailyTotalUserCntResponse> getDailyTotalUserCnt(@Param("startDate") String startDate);
+    List<DailyTotalUserCntResponse> getDailyTotalUserCnt(@Param("parsedStartDate") Date parsedStartDate);
 
     // 년도별 탈퇴 수
     @Query("SELECT new com.application.foodhubAdmin.dto.response.user.YearlyDeleteUserCntResponse(YEAR(s.statDate), SUM(s.statCnt)) " +
@@ -100,9 +101,9 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyDeleteUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 2
-            AND FUNCTION('DATE', s.statDate) >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
             ORDER BY s.statDate""")
-    List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(@Param("startDate") String startDate);
+    List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(@Param("parsedStartDate") Date parsedStartDate);
 
     /* 게시글 조회 */
 
@@ -129,9 +130,9 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             SELECT new com.application.foodhubAdmin.dto.response.post.DailyTotalPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
             WHERE s.categoryId = 4
-            AND FUNCTION('DATE', s.statDate) >= :startDate
+            AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
             ORDER BY s.statDate""")
-    List<DailyTotalPostCntResponse> getDailyTotalPostCnt(@Param("startDate") String startDate);
+    List<DailyTotalPostCntResponse> getDailyTotalPostCnt(@Param("parsedStartDate") Date parsedStartDate);
 
     // 연도별 통계
     @Query("""
@@ -160,11 +161,11 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
         SELECT new com.application.foodhubAdmin.dto.response.post.DailyCategoryPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') , SUM(s.statCnt) , s.categoryId)
         FROM Stats s
         WHERE s.categoryId = :categoryId
-        AND FUNCTION('DATE', s.statDate) >= :startDate
+        AND FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d') >= :parsedStartDate
         GROUP BY s.statDate, s.categoryId
         ORDER BY s.statDate
     """)
-    List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(@Param("categoryId") Integer categoryId, @Param("startDate") String startDate);
+    List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(@Param("categoryId") Integer categoryId, @Param("parsedStartDate") Date parsedStartDate);
 
     /*댓글 조회*/
 
