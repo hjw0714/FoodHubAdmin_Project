@@ -84,6 +84,12 @@ public List<YearlyTotalPostCntResponse> getYearlyTotalPostCnt() {
 
 // 월별 총 게시글 조회
 public List<MonthlyTotalPostCntResponse> getMonthlyTotalPostCnt(String startDate) {
+    String year = startDate.substring(0, 4);
+    String month = startDate.substring(5, 7);
+    if(month.startsWith("0")) {
+        month = month.substring(1);
+    }
+    startDate = year + "-" + month;
     return statsRepository.getMonthlyTotalPostCnt(startDate);
 }
 
@@ -101,6 +107,12 @@ public List<YearlyCategoryPostCntResponse> getYearlyCategoryPostCnt(Integer cate
 
 // 월, 카테고리별 총 게시글 조회
 public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(Integer  categoryId, String startDate) {
+    String year = startDate.substring(0, 4);
+    String month = startDate.substring(5, 7);
+    if(month.startsWith("0")) {
+        month = month.substring(1);
+    }
+    startDate = year + "-" + month;
     return statsRepository.getMonthlyCategoryPostCnt(categoryId, startDate);
 }
 

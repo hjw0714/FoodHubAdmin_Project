@@ -201,6 +201,12 @@ public class UserMsService {
 
     // 월별 총 회원수 조회
     public List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt(String startDate) {
+        String year = startDate.substring(0, 4);
+        String month = startDate.substring(5, 7);
+        if(month.startsWith("0")) {
+            month = month.substring(1);
+        }
+        startDate = year + "-" + month;
         return statsRepository.getMonthlyTotalUserCnt(startDate);
     }
     // 유저 탈퇴
@@ -236,6 +242,12 @@ public class UserMsService {
 
     // 월별 신규 가입자 수 조회
     public List<MonthlyNewUserCntResponse> getMonthlyNewUserCnt(String startDate) {
+        String year = startDate.substring(0, 4);
+        String month = startDate.substring(5, 7);
+        if(month.startsWith("0")) {
+            month = month.substring(1);
+        }
+        startDate = year + "-" + month;
         return statsRepository.getMonthlyNewUserCnt(startDate);
     }
 
@@ -253,6 +265,12 @@ public class UserMsService {
 
     // 월별 탈퇴 수 조회
     public List<MonthlyDeleteUserCntResponse> getMonthlyDeleteUserCnt(String startDate) {
+        String year = startDate.substring(0, 4);
+        String month = startDate.substring(5, 7);
+        if(month.startsWith("0")) {
+            month = month.substring(1);
+        }
+        startDate = year + "-" + month;
         return statsRepository.getMonthlyDeleteUserCnt(startDate);
     }
 
