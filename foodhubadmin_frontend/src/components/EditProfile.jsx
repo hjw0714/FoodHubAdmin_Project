@@ -13,7 +13,7 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
   const [uploadProfile, setUploadProfile] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [previewImage, setPreviewImage] = useState( // 프로필 사진 미리보기
-    user.profileUuid ? `${import.meta.env.VITE_IMAGE_URL}/images/${user.profileUuid}` : defaultProfile
+    user.profileUuid ? `${import.meta.env.VITE_API_URL}/images/${user.profileUuid}` : defaultProfile
   );
 
   // 파일 선택 시 미리보기 업데이트
@@ -68,7 +68,6 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
     }
 
     try {
-      // const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/editProfile`, formData, {
       const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/editProfile`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -80,21 +79,13 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
       alert('회원 정보가 수정되었습니다.');
       setViewMode('profileView');
     } catch (error) {
-
-
-
-
-      console.error('오류 발생: ' , error);
-
-
-      
       if (error.response.status === 401) {
         navigate('/error/401');
       } else if (error.response.status === 403) {
         navigate('/error/403');
       } else {
-        setErrorMsg('회원정보 변경 중 오류가 발생했습니다.');
         console.error(error);
+        navigate('/error/500');
       }
     }
 
@@ -105,6 +96,7 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
       setViewMode('profileView');
     }
   };
+
 
   return (
     <div className="edit-profile-container">
@@ -134,7 +126,7 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="edit-profile-input"
-            placeholder="이메일을 입력하세요"
+            placeholder="이메일을 입력하세요."
           />
         </div>
 
@@ -145,17 +137,23 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
             value={tel}
             onChange={(e) => setTel(e.target.value)}
             className="edit-profile-input"
-            placeholder="전화번호를 입력하세요 (예: 010-1234-5678)"
+            placeholder="전화번호를 입력하세요. (예: 010-1234-5678)"
           />
         </div>
 
         {errorMsg && <div className="error-message">{errorMsg}</div>}
 
         <div className="button-group">
-          <button className="submit-button" onClick={handleSubmit}>
+          <button 
+            className="submit-button" 
+            onClick={handleSubmit}
+          >
             💾 저장
           </button>
-          <button className="cancel-button" onClick={handleCancel}>
+          <button 
+            className="cancel-button" 
+            onClick={handleCancel}
+          >
             ↩ 취소
           </button>
         </div>
@@ -163,7 +161,6 @@ const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {
     </div>
   );
 
-
-}
+};
 
 export default EditProfile;

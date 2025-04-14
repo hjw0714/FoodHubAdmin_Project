@@ -10,7 +10,7 @@ const ProfileView = () => {
 
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('profileView');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
 
   const fetchUser = async () => {
@@ -27,8 +27,8 @@ const ProfileView = () => {
         navigate('/error/403');
       }
       else {
-        // navigate('/error/500');
         console.error(error);
+        navigate('/error/500');
       }
     }
   };
@@ -37,69 +37,69 @@ const ProfileView = () => {
     fetchUser();
   }, []);
 
-  if (!user) return <div>로딩중 .....</div>
-
 
   return (
     <div className="profile-view-container">
       {viewMode === 'profileView' && (
-      <>
-        <div className="profile-view-section">
-          <h2>'{user.nickname}' 님의 프로필 정보</h2>
+        <>
+          <div className="profile-view-section">
+            <h2>'{user.nickname}' 님의 프로필 정보</h2>
 
-          <div className="profile-photo-wrapper">
-            <img
-              // src={user.profileUuid ? `${import.meta.env.VITE_API_URL}/admin/images/${user.profileUuid}` : defaultProfile}
-              src={user.profileUuid ? `${import.meta.env.VITE_IMAGE_URL}/images/${user.profileUuid}` : defaultProfile}
-              alt="Profile"
-              className="profile-photo"
-              onError={(e) => (e.target.src = defaultProfile)} // 이미지 로드 실패 시 기본 이미지 사용
-            />
-          </div>
+            <div className="profile-photo-wrapper">
+              <img
+                src={user.profileUuid ? `${import.meta.env.VITE_API_URL}/images/${user.profileUuid}` : defaultProfile}
+                alt="Profile"
+                className="profile-photo"
+                onError={(e) => (e.target.src = defaultProfile)} // 이미지 로드 실패 시 기본 이미지 사용
+              />
+            </div>
 
-          <div className="profile-item">
-            <label>아이디</label>
-            <span>{user.userId}</span>
-          </div>
+            <div className="profile-item">
+              <label>아이디</label>
+              <span>{user.userId}</span>
+            </div>
 
-          <div className="profile-item">
-            <label>닉네임</label>
-            <span>{user.nickname}</span>
-          </div>
+            <div className="profile-item">
+              <label>닉네임</label>
+              <span>{user.nickname}</span>
+            </div>
 
-          <div className="profile-item">
-            <label>이메일</label>
-            <span>{user.email}</span>
-          </div>
+            <div className="profile-item">
+              <label>이메일</label>
+              <span>{user.email}</span>
+            </div>
 
-          <div className="profile-item">
-            <label>전화번호</label>
-            <span>{user.tel}</span>
-          </div>
+            <div className="profile-item">
+              <label>전화번호</label>
+              <span>{user.tel}</span>
+            </div>
 
-          <div className="profile-item">
-            <label>성별</label>
-            <span>{user.gender === 'M' ? '남성' : user.gender === 'F' ? '여성' : '기타'}</span>
-          </div>
+            <div className="profile-item">
+              <label>성별</label>
+              <span>{user.gender === 'M' ? '남성' : user.gender === 'F' ? '여성' : '기타'}</span>
+            </div>
 
-          <div className="profile-item">
-            <label>생일</label>
-            <span>{user.birthday}</span>
-          </div>
+            <div className="profile-item">
+              <label>생일</label>
+              <span>{user.birthday}</span>
+            </div>
 
-          <div className="button-group">
-            <button className="edit-button" onClick={() => setViewMode('update')}>
-              ✏️ 회원정보 수정
-            </button>
-            <button className="edit-button" onClick={() => setViewMode('passwd')}>
-              🔐 비밀번호 변경
-            </button>
-            {/* <button className="edit-button" onClick={() => setViewMode('delete')}>
-            ❌ 회원 탈퇴
-          </button> */}
+            <div className="button-group">
+              <button 
+                className="edit-button" 
+                onClick={() => setViewMode('update')}
+              >
+                ✏️ 회원정보 수정
+              </button>
+              <button 
+                className="edit-button" 
+                onClick={() => setViewMode('passwd')}
+              >
+                🔐 비밀번호 변경
+              </button>
+            </div>
           </div>
-        </div>
-      </>
+        </>
       )}
       {viewMode === 'update' && <EditProfile user={user} setUser={setUser} setViewMode={setViewMode} fetchUser={fetchUser} />}
       {viewMode === 'passwd' && <ChangePasswd userId={user.userId} setViewMode={setViewMode} />}
