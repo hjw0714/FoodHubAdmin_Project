@@ -55,6 +55,12 @@ public class CommentsService {
 
     // 월별 총 댓글 조회
     public List<MonthlyTotalCommentsCntResponse> getMonthlyTotalCommentsCnt(String startDate) {
+        String year = startDate.substring(0, 4);
+        String month = startDate.substring(5, 7);
+        if(month.startsWith("0")) {
+            month = month.substring(1);
+        }
+        startDate = year + "-" + month;
         return statsRepository.getMonthlyTotalCommentsCnt(startDate);
     }
 
