@@ -27,14 +27,14 @@ public class CommentsController {
     }
     // 월별 새 댓글
     @GetMapping("/monthlyTotalComments")
-    public ResponseEntity<List<MonthlyTotalCommentsCntResponse>> monthlyTotalComments() {
-        return ResponseEntity.ok(commentsService.getMonthlyTotalCommentsCnt());
+    public ResponseEntity<List<MonthlyTotalCommentsCntResponse>> monthlyTotalComments(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(commentsService.getMonthlyTotalCommentsCnt(startDate));
     }
 
     // 일별 새 댓글
     @GetMapping("/dailyTotalComments")
-    public ResponseEntity<List<DailyTotalCommentsCntResponse>> dailyTotalComments() {
-        return ResponseEntity.ok(commentsService.getDailyTotalCommentsCnt());
+    public ResponseEntity<List<DailyTotalCommentsCntResponse>> dailyTotalComments(@RequestParam("startDate") String startDate) throws Exception {
+        return ResponseEntity.ok(commentsService.getDailyTotalCommentsCnt(startDate));
     }
 
 }

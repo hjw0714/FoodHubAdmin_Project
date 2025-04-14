@@ -12,16 +12,9 @@ import dayjs from 'dayjs';
     const [commentsMonthData, setCommentsMonthData] = useState();
     const[commentsDayData, setCommentsDayData] = useState();
     const navigate = useNavigate();
-    const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM-DD')); // 날짜 설정용 dayjs 설치 
+    const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM')); // 날짜 설정용 dayjs 설치 
     const [dayStartDate, setDayStartDate] = useState(dayjs().subtract(1, 'month').format('YYYY-MM-DD'));
 
-    /*
-    const [years, setYears] = useState([]);
-    const [months, setMonths] = useState([]);
-
-    const [searchYear, setSearchYear] = useState("");
-    const [searchMonth, setSearchMonth] = useState("");
-    */
     const fetchComments = async() => {
       try {
         
@@ -50,7 +43,6 @@ import dayjs from 'dayjs';
         })
         .sort((a, b) => new Date(a.rawData) - new Date(b.rawData));
         setCommentsMonthData(formattedMonth.slice(0, 12));
-        //setYears(yearData.data.map(item => item.year));
 
         // 일별
         const dayData = await axios.get(`${import.meta.env.VITE_API_URL}/admin/comments/dailyTotalComments`,
@@ -71,7 +63,6 @@ import dayjs from 'dayjs';
         })
         .sort((a, b) => new Date(a.rawData) - new Date(b.rawData));
         setCommentsDayData(formattedDay.slice(0, 31));
-        //setMonths(monthData.data.map(item => item.month));
 
       } catch(error) {
         if(error.response) {
@@ -113,18 +104,8 @@ import dayjs from 'dayjs';
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>📆 월별</h4>
-       {/* 
-        <label>조회할 연도 </label>
-        <select onChange={(e) => setSearchYear(e.target.value)} value={searchYear}>
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select> {" "}
-        <button>조회</button>*/}
       <label>조회 시작일: </label>
-      <input type="date" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} />
+      <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} />
       <button onClick={fetchComments}>조회</button>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsMonthData}>
@@ -137,15 +118,6 @@ import dayjs from 'dayjs';
         </ResponsiveContainer>
   
         <h4 style={{ marginTop: '30px' }}>🗓️ 일별</h4>
-        {/*<label>조회할 월 </label>
-        <select onChange={(e) => setSearchMonth(e.target.value)} value={searchMonth}>
-          {months.map((month) => (
-            <option key={month} value={month}>
-              {month}
-            </option>
-          ))}
-        </select> {" "}
-        <button>조회</button>*/}
         <label>조회 시작일: </label>
       <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} />
       <button onClick={fetchComments}>조회</button>

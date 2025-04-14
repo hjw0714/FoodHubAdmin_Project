@@ -8,9 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,8 +88,10 @@ public List<MonthlyTotalPostCntResponse> getMonthlyTotalPostCnt(String startDate
 }
 
 // 일별 총 게시글 조회
-public List<DailyTotalPostCntResponse> getDailyTotalPostCnt(String startDate) {
-    return statsRepository.getDailyTotalPostCnt(startDate);
+public List<DailyTotalPostCntResponse> getDailyTotalPostCnt(String startDate) throws ParseException {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Date parsedStartDate = dateFormat.parse(startDate); // String → Date 변환
+    return statsRepository.getDailyTotalPostCnt(parsedStartDate);
 }
 
 // 연도, 카테고리별 총 게시글 조회
@@ -100,8 +105,10 @@ public List<MonthlyCategoryPostCntResponse> getMonthlyCategoryPostCnt(Integer  c
 }
 
 // 일, 카테고리별 총 게시글 조회
-public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer categoryId, String startDate) {
-    return  statsRepository.getDailyCategoryPostCnt(categoryId, startDate);
+public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer categoryId, String startDate) throws ParseException {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Date parsedStartDate = dateFormat.parse(startDate); // String → Date 변환
+    return  statsRepository.getDailyCategoryPostCnt(categoryId, parsedStartDate);
 }
 
 
