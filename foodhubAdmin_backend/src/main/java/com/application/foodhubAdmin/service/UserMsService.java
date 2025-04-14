@@ -82,7 +82,7 @@ public class UserMsService {
         String originalFile = null;
         String profileUuid = null;
 
-        if (uploadProfile != null && requestDto.getProfileUuid() != null) {
+        if (uploadProfile != null && !uploadProfile.isEmpty()) {
             new File(fileRepositoryPath + requestDto.getProfileUuid()).delete();
             originalFile = uploadProfile.getOriginalFilename();
             String extension = originalFile.substring(originalFile.lastIndexOf("."));

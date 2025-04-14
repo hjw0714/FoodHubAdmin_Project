@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/css/changePassword.css';
 
@@ -39,8 +39,8 @@ const ChangePasswd = ({ userId, setViewMode }) => {
       } else if (error.response.status === 403) {
         navigate('/error/403');
       } else {
-        setErrorMsg('비밀번호 변경 중 오류가 발생했습니다.');
         console.error(error);
+        navigate('/error/500');
       }
     }
   };
@@ -49,6 +49,7 @@ const ChangePasswd = ({ userId, setViewMode }) => {
     confirm('비밀번호 변경을 취소하시겠습니까?');
     setViewMode('profileView');
   };
+
 
   return (
     <div className="change-password-container">
@@ -79,8 +80,12 @@ const ChangePasswd = ({ userId, setViewMode }) => {
         {errorMsg && <div className="error-message">{errorMsg}</div>}
 
         <div className="button-group">
-          <button type="button" className="submit-button" onClick={handleSubmit}>
-            🔐 저장
+          <button 
+            type="button" 
+            className="submit-button" 
+            onClick={handleSubmit}
+          >
+            💾 저장
           </button>
           <button
             type="button"

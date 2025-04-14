@@ -33,7 +33,6 @@ public class UserMsController {
         return ResponseEntity.ok(userMsService.updateUser(uploadProfile, requestDto));
     }
 
-
     // 비밀번호 변경
     @PutMapping("/changePasswd")
     public ResponseEntity<?> changePasswd(@RequestBody UserChangePasswdRequest requestDto) {
