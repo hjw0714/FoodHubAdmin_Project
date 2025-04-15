@@ -114,7 +114,7 @@ const CategoryPostList = () => {
             <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={postYearData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" interval={0} />
+                    <XAxis dataKey="year" />
                     <YAxis allowDecimals={false} />
                     <Tooltip />
                     <Bar dataKey="postCnt" fill="#8884d8" />

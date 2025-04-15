@@ -39,7 +39,7 @@ import { useState } from 'react';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={visitorData.year}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" interval={0} />
+            <XAxis dataKey="name" />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Bar dataKey="count" fill="#42a5f5" />

@@ -96,7 +96,7 @@ import dayjs from 'dayjs';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsYearData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" interval={0} />
+            <XAxis dataKey="year" />
             <YAxis />
             <Tooltip />
             <Bar dataKey="commentsCnt" fill="#42a5f5" />

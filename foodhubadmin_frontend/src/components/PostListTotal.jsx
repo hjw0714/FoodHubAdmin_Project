@@ -89,7 +89,7 @@ const PostListTotal = () => {
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={postYearData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" interval={0} />
+          <XAxis dataKey="year" />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Bar dataKey="postCnt" fill="#1976d2" />

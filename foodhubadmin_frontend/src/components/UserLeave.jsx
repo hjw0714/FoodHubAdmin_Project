@@ -80,7 +80,7 @@ import {
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userYearData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" interval={0} />
+          <XAxis dataKey="year" />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Line type="monotone" dataKey="userCnt" stroke="#8884d8" />
