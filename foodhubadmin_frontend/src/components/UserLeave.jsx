@@ -89,7 +89,7 @@ import {
 
       <h4 style={{ marginTop: '30px' }}>📆 월별 회원 탈퇴</h4>
       <label>조회 시작일: </label>
-      <input tyepe="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
+      <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
       <button onClick={fetchUser} >조회</button>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userMonthData}>
