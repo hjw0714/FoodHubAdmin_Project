@@ -79,7 +79,7 @@ const UserStatus = () => {
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userYearData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
+          <XAxis dataKey="year" interval={0} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Line type="monotone" dataKey="userCnt" stroke="#8884d8" />
@@ -93,7 +93,7 @@ const UserStatus = () => {
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userMonthData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
+          <XAxis dataKey="month" interval={0} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Line type="monotone" dataKey="userCnt" stroke="#82ca9d" />
@@ -107,7 +107,7 @@ const UserStatus = () => {
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userDayData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
+          <XAxis dataKey="day" interval={0} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Line type="monotone" dataKey="userCnt" stroke="#ffc658" />

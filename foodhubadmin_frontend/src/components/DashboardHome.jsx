@@ -172,7 +172,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={userData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+            <XAxis dataKey="month" interval={0} />
             <YAxis domain={["auto", "auto"]} />
             <Tooltip />
             <Line type="monotone" dataKey="userJoins" stroke="#42a5f5" name="회원 가입" />
@@ -186,7 +186,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name" interval={0} />
             <YAxis />
             <Tooltip />
             <Line type="monotone" dataKey="visitors" stroke="#7e57c2" name="방문자 수" />
@@ -199,7 +199,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={postMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+            <XAxis dataKey="month" interval={0} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="postCnt" fill="#66bb6a" name="게시글 수" />
@@ -212,7 +212,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={commentsMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+            <XAxis dataKey="month" interval={0} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="commentsCnt" fill="#ffb74d" name="댓글 수" />
@@ -225,7 +225,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={reportMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+            <XAxis dataKey="month" interval={0} />
             <YAxis domain={["auto", "auto"]} />
             <Tooltip />
             <Bar dataKey="postReports" fill="#ab47bc" name="게시글 신고" />

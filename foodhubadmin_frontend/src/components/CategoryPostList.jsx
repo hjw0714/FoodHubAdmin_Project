@@ -114,7 +114,7 @@ const CategoryPostList = () => {
             <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={postYearData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" />
+                    <XAxis dataKey="year" interval={0} />
                     <YAxis allowDecimals={false} />
                     <Tooltip />
                     <Bar dataKey="postCnt" fill="#8884d8" />
@@ -128,7 +128,7 @@ const CategoryPostList = () => {
             <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={postMonthData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
+                    <XAxis dataKey="month" interval={0} />
                     <YAxis allowDecimals={false} />
                     <Tooltip />
                     <Bar dataKey="postCnt" fill="#82ca9d" />
@@ -142,7 +142,7 @@ const CategoryPostList = () => {
             <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={postDayData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" interval={2} />
+                    <XAxis dataKey="day" interval={0} />
                     <YAxis allowDecimals={false} />
                     <Tooltip />
                     <Bar dataKey="postCnt" fill="#ffc658" />
