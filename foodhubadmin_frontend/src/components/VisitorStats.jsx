@@ -39,7 +39,7 @@ import { useState } from 'react';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={visitorData.year}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name" interval={0} />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Bar dataKey="count" fill="#42a5f5" />
@@ -53,7 +53,7 @@ import { useState } from 'react';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={visitorData.month}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name" interval={0} />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Bar dataKey="count" fill="#66bb6a" />
@@ -67,7 +67,7 @@ import { useState } from 'react';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={visitorData.day}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" interval={2} />
+            <XAxis dataKey="name" interval={0} />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Bar dataKey="count" fill="#ffa726" />
