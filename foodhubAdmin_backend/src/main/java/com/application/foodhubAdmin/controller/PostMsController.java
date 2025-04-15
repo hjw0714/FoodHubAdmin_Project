@@ -58,4 +58,10 @@ public class PostMsController {
         return ResponseEntity.ok(postMsService.getDailyCategoryPostCnt(categoryId, startDate));
     }
 
+    // 대시보드 게시물
+    @GetMapping("/totalPost")
+    public ResponseEntity<List<MonthlyTotalPostCntResponse>> totalPost()  {
+        return ResponseEntity.ok(postMsService.getTotalPostCnt());
+    }
+
 }

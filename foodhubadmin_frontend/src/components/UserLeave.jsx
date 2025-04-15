@@ -89,12 +89,12 @@ import {
 
       <h4 style={{ marginTop: '30px' }}>📆 월별 회원 탈퇴</h4>
       <label>조회 시작일: </label>
-      <input tyepe="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
+      <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} /> {" "}
       <button onClick={fetchUser} >조회</button>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userMonthData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
+          <XAxis dataKey="month" interval={0} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Line type="monotone" dataKey="userCnt" stroke="#82ca9d" />
@@ -108,7 +108,7 @@ import {
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={userDayData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
+          <XAxis dataKey="day" interval={0} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Line type="monotone" dataKey="userCnt" stroke="#ffc658" />

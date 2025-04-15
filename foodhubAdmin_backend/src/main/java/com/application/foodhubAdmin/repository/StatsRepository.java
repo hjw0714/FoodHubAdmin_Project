@@ -196,6 +196,40 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             ORDER BY s.statDate""")
     List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt(@Param("parsedStartDate") Date parsedStartDate);
 
+    // 대시보드 신규 가입자
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 1
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
+    List<MonthlyNewUserCntResponse> getNewUserCnt();
 
+    // 대시보드 탈퇴 수
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyDeleteUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 2
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
+    List<MonthlyDeleteUserCntResponse> getDeleteUserCnt();
+
+    // 대시보드 게시물
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyTotalPostCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 4
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
+    List<MonthlyTotalPostCntResponse> getTotalPostCnt();
+
+    // 대시보드 댓글
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 13
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
+    List<MonthlyTotalCommentsCntResponse> getTotalCommentsCnt();
 
 }

@@ -75,6 +75,7 @@ public class UserMsController {
         return ResponseEntity.ok(userMsService.getMonthlyNewUserCnt(startDate));
     }
 
+
     // 일별 신규 가입자 수
     @GetMapping("/dailyNewUser")
     public ResponseEntity<List<DailyNewUserCntResponse>> dailyNewUser(@RequestParam("startDate") String startDate) throws ParseException {
@@ -105,11 +106,6 @@ public class UserMsController {
         return ResponseEntity.ok(userMsService.getYearlyDeleteUserCnt());
     }
 
-    // 월별 탈퇴 수
-    @GetMapping("/monthlyDeleteUser")
-    public ResponseEntity<List<MonthlyDeleteUserCntResponse>> monthlyDeleteUser(@RequestParam("startDate") String startDate) {
-        return ResponseEntity.ok(userMsService.getMonthlyDeleteUserCnt(startDate));
-    }
 
     // 일별 탈퇴 수
     @GetMapping("/dailyDeleteUser")
@@ -117,9 +113,22 @@ public class UserMsController {
         return ResponseEntity.ok(userMsService.getDailyDeleteUserCnt(startDate));
     }
 
+    // 월별 탈퇴 수
+    @GetMapping("/monthlyDeleteUser")
+    public ResponseEntity<List<MonthlyDeleteUserCntResponse>> monthlyDeleteUser(@RequestParam("startDate") String startDate) {
+        return ResponseEntity.ok(userMsService.getMonthlyDeleteUserCnt(startDate));
+    }
 
+    // 대시보드 월별 신규 가입자 수
+    @GetMapping("/newUser")
+    public ResponseEntity<List<MonthlyNewUserCntResponse>> newUser() {
+        return ResponseEntity.ok(userMsService.getNewUserCnt());
+    }
 
-
-
+    // 대시보드 탈퇴 수
+    @GetMapping("/deleteUser")
+    public ResponseEntity<List<MonthlyDeleteUserCntResponse>> deleteUser() {
+        return ResponseEntity.ok(userMsService.getDeleteUserCnt());
+    }
 
 }

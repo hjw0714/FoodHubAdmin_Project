@@ -110,7 +110,7 @@ import dayjs from 'dayjs';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+            <XAxis dataKey="month" interval={0} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="commentsCnt" fill="#66bb6a" />
@@ -124,7 +124,7 @@ import dayjs from 'dayjs';
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsDayData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="day" interval={2} />
+            <XAxis dataKey="day" interval={0} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="commentsCnt" fill="#ffa726" />

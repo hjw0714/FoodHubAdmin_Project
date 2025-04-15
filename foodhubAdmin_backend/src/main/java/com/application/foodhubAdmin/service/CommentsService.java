@@ -71,6 +71,10 @@ public class CommentsService {
         return statsRepository.getDailyTotalCommentsCnt(parsedStartDate);
     }
 
+    // 대시보드 댓글
+    public List<MonthlyTotalCommentsCntResponse> getTotalCommentsCnt() {
+        return statsRepository.getTotalCommentsCnt();
+    }
 
 //    // 연도별 새 댓글
 //    public List<YearlyNewCommentsCntResponse> getYearlyNewCommentsCnt() {

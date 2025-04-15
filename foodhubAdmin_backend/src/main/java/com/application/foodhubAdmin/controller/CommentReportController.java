@@ -1,6 +1,7 @@
 package com.application.foodhubAdmin.controller;
 
 import com.application.foodhubAdmin.dto.response.comments.CommentReportResponse;
+import com.application.foodhubAdmin.dto.response.comments.MonthlyCommentReportResponse;
 import com.application.foodhubAdmin.service.CommentReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,12 @@ public class CommentReportController {
     public ResponseEntity<Void> restoreComment(@PathVariable Long commentId) {
         commentReportService.restoreComment(commentId);
         return ResponseEntity.ok().build();
+    }
+
+    // 게시글 신고 통계
+    @GetMapping("/chart")
+    public ResponseEntity<List<MonthlyCommentReportResponse>> getCommentReportCnt() {
+        return ResponseEntity.ok(commentReportService.getCommentReportCnt());
     }
 
 }

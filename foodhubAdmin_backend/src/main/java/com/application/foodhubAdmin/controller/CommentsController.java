@@ -37,4 +37,10 @@ public class CommentsController {
         return ResponseEntity.ok(commentsService.getDailyTotalCommentsCnt(startDate));
     }
 
+    // 대시보드 댓글
+    @GetMapping("/totalComments")
+    public ResponseEntity<List<MonthlyTotalCommentsCntResponse>> totalComments() {
+        return ResponseEntity.ok(commentsService.getTotalCommentsCnt());
+    }
+
 }

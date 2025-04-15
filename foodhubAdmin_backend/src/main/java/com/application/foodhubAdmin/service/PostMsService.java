@@ -123,6 +123,9 @@ public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer catego
     return  statsRepository.getDailyCategoryPostCnt(categoryId, parsedStartDate);
 }
 
-
+// 대시보드 게시물
+public List<MonthlyTotalPostCntResponse> getTotalPostCnt() {
+    return statsRepository.getTotalPostCnt();
+}
 
 }

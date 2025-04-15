@@ -139,14 +139,20 @@ const MemberList = () => {
                 <td>{member.deletedAt === null ? (<span> </span>) : (<>{new Date(member.deletedAt).toLocaleDateString()}</>)}</td>
                 <td>{member.membershipType}</td>
                 <td>
-                  <select
+                  {member.deletedAt !== null || member.membershipType === "관리자" ? (
+                    <span>변경 불가</span>
+                  ) : (
+                    <>
+                    <select
                     value={member.membershipType}
                     onChange={(e) => handleMembershipChange(member.id, e.target.value)}
                   >
                     <option value="일반 회원">일반 회원</option>
                     <option value="사업자 회원">사업자 회원</option>
-                  </select>{" "}
+                  </select>
                   <button onClick={() => handleUpdate(member.id, member.membershipType)}>변경</button>
+                  </>
+                  )}
                 </td>
                 <td>
                   {member.deletedAt !== null ? (<span>탈퇴 회원</span>) : (

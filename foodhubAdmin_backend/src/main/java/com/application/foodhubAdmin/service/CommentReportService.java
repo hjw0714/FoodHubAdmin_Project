@@ -1,8 +1,11 @@
 package com.application.foodhubAdmin.service;
 
-import com.application.foodhubAdmin.domain.*;
+import com.application.foodhubAdmin.domain.CommentReport;
+import com.application.foodhubAdmin.domain.CommentReportStatus;
+import com.application.foodhubAdmin.domain.CommentStatus;
+import com.application.foodhubAdmin.domain.Comments;
 import com.application.foodhubAdmin.dto.response.comments.CommentReportResponse;
-import com.application.foodhubAdmin.dto.response.post.PostReportResponse;
+import com.application.foodhubAdmin.dto.response.comments.MonthlyCommentReportResponse;
 import com.application.foodhubAdmin.repository.CommentReportRepository;
 import com.application.foodhubAdmin.repository.CommentsRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +48,8 @@ public class CommentReportService {
         comments.changeStatus(CommentStatus.VISIBLE);
     }
 
+    public List<MonthlyCommentReportResponse> getCommentReportCnt() {
+        return commentReportRepository.getCommentReportCnt();
+    }
 
 }
