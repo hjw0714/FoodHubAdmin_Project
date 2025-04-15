@@ -11,7 +11,6 @@ public class BannerRequest {
     private Long id;
     private String title;
     private String description;
-    private String link;
     private String bannerOriginalName;
     private String bannerUuid;
 
@@ -20,7 +19,6 @@ public class BannerRequest {
                 .id(this.id)
                 .title(this.title)
                 .description(this.description)
-                .link(this.link)
                 .bannerOriginalName(this.bannerOriginalName)
                 .bannerUuid(this.bannerUuid)
                 .build();

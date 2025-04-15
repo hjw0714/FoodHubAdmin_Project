@@ -1,5 +1,6 @@
 package com.application.foodhubAdmin.service;
 
+import com.application.foodhubAdmin.domain.Banner;
 import com.application.foodhubAdmin.dto.request.BannerRequest;
 import com.application.foodhubAdmin.dto.response.banner.BannerResponse;
 import com.application.foodhubAdmin.repository.BannerRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,17 +34,34 @@ public class BannerService {
     @Transactional
     public void saveBanner(BannerRequest requestDto, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
-            String originalFileName = requestDto.getBannerOriginalName();
+            // 1. 원본 파일명 추출
+            String originalFileName = imageFile.getOriginalFilename(); // ← 이게 정확함
             requestDto.setBannerOriginalName(originalFileName);
 
+            // 2. 확장자 추출
             String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
+            // 3. UUID로 새 파일 이름 생성
             String uploadFile = UUID.randomUUID() + extension;
             requestDto.setBannerUuid(uploadFile);
 
+            // 4. 파일 저장
             imageFile.transferTo(new File(fileRepositoryPath + uploadFile));
         }
-        bannerRepository.save(requestDto.toEntity());
+
+        // 5. Entity 생성 및 시간 세팅
+        Banner banner = requestDto.toEntity();
+        banner.setCreatedAt(LocalDateTime.now());
+        banner.setUpdatedAt(LocalDateTime.now());
+
+        // 6. 저장
+        bannerRepository.save(banner);
+    }
+
+
+    @Transactional
+    public void delete(Long id) {
+        bannerRepository.deleteById(id);
     }
 
 
