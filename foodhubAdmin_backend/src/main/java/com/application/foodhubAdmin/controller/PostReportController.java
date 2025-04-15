@@ -1,5 +1,6 @@
 package com.application.foodhubAdmin.controller;
 
+import com.application.foodhubAdmin.dto.response.post.MonthlyPostReportResponse;
 import com.application.foodhubAdmin.dto.response.post.PostReportResponse;
 import com.application.foodhubAdmin.service.PostReportService;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +40,11 @@ public class PostReportController {
         postReportService.restorePost(postId);
         return ResponseEntity.ok().build();
     }
+
+    // 게시글 신고 통계
+    @GetMapping("/chart")
+    public ResponseEntity<List<MonthlyPostReportResponse>> getPostReportCnt() {
+        return ResponseEntity.ok(postReportService.getPostReportCnt());
+    }
+
 }

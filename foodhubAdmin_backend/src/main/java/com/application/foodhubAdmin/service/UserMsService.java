@@ -281,6 +281,15 @@ public class UserMsService {
         return statsRepository.getDailyDeleteUserCnt(parsedStartDate);
     }
 
+    // 대시보드 신규 가입자
+    public List<MonthlyNewUserCntResponse> getNewUserCnt() {
+        return statsRepository.getNewUserCnt();
+    }
+
+    // 대시보드 탈퇴 수
+    public List<MonthlyDeleteUserCntResponse> getDeleteUserCnt() {
+        return statsRepository.getDeleteUserCnt();
+    }
 
 }
 

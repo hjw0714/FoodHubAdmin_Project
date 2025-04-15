@@ -4,6 +4,7 @@ import com.application.foodhubAdmin.domain.Post;
 import com.application.foodhubAdmin.domain.PostReport;
 import com.application.foodhubAdmin.domain.PostReportStatus;
 import com.application.foodhubAdmin.domain.PostStatus;
+import com.application.foodhubAdmin.dto.response.post.MonthlyPostReportResponse;
 import com.application.foodhubAdmin.dto.response.post.PostReportResponse;
 import com.application.foodhubAdmin.repository.PostMsRepository;
 import com.application.foodhubAdmin.repository.PostReportRepository;
@@ -45,6 +46,10 @@ public class PostReportService {
     public void restorePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("PostNot Found"));
         post.changeStatus(PostStatus.ACTIVE);
+    }
+
+    public List<MonthlyPostReportResponse> getPostReportCnt() {
+        return postReportRepository.getPostReportCnt();
     }
 
 }
