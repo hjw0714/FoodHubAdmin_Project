@@ -58,10 +58,34 @@ public class BannerService {
         bannerRepository.save(banner);
     }
 
-
     @Transactional
     public void delete(Long id) {
         bannerRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateBanner(Long id, BannerRequest requestDto, MultipartFile imageFile) throws IOException {
+        Banner banner = bannerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 배너를 찾을 수 없습니다. id: " + id));
+        String originalFileName = null;
+        String uploadFile= null;
+
+        // 이미지가 새로 추가된 경우
+        if (imageFile != null && !imageFile.isEmpty()) {
+            new File(fileRepositoryPath + requestDto.getBannerUuid()).delete();
+
+            originalFileName = imageFile.getOriginalFilename();
+            requestDto.setBannerOriginalName(originalFileName);
+
+            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+            uploadFile = UUID.randomUUID() + extension;
+            requestDto.setBannerUuid(uploadFile);
+
+            imageFile.transferTo(new File(fileRepositoryPath + uploadFile));
+
+        }
+        banner.updateBanner(requestDto.getTitle(), requestDto.getDescription(), originalFileName , uploadFile);
+        bannerRepository.save(banner);
     }
 
 

@@ -34,4 +34,10 @@ public class BannerController {
         bannerService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Void> updateBanner(@PathVariable Long id , @RequestPart("requestDto") BannerRequest requestDto ,  @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
+        bannerService.updateBanner(id, requestDto, imageFile);
+        return ResponseEntity.ok().build();
+    }
 }

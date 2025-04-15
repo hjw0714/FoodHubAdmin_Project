@@ -173,3 +173,41 @@ input[type="text"] {
   background-color: #cde4f9;
   color: #0d6efd;
 }
+
+.external-link {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.external-link:hover {
+  color: #ff914d;
+}
+
+.external-link-content {
+  display: flex;
+  align-items: center;
+}
+
+.external-link .icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.external-link .text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.external-link .subtext {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+}

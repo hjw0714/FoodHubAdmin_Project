@@ -4,9 +4,9 @@ import '../assets/css/adminDashboard.css';
 
 const AdminDashboard = () => {
 
-  const [userStatsOpen , setUserStatsOpen] = useState(false);
-  const [postStatsOpen , setPostStatsOpen] = useState(false);
-  const [reportListOpen , setReportListOpen] = useState(false);
+  const [userStatsOpen, setUserStatsOpen] = useState(false);
+  const [postStatsOpen, setPostStatsOpen] = useState(false);
+  const [reportListOpen, setReportListOpen] = useState(false);
 
   return (
     <div className="admin-wrapper">
@@ -66,6 +66,19 @@ const AdminDashboard = () => {
             <Link to="/admin/dashboard/visitorStats">👣 방문자 통계</Link>
             <Link to="/admin/dashboard/bannerManager">🖼️ 배너 수정</Link>
             <Link to="/admin/dashboard/adminChat">💬 관리자 채팅</Link>
+            <Link
+              to="http://localhost/foodhub"
+              target="_blank"
+              className="external-link"
+            >
+              <div className="external-link-content">
+                <span className="icon">🏠</span>
+                <div className="text">
+                  <div>FOOD HUB</div>
+                  <div className="subtext">메인으로 이동</div>
+                </div>
+              </div>
+            </Link>
           </nav>
         </aside>
 
