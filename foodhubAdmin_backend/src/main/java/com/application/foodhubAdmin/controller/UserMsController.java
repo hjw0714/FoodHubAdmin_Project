@@ -37,6 +37,8 @@ public class UserMsController {
     // 비밀번호 변경
     @PutMapping("/changePasswd")
     public ResponseEntity<?> changePasswd(@RequestBody UserChangePasswdRequest requestDto) {
+        System.out.println("id: " + requestDto.getUserId());
+        System.out.println("passwd: " + requestDto.getPasswd());
         userMsService.changePasswd(requestDto);
         return ResponseEntity.ok().build();
     }

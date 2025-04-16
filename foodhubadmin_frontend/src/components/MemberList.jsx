@@ -71,7 +71,7 @@ const MemberList = () => {
 
   // 탈퇴
   const handleSignOut = async (id) => {
-    const deleteMem = window.confirm("정말 탈퇴시키시겠습니까?");
+    const deleteMem = window.confirm(id + "님 정말 탈퇴시키시겠습니까?");
     if (deleteMem) {
       try {
         await axios.delete(`${import.meta.env.VITE_API_URL}/admin/user/memberList/delete/${id}`,
@@ -102,6 +102,42 @@ const MemberList = () => {
 
   };
 
+  // Change Password
+  const [isOpen, setIsOpen] = useState(false);
+  const [passwd, setPasswd] = useState("");
+  const [confirmPasswd, setConfirmPasswd] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async(id) => {
+    if(!passwd || !confirmPasswd) {
+      setErrorMsg("작성란 모두 입력하세요.");
+      return;
+    }
+    if(passwd !== confirmPasswd) {
+      setErrorMsg("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if(passwd.length < 4) {
+      setErrorMsg("비밀번호는 4글자 이상이어야 합니다.");
+      return;
+    }
+    
+    try {
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/user/changePasswd`, { userId: id, passwd }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      alert("비밀번호 변경 완료");
+      setIsOpen(false);
+      window.location.reload();
+
+    } catch(error) {
+      console.log(error);
+      alert("변경 실패");
+
+    }
+
+  };
+
   return (
     <div className="dashboard-section">
       <h3>👥 회원 리스트</h3>
@@ -124,7 +160,8 @@ const MemberList = () => {
             <th>가입일</th>
             <th>탈퇴일</th>
             <th>멤버십</th>
-            <th>변경</th>
+            <th>멤버십 변경</th>
+            <th>비밀번호 변경</th>
             <th>탈퇴</th>
           </tr>
         </thead>
@@ -155,8 +192,36 @@ const MemberList = () => {
                   )}
                 </td>
                 <td>
+                  {member.deletedAt !== null ? (<span>변경 불가</span>) : (
+                    <>
+                    <button onClick={() => setIsOpen(true)}>변경</button>
+                    {isOpen && (
+                      <div style={{
+                        position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+                        background: "white", padding: "20px", borderRadius: "10px"
+                    }}>
+                        <h3>{member.id} 비밀번호 변경</h3>
+                        비밀번호: <input 
+                            type="password" 
+                            value={passwd} 
+                            onChange={(e) => setPasswd(e.target.value)}
+                            placeholder="새 비밀번호 입력"
+                        /> <br/>
+                        비밀번호 재입력: <input type='password' value={confirmPasswd} onChange={(e) => setConfirmPasswd(e.target.value)} placeholder='비밀번호 다시 입력' /> <br/><br/>
+                        {errorMsg && <div className="error-message">{errorMsg}</div>}
+                        <button onClick={() => handleSubmit(member.id)}>✅ 변경</button> {" "}
+                        <button onClick={() => setIsOpen(false)}>❌ 닫기</button>
+                    </div>
+                    )}
+                    </>
+                  )}
+                </td>
+                <td>
                   {member.deletedAt !== null ? (<span>탈퇴 회원</span>) : (
+                    <>
                     <button onClick={() => handleSignOut(member.id)}>탈퇴</button>
+
+                    </>
                   )}
                 </td>
               </tr>
