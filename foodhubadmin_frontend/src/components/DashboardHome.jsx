@@ -7,14 +7,6 @@ import {
 import '../assets/css/adminDashboard.css';
 import { useNavigate } from 'react-router-dom';
 
-const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-
-const data = months.map((month, i) => ({
-  name: month,
-  visitors: [988, 1183, 828, 928, 856, 1022, 1130, 1195, 1230, 1301, 1255, 1344][i]
-}));
-
-
 const DashboardHome = () => {
 
   const navigate = useNavigate();
@@ -22,7 +14,7 @@ const DashboardHome = () => {
   const [postMonthData, setPostMonthData] = useState([]);
   const [commentsMonthData, setCommentsMonthData] = useState([]);
   const [reportMonthData, setReportMonthData] = useState([]);
-  
+  const [visitorMonthData, setVisitorMonthData] = useState([]);
 
   const fetchHome = async() => {
 
@@ -68,6 +60,19 @@ const DashboardHome = () => {
         setUserData(mergedData);
 
         // 방문자 수
+        const visitorLog = await axios.get(`${import.meta.env.VITE_API_URL}/admin/visitor/chart`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        const formattedVisitorLog = visitorLog.data.map(item => {
+          const [year, month] = item.month.split("-");
+          return {
+            ...item,
+            rawDate: `${year}-${month.padStart(2, "0")}`,
+            month: `${year}년 ${month.padStart(2, '0')}월`
+          };
+        })
+        .sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
+        setVisitorMonthData(formattedVisitorLog.slice(0, 12));
 
         // 게시글
         const postList = await axios.get(`${import.meta.env.VITE_API_URL}/admin/posts/totalPost`, {
@@ -172,7 +177,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={userData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" interval={0} />
+            <XAxis dataKey="month" interval={2} />
             <YAxis domain={["auto", "auto"]} />
             <Tooltip />
             <Line type="monotone" dataKey="userJoins" stroke="#42a5f5" name="회원 가입" />
@@ -184,12 +189,12 @@ const DashboardHome = () => {
       <div className="dashboard-section">
         <h3>👣 방문자 수 통계</h3>
         <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={data}>
+          <LineChart data={visitorMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" interval={0} />
+            <XAxis dataKey="month" interval={2} />
             <YAxis />
             <Tooltip />
-            <Line type="monotone" dataKey="visitors" stroke="#7e57c2" name="방문자 수" />
+            <Line type="monotone" dataKey="visitorCnt" stroke="#7e57c2" name="방문자 수" />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -199,7 +204,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={postMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" interval={0} />
+            <XAxis dataKey="month" interval={2} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="postCnt" fill="#66bb6a" name="게시글 수" />
@@ -212,7 +217,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={commentsMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" interval={0} />
+            <XAxis dataKey="month" interval={2} />
             <YAxis />
             <Tooltip />
             <Bar dataKey="commentsCnt" fill="#ffb74d" name="댓글 수" />
@@ -225,7 +230,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={reportMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" interval={0} />
+            <XAxis dataKey="month" interval={2} />
             <YAxis domain={["auto", "auto"]} />
             <Tooltip />
             <Bar dataKey="postReports" fill="#ab47bc" name="게시글 신고" />

@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -76,6 +77,9 @@ public class User {
 
     @Column(name = "STATUS")
     private String status;
+
+    @OneToMany(mappedBy = "user")
+    private List<VisitorLog> visitorLogs;
 
     // 유저 리스트에서 멤버십 변경
     public void updateMemberShipType(String mem) {
