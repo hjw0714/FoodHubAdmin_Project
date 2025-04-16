@@ -93,7 +93,7 @@ import {
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={userMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" interval={0} />
+            <XAxis dataKey="month" interval={2} />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Line type="monotone" dataKey="userCnt" stroke="#82ca9d" />
@@ -107,7 +107,7 @@ import {
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={userDayData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="day" interval={0} />
+            <XAxis dataKey="day" interval={2} />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Line type="monotone" dataKey="userCnt" stroke="#ffc658" />

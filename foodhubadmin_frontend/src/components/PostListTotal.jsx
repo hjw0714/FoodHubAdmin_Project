@@ -103,7 +103,7 @@ const PostListTotal = () => {
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={postMonthData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" interval={0} />
+          <XAxis dataKey="month" interval={2} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Bar dataKey="postCnt" fill="#43a047" />
@@ -117,7 +117,7 @@ const PostListTotal = () => {
       <ResponsiveContainer width="100%" height={250}>
         <BarChart data={postDayData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" fontSize={10} interval={0} />
+          <XAxis dataKey="day" fontSize={10} interval={4} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Bar dataKey="postCnt" fill="#ffb300" />
