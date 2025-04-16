@@ -39,7 +39,8 @@ const BannerManager = () => {
     const dto = {
       title: banner.title,
       description: banner.description,
-      bannerOriginalName: banner.file.name
+      bannerOriginalName: banner.file.name,
+      link: banner.link
     };
 
     formData.append("requestDto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
@@ -84,7 +85,8 @@ const BannerManager = () => {
     const dto = {
       title: banner.title,
       description: banner.description,
-      bannerOriginalName: banner.file?.name || banner.bannerOriginalName
+      bannerOriginalName: banner.file?.name || banner.bannerOriginalName,
+      link: banner.link
     }
 
     formData.append("requestDto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
@@ -130,6 +132,7 @@ const BannerManager = () => {
       id: newId,
       title: '',
       description: '',
+      link: '',
       imageUrl: '',
       file: null
     }]);
@@ -182,6 +185,13 @@ const BannerManager = () => {
               disabled={editingBannerId !== banner.id}
               onChange={(e) => handleChange(banner.id, 'description', e.target.value)}
               placeholder="설명"
+            />
+            <input
+              type="text"
+              value={banner.link || ''}
+              disabled={editingBannerId !== banner.id}
+              onChange={(e) => handleChange(banner.id, 'link', e.target.value)}
+              placeholder="링크 URL (예: https://example.com)"
             />
             <div className="button-group">
               {banner.id && banner.id.toString().length < 13 ? (

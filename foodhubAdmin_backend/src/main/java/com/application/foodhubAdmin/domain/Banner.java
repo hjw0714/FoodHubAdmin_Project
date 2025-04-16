@@ -25,6 +25,9 @@ public class Banner {
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
+    @Column(name = "LINK", nullable = false)
+    private String link;
+
     @Column(name = "BANNER_ORIGINAL_NAME", nullable = false)
     private String bannerOriginalName;
 
@@ -37,11 +40,12 @@ public class Banner {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    public void updateBanner(String title, String description, String bannerOriginalName, String bannerUuid) {
+    public void updateBanner(String title, String description, String bannerOriginalName, String bannerUuid, String link) {
         if (bannerOriginalName != null) this.bannerOriginalName = bannerOriginalName;
         if (bannerUuid != null) this.bannerUuid = bannerUuid;
         this.title = title;
         this.description = description;
+        this.link = link;
         this.updatedAt = LocalDateTime.now();
     }
 
