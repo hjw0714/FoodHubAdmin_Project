@@ -1,44 +1,97 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
 import '../assets/css/adminChat.css';
 
-const dummyUsers = ['user1', 'user2', 'user3'];
-const dummyMessages = [
-  { from: 'user1', text: '안녕하세요!' },
-  { from: 'admin', text: '안녕하세요. 무엇을 도와드릴까요?' },
-  { from: 'user1', text: '문의가 있어서요.' },
-];
-
 const AdminChat = () => {
-  const [selectedUser, setSelectedUser] = useState('user1');
-  const [messages, setMessages] = useState(dummyMessages);
+  const [userList, setUserList] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [roomId, setRoomId] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const stompClientRef = useRef(null);
+
+  // 로그인된 관리자의 userId와 nickname을 세션에서 가져옴
+  const adminId = sessionStorage.getItem('userId');
+  const adminNickname = sessionStorage.getItem('nickname');
+
+  useEffect(() => {
+    fetch('/foodhub/chat/private/list', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => setUserList(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  const handleUserClick = (user) => {
+    setSelectedUser(user.otherUserNickname);
+    setRoomId(user.roomId);
+
+    fetch(`/foodhub/chat/private/messages/${user.roomId}`)
+      .then(res => res.json())
+      .then(data => {
+        setMessages(data.map(m => ({
+          from: m.senderId === adminId ? 'admin' : 'you',
+          text: m.chatContent,
+        })));
+      });
+
+    connectToPrivateRoom(user.roomId);
+  };
+
+  const connectToPrivateRoom = (roomId) => {
+    const socket = new SockJS('/ws');
+    const client = new Client({
+      webSocketFactory: () => socket,
+      onConnect: () => {
+        client.subscribe(`/topic/private.${roomId}`, (payload) => {
+          const message = JSON.parse(payload.body);
+          setMessages(prev => [...prev, {
+            from: message.sender === adminId ? 'admin' : 'you',
+            text: message.content
+          }]);
+        });
+      },
+    });
+    client.activate();
+    stompClientRef.current = client;
+  };
 
   const sendMessage = () => {
-    if (input.trim()) {
-      setMessages([...messages, { from: 'admin', text: input }]);
-      setInput('');
-    }
+    if (!input.trim() || !stompClientRef.current) return;
+
+    const message = {
+      sender: adminId,
+      senderNickname: adminNickname,
+      content: input,
+      type: 'CHAT'
+    };
+
+    stompClientRef.current.publish({
+      destination: `/app/chat.private.${roomId}`,
+      body: JSON.stringify(message)
+    });
+
+    setMessages([...messages, { from: 'admin', text: input }]);
+    setInput('');
   };
 
   return (
     <div className="chat-container">
-      {/* 좌측: 유저 목록 */}
       <aside className="chat-users">
         <h4>👥 사용자 목록</h4>
         <ul>
-          {dummyUsers.map((user) => (
+          {userList.map((user) => (
             <li
-              key={user}
-              className={user === selectedUser ? 'active' : ''}
-              onClick={() => setSelectedUser(user)}
+              key={user.roomId}
+              className={user.otherUserNickname === selectedUser ? 'active' : ''}
+              onClick={() => handleUserClick(user)}
             >
-              {user}
+              {user.otherUserNickname}
             </li>
           ))}
         </ul>
       </aside>
 
-      {/* 우측: 채팅 내용 */}
       <section className="chat-main">
         <header className="chat-header">
           <h4>{selectedUser} 님과의 채팅</h4>
@@ -50,7 +103,7 @@ const AdminChat = () => {
               key={i}
               className={`chat-message ${msg.from === 'admin' ? 'me' : 'you'}`}
             >
-              <div className="sender">{msg.from === 'admin' ? '관리자' : msg.from}</div>
+              <div className="sender">{msg.from === 'admin' ? '관리자' : selectedUser}</div>
               <div className="text">{msg.text}</div>
             </div>
           ))}
