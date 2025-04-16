@@ -13,6 +13,7 @@ public class BannerResponse {
     private Long id;
     private String title;
     private String description;
+    private String link;
     private String bannerOriginalName;
     private String bannerUuid;
     private LocalDateTime createdAt;
@@ -23,6 +24,7 @@ public class BannerResponse {
                 .id(banner.getId())
                 .title(banner.getTitle())
                 .description(banner.getDescription())
+                .link(banner.getLink())
                 .bannerOriginalName(banner.getBannerOriginalName())
                 .bannerUuid(banner.getBannerUuid())
                 .createdAt(banner.getCreatedAt())

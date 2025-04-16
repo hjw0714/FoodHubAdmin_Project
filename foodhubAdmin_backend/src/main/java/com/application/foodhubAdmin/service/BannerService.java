@@ -84,7 +84,7 @@ public class BannerService {
             imageFile.transferTo(new File(fileRepositoryPath + uploadFile));
 
         }
-        banner.updateBanner(requestDto.getTitle(), requestDto.getDescription(), originalFileName , uploadFile);
+        banner.updateBanner(requestDto.getTitle(), requestDto.getDescription(), originalFileName , uploadFile , requestDto.getLink());
         bannerRepository.save(banner);
     }
 
