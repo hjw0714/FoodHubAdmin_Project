@@ -14,6 +14,7 @@ public class StatsSchedulerService {
     private final UserMsService userMsService;
     private final PostMsService postMsService;
     private final CommentsService commentsService;
+    private final VisitorLogMsService visitorLogMsService;
 
 //    @Scheduled(cron = "0 0 0 * * *")
 //    @Transactional
@@ -38,6 +39,7 @@ public class StatsSchedulerService {
             postMsService.insertPostStatsTotal(yesterday); // 게시글 총 작성수
             postMsService.insertPostCategoryStatsTotal(yesterday); // 게시글 카테고리별 총 작성수
             commentsService.insertCommentsStatsTotal(yesterday); // 댓글 총 작성수
+            visitorLogMsService.insertVisitorLogTotal(yesterday);
 
         }
     }

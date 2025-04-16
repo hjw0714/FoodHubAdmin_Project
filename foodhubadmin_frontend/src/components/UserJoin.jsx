@@ -75,7 +75,7 @@ import {
         <h3>👤 신규회원 통계</h3>
         <p>년도별, 월별, 일별 회원 수 변화를 한 눈에 확인할 수 있습니다.</p>
   
-        <h4 style={{ marginTop: '30px' }}>📅 년도별 회원 가입</h4>
+        <h4 style={{ marginTop: '30px' }}>📅 연도별 회원 가입</h4>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={userYearData}>
             <CartesianGrid strokeDasharray="3 3" />

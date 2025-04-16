@@ -6,6 +6,9 @@ import com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCn
 import com.application.foodhubAdmin.dto.response.comments.YearlyTotalCommentsCntResponse;
 import com.application.foodhubAdmin.dto.response.post.*;
 import com.application.foodhubAdmin.dto.response.user.*;
+import com.application.foodhubAdmin.dto.response.visitorLog.DailyVisitorLogResponse;
+import com.application.foodhubAdmin.dto.response.visitorLog.MonthlyVisitorLogResponse;
+import com.application.foodhubAdmin.dto.response.visitorLog.YearlyVisitorLogResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -196,6 +199,38 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             ORDER BY s.statDate""")
     List<DailyTotalCommentsCntResponse> getDailyTotalCommentsCnt(@Param("parsedStartDate") Date parsedStartDate);
 
+    // 연도별 방문자수
+    @Query("""
+            SELECT new com.application.foodhubAdmin.dto.response.visitorLog.YearlyVisitorLogResponse(YEAR(s.statDate), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 14
+            GROUP BY YEAR(s.statDate)
+            ORDER BY YEAR(s.statDate)
+            """)
+    List<YearlyVisitorLogResponse> getYearlyVisitorLog();
+
+    // 월별 방문자 수
+    @Query("""
+           SELECT new com.application.foodhubAdmin.dto.response.visitorLog.MonthlyVisitorLogResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 14
+            AND CONCAT(FUNCTION('YEAR', s.statDate), '-', FUNCTION('MONTH', s.statDate)) >= :startDate
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+           """)
+    List<MonthlyVisitorLogResponse> getMonthlyVisitorLog(@Param("startDate") String startDate);
+
+    // 일별 방문자 수
+    @Query("""
+           SELECT new com.application.foodhubAdmin.dto.response.visitorLog.DailyVisitorLogResponse(
+                  FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
+            FROM Stats s
+            WHERE s.categoryId = 14
+            AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
+            ORDER BY s.statDate
+           """)
+    List<DailyVisitorLogResponse> getDailyVisitorLog(@Param("parsedStartDate") Date parsedStartDate);
+
     // 대시보드 신규 가입자
     @Query("""
             SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyNewUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
@@ -231,5 +266,15 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
             ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')""")
     List<MonthlyTotalCommentsCntResponse> getTotalCommentsCnt();
+
+    // 대시보드 방문자 수
+    @Query("""
+           SELECT new com.application.foodhubAdmin.dto.response.visitorLog.MonthlyVisitorLogResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 14
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+           """)
+    List<MonthlyVisitorLogResponse> getVisitorLog();
 
 }

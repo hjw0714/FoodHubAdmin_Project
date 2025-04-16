@@ -92,7 +92,7 @@ import dayjs from 'dayjs';
         <h3>💬 댓글 작성 수 통계</h3>
         <p>댓글 작성량을 연도별, 월별, 일별로 확인할 수 있습니다.</p>
   
-        <h4>📅 연도별</h4>
+        <h4>📅 연도별 댓글 수</h4>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={commentsYearData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -103,7 +103,7 @@ import dayjs from 'dayjs';
           </BarChart>
         </ResponsiveContainer>
   
-        <h4 style={{ marginTop: '30px' }}>📆 월별</h4>
+        <h4 style={{ marginTop: '30px' }}>📆 월별 댓글 수</h4>
       <label>조회 시작일: </label>
       <input type="month" value={monthStartDate} onChange={(e) => setMonthStartDate(e.target.value)} />
       <button onClick={fetchComments}>조회</button>
@@ -117,7 +117,7 @@ import dayjs from 'dayjs';
           </BarChart>
         </ResponsiveContainer>
   
-        <h4 style={{ marginTop: '30px' }}>🗓️ 일별</h4>
+        <h4 style={{ marginTop: '30px' }}>🗓️ 일별 댓글 수</h4>
         <label>조회 시작일: </label>
       <input type="date" value={dayStartDate} onChange={(e) => setDayStartDate(e.target.value)} />
       <button onClick={fetchComments}>조회</button>

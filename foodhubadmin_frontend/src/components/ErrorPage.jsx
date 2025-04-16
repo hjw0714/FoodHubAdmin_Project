@@ -5,7 +5,8 @@ const ErrorPage = ({ code, message, emoji }) => {
    const navigate = useNavigate();
 
    const handleBack = () => navigate(-1);
-   const handleHome = () => navigate('/');
+   const handleHome = () => navigate('/admin/dashboard');
+   const handleLogin = () => navigate("/");
 
    return (
       <div className="error-container">
@@ -13,8 +14,14 @@ const ErrorPage = ({ code, message, emoji }) => {
          <h1 className="error-code">{code}</h1>
          <p className="error-message">{message}</p>
          <div className="error-actions">
-            <button onClick={handleBack}>🔙 뒤로가기</button>
-            <button onClick={handleHome}>🏠 홈으로</button>
+            {code === "401" || code === "403" ? (
+               <button onClick={handleLogin}>🔒 로그인</button>
+            ) : (
+               <>
+                  <button onClick={handleBack}>🔙 뒤로가기</button>
+                  <button onClick={handleHome}>🏠 홈으로</button>
+               </>
+            )}
          </div>
       </div>
    );
