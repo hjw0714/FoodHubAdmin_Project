@@ -2,6 +2,7 @@ package com.application.foodhubAdmin.repository;
 
 import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.dto.response.comments.DailyTotalCommentsCntResponse;
+import com.application.foodhubAdmin.dto.response.comments.MonthlyCommentReportResponse;
 import com.application.foodhubAdmin.dto.response.comments.MonthlyTotalCommentsCntResponse;
 import com.application.foodhubAdmin.dto.response.comments.YearlyTotalCommentsCntResponse;
 import com.application.foodhubAdmin.dto.response.post.*;
@@ -276,5 +277,25 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
            """)
     List<MonthlyVisitorLogResponse> getVisitorLog();
+
+    // 대시보드 게시글 신고 수
+    @Query("""
+           SELECT new com.application.foodhubAdmin.dto.response.post.MonthlyPostReportResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 15
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+           """)
+    List<MonthlyPostReportResponse> getPostReportCnt();
+
+    // 대시보드 댓글 신고 수
+    @Query("""
+           SELECT new com.application.foodhubAdmin.dto.response.comments.MonthlyCommentReportResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
+            FROM Stats s
+            WHERE s.categoryId = 16
+            GROUP BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+            ORDER BY FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m')
+           """)
+    List<MonthlyCommentReportResponse> getCommentReportCnt();
 
 }
