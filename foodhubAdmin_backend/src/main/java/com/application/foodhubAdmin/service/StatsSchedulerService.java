@@ -29,7 +29,7 @@ public class StatsSchedulerService {
 //            postMsService.insertPostCategoryStatsTotal(yesterday); // 게시글 카테고리별 총 작성수
 //    }
 
-    @Scheduled(cron = "0 6 13 * * *")
+    @Scheduled(cron = "0 50 9 * * *")
     @Transactional
     public void runStats() {
         LocalDate today = LocalDate.now();
