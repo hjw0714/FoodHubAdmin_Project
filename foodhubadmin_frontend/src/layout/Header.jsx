@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
 import '../assets/css/header.css';
 import { AuthContext } from '../App';
-import { Link, replace, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
@@ -24,11 +24,11 @@ const Header = () => {
   }, []);
 
   // 로그아웃
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setMembershipType(null);
+    alert("로그아웃 되었습니다.");
     navigate("/", { replace: true });
   };
 
@@ -43,12 +43,11 @@ const Header = () => {
           <div className="header-right" ref={dropdownRef}>
             <div className="profile-toggle" onClick={() => setDropdownOpen(!dropdownOpen)}>
               <img src={defaultProfile} alt="profile" />
-              <span>관리자 ▾</span>
+              <span>관리자 {dropdownOpen ? '▴' : '▾'}</span>
             </div>
             {dropdownOpen && (
               <div className="profile-dropdown">
                 <a href="/admin/profile-view">⚙ 프로필 설정</a>
-                <a href="/logs">📋 활동 로그</a>
                 <a><span onClick={handleLogout}>🚪 로그아웃</span></a>
               </div>
             )}

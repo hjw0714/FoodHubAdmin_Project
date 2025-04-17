@@ -1,19 +1,17 @@
-/* 전체 컨테이너 스타일 */
+/* 에러 카드 박스 */
 .error-container {
   text-align: center;
-  padding: 2rem 1rem;
-  min-height: auto;
-  height: auto;
-  max-width: 500px;
-  margin: 10rem auto;
-  /* 상단과 하단 여백을 4rem으로 늘려서 더 띄움 */
+  width: 100%;
+  max-width: 400px; /* 📌 고정 너비 제한 */
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 이모지 스타일 */
@@ -118,4 +116,13 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* 추가된 wrapper - 화면 중앙 정렬 */
+.error-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
 }

@@ -1,14 +1,14 @@
 .edit-profile-container {
-  max-width: 400px; /* 폼 너비 */
+  max-width: 720px;
   margin: 0 auto;
-  padding: 80px 20px 20px; /* 헤더 높이 고려 */
+  padding: 60px 24px 24px;
 }
 
 .edit-profile-section {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px 60px 60px 60px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
