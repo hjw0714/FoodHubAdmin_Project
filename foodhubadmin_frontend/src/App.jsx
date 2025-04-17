@@ -32,27 +32,15 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [membershipType, setMembershipType] = useState(null);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tokenFromUrl = params.get('token');
-
-    if (tokenFromUrl) {
-      localStorage.setItem('token', tokenFromUrl);
-      params.delete('token'); // token 파라미터 제거
-
-      const cleanUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
-      window.history.replaceState({}, '', cleanUrl); // 브라우저 주소 바꿈 (새로고침 없이)
-
-      // 💡 여기서 강제 새로고침하면 모든 컴포넌트가 token 저장 이후에 실행됨
-      window.location.reload();
-    }
-
+  useEffect(() => { // 컴포넌트가 마운트될 때 로컬 스토리지에서 토큰을 가져와 로그인 상태를 설정 
     const token = localStorage.getItem('token');
     if (token && !isTokenExpired(token)) {
       setIsLoggedIn(true);
-      setMembershipType(getMembershipTypeFromToken(token));
-    } else {
-      localStorage.removeItem('token');
+      const extractedMembershipType = getMembershipTypeFromToken(token);
+      setMembershipType(extractedMembershipType);
+    }
+    else {
+      localStorage.removeItem('token'); // 만료된 토큰 제거
       setIsLoggedIn(false);
       setMembershipType(null);
     }
@@ -60,14 +48,14 @@ function App() {
 
 
   return (
-    <>
+    <div className="app-wrapper">
       <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, membershipType, setMembershipType }}>
         <Header />
         <AppRouter />
         <Footer />
       </AuthContext.Provider>
 
-    </>
+    </div>
   )
 }
 

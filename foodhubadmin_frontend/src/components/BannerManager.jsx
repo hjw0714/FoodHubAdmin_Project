@@ -165,7 +165,7 @@ const BannerManager = () => {
                   backgroundImage: `url(${import.meta.env.VITE_API_URL}/images/${banner.bannerUuid})`
                 }}
               ></div>
-            )}
+            )}{banner.bannerOriginalName}
             <input
               type="file"
               accept="image/*"
