@@ -128,7 +128,8 @@ const MemberList = () => {
       });
       alert("비밀번호 변경 완료");
       setOpenId(null);
-      window.location.reload();
+      setPasswd("");
+      setConfirmPasswd("");
 
     } catch(error) {
       console.log(error);

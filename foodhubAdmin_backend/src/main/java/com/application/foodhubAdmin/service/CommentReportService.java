@@ -23,6 +23,32 @@ public class CommentReportService {
     private final CommentsRepository commentsRepository;
     private final StatsRepository statsRepository;
 
+    // 댓글 신고 통계 저장
+    @Transactional
+    public void insertCommentReportTotal( LocalDate date) {
+
+        Long totalCount = commentReportRepository.countCommentReport();
+        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(16, date);
+
+        if (optionalStats.isPresent()) {
+            Stats existing = optionalStats.get();
+            existing.setStatCnt(totalCount);
+            existing.setUpdatedAt(LocalDateTime.now());
+            statsRepository.save(existing);
+        } else {
+            Stats stats = Stats.builder()
+                    .categoryId(16)
+                    .statDate(date)
+                    .statCnt(totalCount)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            statsRepository.save(stats);
+        }
+    }
+
+
     public List<CommentReportResponse> getAllCommentReports() {
         List<CommentReport> reports = commentReportRepository.findAll();
         return reports.stream()
@@ -48,31 +74,6 @@ public class CommentReportService {
     public void restoreComment(Long commentId) {
         Comments comments = commentsRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment Not Found"));
         comments.changeStatus(CommentStatus.VISIBLE);
-    }
-
-    // 댓글 신고 통계 저장
-    @Transactional
-    public void insertCommentReportTotal( LocalDate date) {
-
-        Long totalCount = commentReportRepository.countCommentReport();
-        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(16, date);
-
-        if (optionalStats.isPresent()) {
-            Stats existing = optionalStats.get();
-            existing.setStatCnt(totalCount);
-            existing.setUpdatedAt(LocalDateTime.now());
-            statsRepository.save(existing);
-        } else {
-            Stats stats = Stats.builder()
-                    .categoryId(16)
-                    .statDate(date)
-                    .statCnt(totalCount)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-
-            statsRepository.save(stats);
-        }
     }
 
     public List<MonthlyCommentReportResponse> getCommentReportCnt() {
