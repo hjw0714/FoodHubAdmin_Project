@@ -30,7 +30,7 @@ public class VisitorLogMsService {
     public void insertVisitorLogTotal(LocalDate date) {
         Long totalCount = visitorLogMsRepository.countVisitorLogOn();
 
-        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(3, date);
+        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(14, date);
 
         if (optionalStats.isPresent()) {
             Stats existing = optionalStats.get();
