@@ -12,6 +12,7 @@ public interface VisitorLogMsRepository extends JpaRepository<VisitorLog, Long> 
     @Query("""
            SELECT COUNT(v)
            FROM  VisitorLog v
+           GROUP BY FUNCTION('DATE', v.visitTime)
            """)
     Long countVisitorLogOn();
 

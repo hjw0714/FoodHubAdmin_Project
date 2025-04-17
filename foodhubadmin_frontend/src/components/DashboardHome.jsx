@@ -135,8 +135,8 @@ const DashboardHome = () => {
         ])].sort();
 
         const mergedReport = allReportMonths.map(month => {
-          const postItem = formattedUserJoin.find(item => item.month === month) || { reportCnt: 0 };
-          const commentItem = formattedUserLeave.find(item => item.month === month) || { reportCnt: 0 };
+          const postItem = formattedPostReport.find(item => item.month === month) || { reportCnt: 0 };
+          const commentItem = formattedCommentReport.find(item => item.month === month) || { reportCnt: 0 };
       
           return {
               month, // X축 값
@@ -230,7 +230,7 @@ const DashboardHome = () => {
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={reportMonthData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" interval={2} />
+            <XAxis dataKey="month" interval={0} />
             <YAxis domain={["auto", "auto"]} />
             <Tooltip />
             <Bar dataKey="postReports" fill="#ab47bc" name="게시글 신고" />

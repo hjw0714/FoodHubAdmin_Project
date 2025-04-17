@@ -20,6 +20,8 @@ public class AuthController {
     @PostMapping("/logIn")
     public ResponseEntity<?> logIn (@RequestBody UserLogInRequest requestDto) {
         String token = userMsService.logIn(requestDto);
+        if(token != null) {
+        }
         return ResponseEntity.ok(token);
     }
 

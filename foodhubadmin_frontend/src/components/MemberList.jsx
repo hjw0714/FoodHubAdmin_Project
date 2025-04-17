@@ -103,7 +103,7 @@ const MemberList = () => {
   };
 
   // Change Password
-  const [isOpen, setIsOpen] = useState(false);
+  const [openId, setOpenId] = useState(null);
   const [passwd, setPasswd] = useState("");
   const [confirmPasswd, setConfirmPasswd] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -127,7 +127,7 @@ const MemberList = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       alert("비밀번호 변경 완료");
-      setIsOpen(false);
+      setOpenId(null);
       window.location.reload();
 
     } catch(error) {
@@ -186,7 +186,7 @@ const MemberList = () => {
                   >
                     <option value="일반 회원">일반 회원</option>
                     <option value="사업자 회원">사업자 회원</option>
-                  </select>
+                  </select> {" "}
                   <button onClick={() => handleUpdate(member.id, member.membershipType)}>변경</button>
                   </>
                   )}
@@ -194,13 +194,21 @@ const MemberList = () => {
                 <td>
                   {member.deletedAt !== null ? (<span>변경 불가</span>) : (
                     <>
-                    <button onClick={() => setIsOpen(true)}>변경</button>
-                    {isOpen && (
+                    <button onClick={() => setOpenId(member.id)}>변경</button>
+                    {member.id === openId && (
                       <div style={{
-                        position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-                        background: "white", padding: "20px", borderRadius: "10px"
-                    }}>
-                        <h3>{member.id} 비밀번호 변경</h3>
+                        position: "fixed", 
+                        top: "30%", 
+                        left: "40%", 
+                        width: "350px",
+                        background: "linear-gradient(135deg, #f0f0f0, #ffffff)", 
+                        padding: "30px", 
+                        borderRadius: "15px",
+                        border: "2px solid #ddd",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                        transition: "all 0.3s ease-in-out",
+                      }}>
+                        <h3>{member.id}님의 비밀번호 변경</h3>
                         비밀번호: <input 
                             type="password" 
                             value={passwd} 
@@ -209,8 +217,8 @@ const MemberList = () => {
                         /> <br/>
                         비밀번호 재입력: <input type='password' value={confirmPasswd} onChange={(e) => setConfirmPasswd(e.target.value)} placeholder='비밀번호 다시 입력' /> <br/><br/>
                         {errorMsg && <div className="error-message">{errorMsg}</div>}
-                        <button onClick={() => handleSubmit(member.id)}>✅ 변경</button> {" "}
-                        <button onClick={() => setIsOpen(false)}>❌ 닫기</button>
+                        <button onClick={() => handleSubmit(member.id)}>🙆‍♂️ 변경</button> {" "}
+                        <button onClick={() => setOpenId(null)}>🙅‍♂️ 닫기</button>
                     </div>
                     )}
                     </>
