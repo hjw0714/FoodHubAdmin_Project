@@ -85,11 +85,12 @@
 
 .banner-preview {
   width: 100%;
-  height: 300px;
-  /* 슬라이더와 동일하게 */
-  background-size: cover;
-  background-position: center;
+  height: auto; /* 높이를 고정하지 않음 */
+  aspect-ratio: 1225 / 300; /* 비율 유지 (또는 원하는 비율 적용) */
+  background-size: contain; /* 잘림 없이 보여줌 */
+  background-position: center center;
   background-repeat: no-repeat;
   border-radius: 6px;
   margin-bottom: 10px;
+  background-color: #eaeaea; /* 이미지가 작을 경우 여백 배경 */
 }

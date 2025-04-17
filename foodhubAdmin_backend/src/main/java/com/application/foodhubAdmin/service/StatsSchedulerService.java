@@ -15,6 +15,8 @@ public class StatsSchedulerService {
     private final PostMsService postMsService;
     private final CommentsService commentsService;
     private final VisitorLogMsService visitorLogMsService;
+    private final PostReportService postReportService;
+    private final CommentReportService commentReportService;
 
 //    @Scheduled(cron = "0 0 0 * * *")
 //    @Transactional
@@ -31,7 +33,7 @@ public class StatsSchedulerService {
     @Transactional
     public void runStats() {
         LocalDate today = LocalDate.now();
-        if (today.equals(LocalDate.of(2025, 4, 18))) { // 오늘 날짜
+        if (today.equals(LocalDate.of(2025, 4, 17))) { // 오늘 날짜
             LocalDate yesterday = today.minusDays(1);
             userMsService.insertUserStatsJoin(yesterday); // 유저 가입수
             userMsService.insertUserStatsDelete(yesterday); // 유저 탈퇴수
@@ -40,6 +42,8 @@ public class StatsSchedulerService {
             postMsService.insertPostCategoryStatsTotal(yesterday); // 게시글 카테고리별 총 작성수
             commentsService.insertCommentsStatsTotal(yesterday); // 댓글 총 작성수
             visitorLogMsService.insertVisitorLogTotal(yesterday);
+            postReportService.insertPostReportTotal(yesterday);
+            commentReportService.insertCommentReportTotal(yesterday);
 
         }
     }

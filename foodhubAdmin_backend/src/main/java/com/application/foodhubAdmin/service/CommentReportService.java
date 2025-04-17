@@ -1,18 +1,19 @@
 package com.application.foodhubAdmin.service;
 
-import com.application.foodhubAdmin.domain.CommentReport;
-import com.application.foodhubAdmin.domain.CommentReportStatus;
-import com.application.foodhubAdmin.domain.CommentStatus;
-import com.application.foodhubAdmin.domain.Comments;
+import com.application.foodhubAdmin.domain.*;
 import com.application.foodhubAdmin.dto.response.comments.CommentReportResponse;
 import com.application.foodhubAdmin.dto.response.comments.MonthlyCommentReportResponse;
 import com.application.foodhubAdmin.repository.CommentReportRepository;
 import com.application.foodhubAdmin.repository.CommentsRepository;
+import com.application.foodhubAdmin.repository.StatsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class CommentReportService {
 
     private final CommentReportRepository commentReportRepository;
     private final CommentsRepository commentsRepository;
+    private final StatsRepository statsRepository;
 
     public List<CommentReportResponse> getAllCommentReports() {
         List<CommentReport> reports = commentReportRepository.findAll();
@@ -48,8 +50,34 @@ public class CommentReportService {
         comments.changeStatus(CommentStatus.VISIBLE);
     }
 
+    // 댓글 신고 통계 저장
+    @Transactional
+    public void insertCommentReportTotal( LocalDate date) {
+
+        Long totalCount = commentReportRepository.countCommentReport();
+        Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(16, date);
+
+        if (optionalStats.isPresent()) {
+            Stats existing = optionalStats.get();
+            existing.setStatCnt(totalCount);
+            existing.setUpdatedAt(LocalDateTime.now());
+            statsRepository.save(existing);
+        } else {
+            Stats stats = Stats.builder()
+                    .categoryId(16)
+                    .statDate(date)
+                    .statCnt(totalCount)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            statsRepository.save(stats);
+        }
+    }
+
     public List<MonthlyCommentReportResponse> getCommentReportCnt() {
-        return commentReportRepository.getCommentReportCnt();
+        System.out.println("commentReportCnt: " + statsRepository.getCommentReportCnt());
+        return statsRepository.getCommentReportCnt();
     }
 
 }

@@ -9,19 +9,21 @@ const ErrorPage = ({ code, message, emoji }) => {
    const handleLogin = () => navigate("/");
 
    return (
-      <div className="error-container">
-         <div className="error-illustration">{emoji}</div>
-         <h1 className="error-code">{code}</h1>
-         <p className="error-message">{message}</p>
-         <div className="error-actions">
-            {code === "401" || code === "403" ? (
-               <button onClick={handleLogin}>🔒 로그인</button>
-            ) : (
-               <>
-                  <button onClick={handleBack}>🔙 뒤로가기</button>
-                  <button onClick={handleHome}>🏠 홈으로</button>
-               </>
-            )}
+      <div className="error-wrapper">
+         <div className="error-container">
+            <div className="error-illustration">{emoji}</div>
+            <h1 className="error-code">{code}</h1>
+            <p className="error-message">{message}</p>
+            <div className="error-actions">
+               {code === "401" || code === "403" ? (
+                  <button onClick={handleLogin}>🔒 로그인</button>
+               ) : (
+                  <>
+                     <button onClick={handleBack}>🔙 뒤로가기</button>
+                     <button onClick={handleHome}>🏠 홈으로</button>
+                  </>
+               )}
+            </div>
          </div>
       </div>
    );
