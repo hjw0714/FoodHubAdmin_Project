@@ -11,6 +11,7 @@ import com.application.foodhubAdmin.dto.response.visitorLog.DailyVisitorLogRespo
 import com.application.foodhubAdmin.dto.response.visitorLog.MonthlyVisitorLogResponse;
 import com.application.foodhubAdmin.dto.response.visitorLog.YearlyVisitorLogResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -108,6 +109,92 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             AND FUNCTION('DATE', s.statDate) >= :parsedStartDate
             ORDER BY s.statDate""")
     List<DailyDeleteUserCntResponse> getDailyDeleteUserCnt(@Param("parsedStartDate") Date parsedStartDate);
+
+    // 총 회원수 조회
+    @Query("""
+           SELECT SUM(s.statCnt)
+           FROM Stats s
+           WHERE s.categoryId = 1
+           """)
+    Long getAllTotalUserCnt();
+
+    // 오늘 날짜 총회원수 조회
+    @Query("""
+           SELECT s.statCnt
+           FROM Stats s
+           WHERE s.categoryId = 3
+           AND FUNCTION('DATE', s.statDate) = :today
+           """)
+    Long getTodayTotalUserCnt(@Param("today") Date today);
+
+    // 오늘 날짜 탈퇴수 조회
+    @Query("""
+           SELECT s.statCnt
+           FROM Stats s
+           WHERE s.categoryId = 2
+           AND FUNCTION('DATE', s.statDate) = :today
+           """)
+    Long getTodayDeleteUserCnt(@Param("today") Date today);
+
+    // 오늘 날짜 탈퇴수 없을 경우
+    @Modifying
+    @Query("""
+           INSERT INTO Stats (
+                      categoryId,
+                      statCnt,
+                      statDate,
+                      createdAt,
+                      updatedAt
+           )
+           VALUES (
+                      2,
+                      1,
+                      :today,
+                      now(),
+                      now()
+           )
+           """)
+    void insertDeleteUserCnt(@Param("today") Date today);
+
+    // 오늘 날짜 총회원 수 없을 경우
+    @Modifying
+    @Query("""
+           INSERT INTO Stats (
+                      categoryId,
+                      statCnt,
+                      statDate,
+                      createdAt,
+                      updatedAt
+           )
+           VALUES (
+                      3,
+                      1,
+                      :today,
+                      now(),
+                      now()
+           )
+           """)
+    void insertTotalUserCnt(@Param("today") Date today);
+
+    // 유저 리스트에서 탈퇴 시 총회원 수 변경
+    @Modifying
+    @Query("""
+           UPDATE Stats s
+           SET s.statCnt = s.statCnt - 1
+           WHERE s.categoryId = 3
+           AND FUNCTION('DATE', s.statDate) = :today
+           """)
+    void deleteTotalMember(@Param("today") Date today);
+
+    // 유저 리스트에서 탈퇴 시 탈퇴수 변경
+    @Modifying
+    @Query("""
+           UPDATE Stats s
+           SET s.statCnt = s.statCnt + 1
+           WHERE s.categoryId = 2
+           AND FUNCTION('DATE', s.statDate) = :today
+           """)
+    void deleteMember(@Param("today") Date today);
 
     /* 게시글 조회 */
 

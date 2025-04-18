@@ -211,10 +211,38 @@ public class UserMsService {
     }
     // 유저 탈퇴
     @Transactional
-    public void deleteMember(String id) {
+    public void deleteMember(String id) throws ParseException {
         User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
         user.deleteMember();
         userMsRepository.save(user);
+
+        // 총 회원수 조회
+        Long allTotalUserCnt = statsRepository.getAllTotalUserCnt();
+
+        // 오늘 날짜
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = dateFormat.parse(String.valueOf(LocalDate.now()));
+
+        // 오늘 날짜 총회원수 조회
+        Long totalUserCnt = statsRepository.getTodayTotalUserCnt(today);
+
+        // 오늘 날짜 탈퇴수 조회
+        Long deleteUserCnt = statsRepository.getTodayDeleteUserCnt(today);
+
+        if(deleteUserCnt == null) {
+            statsRepository.insertDeleteUserCnt(today);
+        }
+        else {
+            statsRepository.deleteMember(today);
+        }
+
+        if(totalUserCnt == null) {
+            statsRepository.insertTotalUserCnt(today);
+        }
+        else {
+            statsRepository.deleteTotalMember(today);
+        }
+
     }
 
     // 유저 리스트에서 멤버십 변경

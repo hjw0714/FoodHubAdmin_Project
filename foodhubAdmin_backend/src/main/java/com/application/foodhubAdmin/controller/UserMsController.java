@@ -52,7 +52,7 @@ public class UserMsController {
 
     // 유저 탈퇴
     @DeleteMapping("/memberList/delete/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable("id") String id) {
+    public ResponseEntity<Void> deleteMember(@PathVariable("id") String id) throws ParseException {
         userMsService.deleteMember(id);
         return ResponseEntity.noContent().build();
     }
