@@ -29,11 +29,11 @@ public class StatsSchedulerService {
 //            postMsService.insertPostCategoryStatsTotal(yesterday); // 게시글 카테고리별 총 작성수
 //    }
 
-    @Scheduled(cron = "0 50 9 * * *")
+    @Scheduled(cron = "0 51 12 * * *")
     @Transactional
     public void runStats() {
         LocalDate today = LocalDate.now();
-        if (today.equals(LocalDate.of(2025, 4, 17))) { // 오늘 날짜
+        if (today.equals(LocalDate.of(2025, 4, 19))) { // 오늘 날짜
             LocalDate yesterday = today.minusDays(1);
             userMsService.insertUserStatsJoin(yesterday); // 유저 가입수
             userMsService.insertUserStatsDelete(yesterday); // 유저 탈퇴수
