@@ -54,7 +54,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
     List<DailyNewUserCntResponse> getDailyNewUserCnt(@Param("parsedStartDate") Date parsedStartDate);
 
 
-    // 년도별 신규 가입자 수
+    // 년도별 총회원 수
     @Query("SELECT new com.application.foodhubAdmin.dto.response.user.YearlyTotalUserCntResponse(YEAR(s.statDate), SUM(s.statCnt)) " +
             "FROM Stats s " +
             "WHERE s.categoryId = 3 " +
@@ -62,7 +62,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             "ORDER BY YEAR(s.statDate)")
     List<YearlyTotalUserCntResponse> getYearlyTotalUserCnt();
 
-    // 월별 신규 가입자 수
+    // 월별 총회원 수
     @Query("""
             SELECT new com.application.foodhubAdmin.dto.response.user.MonthlyTotalUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m'), SUM(s.statCnt))
             FROM Stats s
@@ -73,7 +73,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             """)
     List<MonthlyTotalUserCntResponse> getMonthlyTotalUserCnt(@Param("startDate") String startDate);
 
-    // 일별 신규 가입자 수
+    // 일별 총회원 수
     @Query("""
             SELECT new com.application.foodhubAdmin.dto.response.user.DailyTotalUserCntResponse(FUNCTION('DATE_FORMAT', s.statDate, '%Y-%m-%d'), s.statCnt)
             FROM Stats s
