@@ -28,7 +28,7 @@ public class VisitorLogMsService {
 
     // 방문자 수 통계 저장
     public void insertVisitorLogTotal(LocalDate date) {
-        Long totalCount = visitorLogMsRepository.countVisitorLogOn();
+        Long totalCount = visitorLogMsRepository.countVisitorLog(date);
 
         Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(14, date);
 
