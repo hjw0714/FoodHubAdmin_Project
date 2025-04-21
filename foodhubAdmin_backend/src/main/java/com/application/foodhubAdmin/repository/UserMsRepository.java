@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -25,6 +26,9 @@ public interface UserMsRepository extends JpaRepository <User, String> {
 
 	@Query("SELECT COUNT(u) FROM User u WHERE u.deletedAt IS NULL")
 	Long countTotalUsers();	// 유저 통합수 통계저장
+
+	@Query("SELECT u FROM User u WHERE u.status = 'deleted' AND u.deletedAt <= :threshold")
+	List<User> findUsersToHardDelete(@Param("threshold") LocalDateTime threshold);
 
 
 	//List<User> id(String id);
