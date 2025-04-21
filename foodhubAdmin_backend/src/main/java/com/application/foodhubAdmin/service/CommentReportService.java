@@ -54,7 +54,7 @@ public class CommentReportService {
     @Transactional
     public void insertCommentReportTotal( LocalDate date) {
 
-        Long totalCount = commentReportRepository.countCommentReport();
+        Long totalCount = commentReportRepository.countCommentReport(date);
         Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(16, date);
 
         if (optionalStats.isPresent()) {

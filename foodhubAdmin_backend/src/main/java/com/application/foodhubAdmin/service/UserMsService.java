@@ -291,5 +291,16 @@ public class UserMsService {
         return statsRepository.getDeleteUserCnt();
     }
 
+    @Transactional // 유저 하드 삭제
+    public void hardDeleteUsers() {
+        // 기준 시간: 현재 시각에서 6개월 이전
+        LocalDateTime sixMonthsAgo = LocalDateTime.now().minusMonths(6);
+
+        List<User> usersToDelete = userMsRepository.findUsersToHardDelete(sixMonthsAgo);
+        if (!usersToDelete.isEmpty()) {
+            userMsRepository.deleteAll(usersToDelete);
+        }
+    }
+
 }
 

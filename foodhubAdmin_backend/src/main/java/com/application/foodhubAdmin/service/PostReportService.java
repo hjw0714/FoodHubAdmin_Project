@@ -54,7 +54,7 @@ public class PostReportService {
     @Transactional
     public void insertPostReportTotal( LocalDate date) {
 
-        Long totalCount = postReportRepository.countPostReport();
+        Long totalCount = postReportRepository.countPostReport(date);
         Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(15, date);
 
         if (optionalStats.isPresent()) {
