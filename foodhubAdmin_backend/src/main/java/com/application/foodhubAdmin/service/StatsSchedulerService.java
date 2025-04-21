@@ -34,11 +34,11 @@ public class StatsSchedulerService {
 //              userMsService.hardDeleteUsers();
 //    }
 
-    @Scheduled(cron = "0 46 15 * * *")
+    @Scheduled(cron = "0 27 17 * * *")
     @Transactional
     public void runStats() {
         LocalDate today = LocalDate.now();
-        if (today.equals(LocalDate.of(2025, 4, 21))) { // 오늘 날짜
+        if (today.equals(LocalDate.of(2025, 4, 23))) { // 오늘 날짜
             LocalDate yesterday = today.minusDays(1);
             userMsService.insertUserStatsJoin(yesterday); // 유저 가입수 1
             userMsService.insertUserStatsDelete(yesterday); // 유저 탈퇴수 2

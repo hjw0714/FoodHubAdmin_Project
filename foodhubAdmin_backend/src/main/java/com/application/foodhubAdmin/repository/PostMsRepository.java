@@ -14,11 +14,26 @@ import java.util.List;
 @Repository
 public interface PostMsRepository extends JpaRepository<Post, Long>{
 
-    @Query("SELECT COUNT(p) FROM Post p WHERE p.status = 'ACTIVE'")
-    Long countTotalPosts();	// 게시글 통합수 통계저장
+    @Query("""
+    SELECT COUNT(p) 
+    FROM Post p 
+    WHERE p.status = 'ACTIVE' 
+    AND FUNCTION('DATE', p.createdAt) = :date
+""")
+    Long countTotalPostsByDate(@Param("date") LocalDate date);
 
-    @Query("SELECT COUNT(p) FROM Post p WHERE p.categoryId = :findPostCategoryId AND p.status = 'ACTIVE'")
-    Long countTotalPostsByPostCategoryId(@Param("findPostCategoryId") Integer findPostCategoryId);	// 카테고리별 총 게시글 통계저장
+    @Query("""
+    SELECT COUNT(p) 
+    FROM Post p 
+    WHERE p.categoryId = :findPostCategoryId 
+    AND p.status = 'ACTIVE' 
+    AND FUNCTION('DATE', p.createdAt) = :date
+""")
+    Long countTotalPostsByPostCategoryIdAndDate(
+            @Param("findPostCategoryId") Integer findPostCategoryId,
+            @Param("date") LocalDate date
+    );
+    // 카테고리별 총 게시글 통계저장
 
 
 
