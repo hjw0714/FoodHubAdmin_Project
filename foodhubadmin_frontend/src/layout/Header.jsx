@@ -21,13 +21,14 @@ const Header = () => {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isLoggedIn]);
 
   // 로그아웃
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setMembershipType(null);
+    setDropdownOpen(false);
     alert("로그아웃 되었습니다.");
     navigate("/", { replace: true });
   };
