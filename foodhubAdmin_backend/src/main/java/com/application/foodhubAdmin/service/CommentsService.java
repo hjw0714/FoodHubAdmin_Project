@@ -27,7 +27,7 @@ public class CommentsService {
 
     public void insertCommentsStatsTotal( LocalDate date) {
 
-        Long totalCount = commentsRepository.countTotalComments();
+        Long totalCount = commentsRepository.countTotalComments(date);
         Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(13, date);
 
         if (optionalStats.isPresent()) {

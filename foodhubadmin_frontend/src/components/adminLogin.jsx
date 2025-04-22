@@ -6,11 +6,11 @@ import { AuthContext, getMembershipTypeFromToken } from "../App";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-    const {setIsLoggedIn , setMembershipType } = useContext(AuthContext); // 로그인 상태 업데이트를 위한 context 사용 (+ 권한)
+  const { setIsLoggedIn, setMembershipType } = useContext(AuthContext); // 로그인 상태 업데이트를 위한 context 사용 (+ 권한)
 
-    const [userId, setUserId] = useState(''); 
-    const [passwd, setPasswd] = useState(''); 
-    const [failMsg, setFailMsg] = useState('');  
+  const [userId, setUserId] = useState('');
+  const [passwd, setPasswd] = useState('');
+  const [failMsg, setFailMsg] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,27 +22,27 @@ const AdminLogin = () => {
 
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/logIn`, { userId, passwd });
-      localStorage.setItem('token', data);  
-      setIsLoggedIn(true); 
-      setFailMsg(''); 
-      
-       // ✅ 여기에 sessionStorage 저장
-    sessionStorage.setItem('userId', userId);               // 입력된 로그인 아이디
-    sessionStorage.setItem('nickname', '관리자');           // 나중에 서버 응답에서 닉네임을 파싱하는게 더 좋음
-    
+      localStorage.setItem('token', data);
+      setIsLoggedIn(true);
+      setFailMsg('');
+
+      // ✅ 여기에 sessionStorage 저장
+      sessionStorage.setItem('userId', userId);               // 입력된 로그인 아이디
+      sessionStorage.setItem('nickname', '관리자');           // 나중에 서버 응답에서 닉네임을 파싱하는게 더 좋음
+
       const extractedMembershipType = getMembershipTypeFromToken(data);
-      setMembershipType(extractedMembershipType); 
-      if (extractedMembershipType === 'ADMIN') { 
+      setMembershipType(extractedMembershipType);
+      if (extractedMembershipType === 'ADMIN') {
         navigate("/admin/dashboard");
       }
       else {
         setFailMsg('아이디 또는 비밀번호가 일치하지 않습니다');
       }
-    
+
 
     } catch (error) {
       console.error(error);
-      setFailMsg('아이디 또는 비밀번호가 일치하지 않습니다.');   
+      setFailMsg('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
 
   };

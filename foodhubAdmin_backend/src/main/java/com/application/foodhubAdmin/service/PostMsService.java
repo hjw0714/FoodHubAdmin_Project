@@ -28,7 +28,7 @@ public class PostMsService {
     // 총 게시글 수 통계 저장
     public void insertPostStatsTotal( LocalDate date) {
 
-        Long totalCount = postMsRepository.countTotalPosts(); // active만 총4개
+        Long totalCount = postMsRepository.countTotalPostsByDate(date); // active만 총4개
         Optional<Stats> optionalStats = statsRepository.findByCategoryIdAndStatDate(4, date);
 
         if (optionalStats.isPresent()) {
@@ -56,7 +56,7 @@ public class PostMsService {
         List<Stats> statsList = new ArrayList<>();
         for (int categoryId = 5; categoryId <= 12; categoryId++){
             int findPostCategoryId = categoryId - 5;
-            Long totalCount = postMsRepository.countTotalPostsByPostCategoryId(findPostCategoryId); // active만 총4개
+            Long totalCount = postMsRepository.countTotalPostsByPostCategoryIdAndDate(findPostCategoryId , date); // active만 총4개
 
             Stats stats = Stats.builder()
                     .categoryId(categoryId)
@@ -69,10 +69,7 @@ public class PostMsService {
 
         }
 
-
-
         statsRepository.saveAll(statsList);
-        // statsRepository.save(stats);
     }
 
 
