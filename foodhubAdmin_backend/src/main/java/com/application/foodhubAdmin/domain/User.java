@@ -98,6 +98,12 @@ public class User {
         this.status = CommentStatus.DELETED.name();
     }
 
+    // 회원 탈퇴 취소
+    public void notDeleteMember() {
+        this.deletedAt = null;
+        this.status = CommentStatus.VISIBLE.name();
+    }
+
     // 프로필 업데이트
     public void updateUser (String profileOriginal, String profileUuid, String tel, String email){
         if (profileOriginal != null) this.profileOriginal = profileOriginal;

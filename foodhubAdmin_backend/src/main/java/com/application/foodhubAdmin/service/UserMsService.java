@@ -217,6 +217,14 @@ public class UserMsService {
         userMsRepository.save(user);
     }
 
+    // 유저 탈퇴 취소
+    @Transactional
+    public void notDeleteMember(String id) {
+        User user = userMsRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+        user.notDeleteMember();
+        userMsRepository.save(user);
+    }
+
     // 유저 리스트에서 멤버십 변경
     @Transactional
     public void updateMembershipType(String id, String membership) {
