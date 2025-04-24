@@ -1,3 +1,4 @@
+/* 🔷 헤더 스타일 */
 .global-header {
   position: fixed;
   top: 0;
@@ -13,12 +14,15 @@
   border-bottom: 1px solid #ccc;
 }
 
+/* 🔷 body나 페이지 최상단에 헤더 높이만큼 여백 확보 */
 body,
 .admin-login-page {
-  padding-top: 0px;
-  /* 헤더 높이만큼 패딩 주기 */
+  margin: 0;
+  padding-top: 60px; /* ✅ 헤더 높이만큼 여백 줌 */
+  box-sizing: border-box;
 }
 
+/* 🔷 페이지네이션 버튼 */
 .pagination button {
   margin: 0 3px;
   padding: 6px 10px;
@@ -45,15 +49,15 @@ body,
   font-weight: bold;
 }
 
-/* 전체 화면을 채우는 Flex 레이아웃 */
 .app-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* 뷰포트 전체 높이 */
 }
 
-/* AppRouter에서 렌더링되는 페이지들이 이 영역을 차지함 */
-.app-wrapper>*:nth-child(2) {
-  flex-grow: 1;
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }

@@ -61,13 +61,15 @@ function App() {
   if (!initDone) return null; // ✅ 초기화 안 됐으면 아무것도 렌더링 안 함
 
   return (
-    <div className="app-wrapper">
-      <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, membershipType, setMembershipType }}>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, membershipType, setMembershipType }}>
+      <div className="app-wrapper">
         <Header />
-        <AppRouter />
+        <main className="main-wrapper">
+          <AppRouter />
+        </main>
         <Footer />
-      </AuthContext.Provider>
-    </div>
+      </div>
+    </AuthContext.Provider>
   );
 }
 
