@@ -30,7 +30,10 @@ public interface UserMsRepository extends JpaRepository <User, String> {
 	@Query("SELECT u FROM User u WHERE u.status = 'deleted' AND u.deletedAt <= :threshold")
 	List<User> findUsersToHardDelete(@Param("threshold") LocalDateTime threshold);
 
+	@Query("SELECT u.nickname FROM User u WHERE u.id = :userId")
+    String getNicknameByUserId(String userId);
 
-	//List<User> id(String id);
+
+    //List<User> id(String id);
 
 }

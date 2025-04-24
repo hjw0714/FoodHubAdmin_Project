@@ -68,7 +68,10 @@ public class UserMsService {
         if (memberShip.startsWith("ROLE_")) {
             memberShip = memberShip.substring(5);
         }
-        return jwtUtil.generateToken(requestDto.getUserId(), memberShip);
+        String userId = requestDto.getUserId();
+        String nickname = userMsRepository.getNicknameByUserId(userId);
+        System.out.println(nickname);
+        return jwtUtil.generateToken(userId , memberShip , nickname);
 
     }
 
