@@ -95,13 +95,13 @@ public class User {
     // 회원 탈퇴
     public void deleteMember() {
         this.deletedAt = LocalDateTime.now();
-        this.status = CommentStatus.DELETED.name();
+        this.status = PostStatus.DELETED.name();
     }
 
     // 회원 탈퇴 취소
     public void notDeleteMember() {
         this.deletedAt = null;
-        this.status = CommentStatus.VISIBLE.name();
+        this.status = PostStatus.ACTIVE.name();
     }
 
     // 프로필 업데이트
