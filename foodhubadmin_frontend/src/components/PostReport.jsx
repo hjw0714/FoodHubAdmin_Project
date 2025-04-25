@@ -1,8 +1,10 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../assets/css/postReport.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 
 
 const PostReport = () => {
@@ -98,12 +100,11 @@ const PostReport = () => {
   const [openId, setOpenId] = useState(null);
   const [postContent, setPostContent]= useState(null);
 
-
   const fetchPost = async(id) => {
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/admin/posts/postContent/${id}`,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-      const content = data.replace(/<\/?p>/g, '');
+      const content = data.replace(/<[^>]*>/g, '');
       setPostContent(content);
 
     } catch(error) {
@@ -127,7 +128,6 @@ const PostReport = () => {
 
   };
 
-  
 
   useEffect(() => {
     fetchReports();
@@ -187,22 +187,16 @@ const PostReport = () => {
                 </Link>
                 {isOpen && openId === postReportData.postId ? (
                   <>
-                    <div style={{
-                        position: "fixed", 
-                        top: "30%", 
-                        left: "40%", 
-                        width: "350px",
-                        background: "linear-gradient(135deg, #f0f0f0, #ffffff)", 
-                        padding: "30px", 
-                        borderRadius: "15px",
-                        border: "2px solid #ddd",
-                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                        transition: "all 0.3s ease-in-out",
-                      }}>
-                        <h3>게시글 제목 : {postReportData.postTitle}</h3>
-                        <span>게시글 내용 : {postContent}</span><br/><br/>
+                    <Modal 
+                      isOpen={isOpen}
+                      onRequestClose={() => setIsOpen(false)}
+                      style={{
+                        content: { width: '500px', height: '300px', margin: 'auto', overflowY : 'auto' }
+                    }}>
+                        <h3 align="center">게시글 제목 : {postReportData.postTitle}</h3>
+                        <span style={{wordWrap: 'break-word'}}>게시글 내용 : {postContent}</span><br/><br/>
                         <button onClick={() => setIsOpen(false)}>확인</button>
-                    </div>
+                    </Modal>
                   </>
                 ) : (
                   <></>
