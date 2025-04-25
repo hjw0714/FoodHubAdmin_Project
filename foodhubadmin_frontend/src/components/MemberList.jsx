@@ -181,7 +181,6 @@ const MemberList = () => {
             <th>멤버십 변경</th>
             <th>비밀번호 변경</th>
             <th>탈퇴</th>
-            <th>탈퇴 취소</th>
           </tr>
         </thead>
         <tbody>
@@ -244,20 +243,15 @@ const MemberList = () => {
                   )}
                 </td>
                 <td>
-                  {member.deletedAt !== null ? (<span>탈퇴 회원</span>) : (
-                    <>
-                    <button onClick={() => handleSignOut(member.id)}>탈퇴</button>
-
-                    </>
-                  )}
-                </td>
-                <td>
                   {member.deletedAt !== null ? (
                     <>
                     <button onClick={() => handleUpdateSignOut(member.id)}>탈퇴 취소</button>
                     </>
                   ) : (
-                    <span>활동 회원</span>
+                    <>
+                    <button onClick={() => handleSignOut(member.id)}>탈퇴</button>
+
+                    </>
                   )}
                 </td>
               </tr>
