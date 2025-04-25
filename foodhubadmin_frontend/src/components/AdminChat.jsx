@@ -30,7 +30,7 @@ const AdminChat = () => {
   const accessToken = localStorage.getItem('token');
   const decoded = decodeJwtPayload(accessToken);
   const adminId = decoded?.sub;
-  const adminNickname = decoded?.nickname;
+  const adminNickname = decodeURIComponent(decoded?.nickname); // ✅ URI 디코딩 적용
 
   const createPrivateChatRoom = async () => {
     const nickname = nicknameInput.trim();
@@ -185,7 +185,7 @@ const AdminChat = () => {
         body: JSON.stringify(message)
       });
 
-      setMessages([...messages, { from: 'admin', text: input }]);
+      setMessages([...messages, { from: 'admin', text: input, senderNickname }]);
       setInput('');
     } else {
       alert("서버와의 WebSocket 연결이 끊겼습니다.");
@@ -274,7 +274,7 @@ const AdminChat = () => {
         <div className="chat-messages">
           {messages.map((msg, i) => (
             <div key={i} className={`chat-message ${msg.from === 'admin' ? 'me' : 'you'}`}>
-              <div className="sender">{msg.from === 'admin' ? adminNickname : selectedUser}</div>
+              <div className="sender">{msg.senderNickname || (msg.from === 'admin' ? adminNickname : selectedUser)}</div>
               <div className="text">{msg.text}</div>
             </div>
           ))}
