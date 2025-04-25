@@ -4,7 +4,6 @@ import { Client } from '@stomp/stompjs';
 import '../assets/css/adminChat.css';
 import axios from 'axios';
 
-// ✅ JWT payload 디코딩 유틸
 const decodeJwtPayload = (token) => {
   try {
     const base64Payload = token.split('.')[1];
@@ -30,7 +29,7 @@ const AdminChat = () => {
   const accessToken = localStorage.getItem('token');
   const decoded = decodeJwtPayload(accessToken);
   const adminId = decoded?.sub;
-  const adminNickname = decodeURIComponent(decoded?.nickname); // ✅ URI 디코딩 적용
+  const adminNickname = decodeURIComponent(decoded?.nickname);
 
   const createPrivateChatRoom = async () => {
     const nickname = nicknameInput.trim();
@@ -41,9 +40,7 @@ const AdminChat = () => {
         'http://localhost/foodhub/admin/chat/private/create',
         { nickname },
         {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          },
+          headers: { Authorization: `Bearer ${accessToken}` },
           withCredentials: true
         }
       );
@@ -67,7 +64,8 @@ const AdminChat = () => {
       setMessages(
         messagesResponse.data.map(m => ({
           from: m.senderId === adminId ? 'admin' : 'you',
-          text: m.chatContent
+          text: m.chatContent,
+          senderNickname: m.sender
         }))
       );
 
@@ -112,7 +110,8 @@ const AdminChat = () => {
       setMessages(
         data.map(m => ({
           from: m.senderId === adminId ? 'admin' : 'you',
-          text: m.chatContent
+          text: m.chatContent,
+          senderNickname: m.sender
         }))
       );
 
@@ -140,16 +139,14 @@ const AdminChat = () => {
             return;
           }
 
-          setMessages(prev => {
-            const isDuplicate = prev.some(
-              m => m.text === message.content && m.from === (message.sender === adminId ? 'admin' : 'you')
-            );
-            if (isDuplicate) return prev;
-            return [...prev, {
+          setMessages(prev => [
+            ...prev,
+            {
               from: message.sender === adminId ? 'admin' : 'you',
-              text: message.content
-            }];
-          });
+              text: message.content,
+              senderNickname: message.senderNickname
+            }
+          ]);
         });
       },
       onStompError: (frame) => console.error('🔴 STOMP 오류:', frame)
@@ -184,8 +181,6 @@ const AdminChat = () => {
         destination: `/app/chat.private.${roomId}`,
         body: JSON.stringify(message)
       });
-
-      setMessages([...messages, { from: 'admin', text: input, senderNickname }]);
       setInput('');
     } else {
       alert("서버와의 WebSocket 연결이 끊겼습니다.");
