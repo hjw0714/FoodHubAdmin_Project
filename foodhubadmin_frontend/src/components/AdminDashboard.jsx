@@ -7,6 +7,7 @@ const AdminDashboard = () => {
   const [userStatsOpen, setUserStatsOpen] = useState(false);
   const [postStatsOpen, setPostStatsOpen] = useState(false);
   const [reportListOpen, setReportListOpen] = useState(false);
+  const [adminPostOpen, setAdminPostOpen] = useState(false);
 
 
   return (
@@ -67,6 +68,20 @@ const AdminDashboard = () => {
             <Link to="/admin/dashboard/visitorStats">👣 방문자 통계</Link>
             <Link to="/admin/dashboard/bannerManager">🖼️ 배너 수정</Link>
             <Link to="/admin/dashboard/adminChat">💬 관리자 채팅</Link>
+            <div className="dropdown">
+              <div
+                className="dropdown-toggle"
+                onClick={() => setAdminPostOpen(!adminPostOpen)}
+              >
+                🛠️ 관리자 게시판 {adminPostOpen ? '▴' : '▾'}
+              </div>
+              {adminPostOpen && (
+                <div className="dropdown-menu">
+                  <Link to="/admin/dashboard/createPost">- 관리자 게시글 작성</Link>
+                  <Link to="/admin/dashboard/adminPostList">- 관리자 게시글 목록</Link>
+                </div>
+              )}
+            </div>
             <Link
               to="http://localhost/foodhub"
               target="_blank"

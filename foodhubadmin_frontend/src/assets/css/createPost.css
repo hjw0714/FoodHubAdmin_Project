@@ -1,0 +1,87 @@
+/* adminPostCreate.css */
+
+.admin-post-create {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #333;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-post-create h2 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    color: #1f3c88;
+    text-align: center;
+    font-weight: bold;
+}
+
+.admin-post-create .form-group {
+    margin-bottom: 25px;
+}
+
+.admin-post-create label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.admin-post-create input[type="text"],
+.admin-post-create input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: #f8f9fa;
+}
+
+.admin-post-create .ql-container {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    min-height: 200px;
+}
+
+.admin-post-create .ql-editor {
+    font-size: 0.95rem;
+    min-height: 200px;
+}
+
+.admin-post-create button.btn-primary {
+    background-color: #1f3c88;
+    border: none;
+    padding: 10px 25px;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-post-create button.btn-primary:hover {
+    background-color: #163072;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    font-size: 0.95rem;
+    color: #333;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #1f3c88;
+    box-shadow: 0 0 0 2px rgba(31, 60, 136, 0.2);
+}
