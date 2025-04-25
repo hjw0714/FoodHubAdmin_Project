@@ -24,6 +24,13 @@ public class Post {
     @Column(name = "POST_ID", nullable = false)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
+
+    @Column(name = "NICKNAME", nullable = false)
+    private String nickname;
+
     @Column(name = "CATEGORY_ID", nullable = false)
     private Long categoryId;
 

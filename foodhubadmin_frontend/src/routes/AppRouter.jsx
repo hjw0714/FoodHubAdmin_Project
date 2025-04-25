@@ -17,6 +17,8 @@ import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/Er
 
 import ProfileView from "../components/ProfileView";
 import UserStatus from "../components/UserStatus";
+import AdminPostCreate from "../components/AdminPostCreate";
+import AdminPostList from "../components/AdminPostList";
 
 
 const AppRouter = () => {
@@ -46,7 +48,8 @@ const AppRouter = () => {
         <Route path="visitorStats" element={<VisitorStats />} />
         <Route path="adminChat" element={<AdminChat />} />
         <Route path="bannerManager" element={<BannerManager />} />
-
+        <Route path="createPost" element={<AdminPostCreate/>} />
+        <Route path="adminPostList" element={<AdminPostList/>} />
       </Route>
     </Routes>
   );
