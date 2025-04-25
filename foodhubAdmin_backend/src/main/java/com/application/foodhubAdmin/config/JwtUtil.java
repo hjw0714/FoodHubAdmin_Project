@@ -6,6 +6,8 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -20,11 +22,12 @@ public class JwtUtil {
     }
 
     // JWT 생성
-    public String generateToken(String userId , String membershipType , String nickname) {
+    public String generateToken(String userId, String membershipType, String nickname) {
+        String encodedNickname = URLEncoder.encode(nickname, StandardCharsets.UTF_8); // ✅ UTF-8 안전 인코딩
         return Jwts.builder()
                 .setSubject(userId)
-                .claim("membershipType", membershipType) // 토큰에 권한(ADMIN or USER) 정보 추가
-                .claim("nickname", nickname)
+                .claim("membershipType", membershipType)
+                .claim("nickname", encodedNickname)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
