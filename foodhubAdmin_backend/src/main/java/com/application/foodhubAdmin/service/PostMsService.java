@@ -1,5 +1,6 @@
 package com.application.foodhubAdmin.service;
 
+import com.application.foodhubAdmin.domain.Post;
 import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.dto.response.post.*;
 import com.application.foodhubAdmin.repository.PostMsRepository;
@@ -124,5 +125,11 @@ public List<DailyCategoryPostCntResponse> getDailyCategoryPostCnt(Integer catego
 public List<MonthlyTotalPostCntResponse> getTotalPostCnt() {
     return statsRepository.getTotalPostCnt();
 }
+
+// 신고 게시글 내용
+    public String getPostContent(Long id) {
+        Post post = postMsRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        return post.getContent();
+    }
 
 }

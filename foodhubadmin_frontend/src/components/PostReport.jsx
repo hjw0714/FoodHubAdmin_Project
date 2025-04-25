@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import '../assets/css/postReport.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const PostReport = () => {
@@ -93,6 +93,42 @@ const PostReport = () => {
     }
   }
 
+  // 게시글 신고 팝업창
+  const [isOpen, setIsOpen] = useState(false);
+  const [openId, setOpenId] = useState(null);
+  const [postContent, setPostContent]= useState(null);
+
+
+  const fetchPost = async(id) => {
+    try {
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/admin/posts/postContent/${id}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+      const content = data.replace(/<\/?p>/g, '');
+      setPostContent(content);
+
+    } catch(error) {
+
+      if (error.response) {
+        if (error.response.status === 401) {
+          navigate("/error/401");
+        }
+        else if (error.response.status === 500) {
+          navigate("/error/500")
+        }
+        else if (error.response.status === 403) {
+          navigate("/error/403");
+        }
+        else {
+          console.log(error);
+        }
+      }
+
+    }
+
+  };
+
+  
+
   useEffect(() => {
     fetchReports();
   }, []);
@@ -125,7 +161,7 @@ const PostReport = () => {
       <table className="report-table">
         <thead>
           <tr>
-            <th>#</th>
+            <th>No.</th>
             <th>게시글 아이디</th>
             <th>게시글 제목</th>
             <th>신고자</th>
@@ -141,7 +177,37 @@ const PostReport = () => {
             <tr key={postReportData.id}>
               <td>{indexOfFirst + index + 1}</td>
               <td>{postReportData.postId}</td>
-              <td>{postReportData.postTitle}</td>
+              <td>
+                <Link onClick={() => {
+                  setOpenId(postReportData.postId); 
+                  fetchPost(postReportData.postId); 
+                  setIsOpen(true);
+                }}>
+                  {postReportData.postTitle}
+                </Link>
+                {isOpen && openId === postReportData.postId ? (
+                  <>
+                    <div style={{
+                        position: "fixed", 
+                        top: "30%", 
+                        left: "40%", 
+                        width: "350px",
+                        background: "linear-gradient(135deg, #f0f0f0, #ffffff)", 
+                        padding: "30px", 
+                        borderRadius: "15px",
+                        border: "2px solid #ddd",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                        transition: "all 0.3s ease-in-out",
+                      }}>
+                        <h3>게시글 제목 : {postReportData.postTitle}</h3>
+                        <span>게시글 내용 : {postContent}</span><br/><br/>
+                        <button onClick={() => setIsOpen(false)}>확인</button>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </td>
               <td>{postReportData.userId}</td>
               <td>{postReportData.content}</td>
               <td>{new Date(postReportData.createdAt).toLocaleDateString()}</td>

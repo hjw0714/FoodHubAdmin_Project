@@ -64,4 +64,10 @@ public class PostMsController {
         return ResponseEntity.ok(postMsService.getTotalPostCnt());
     }
 
+    // 신고 게시글 내용
+    @GetMapping("/postContent/{id}")
+    public ResponseEntity<String> postContent(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(postMsService.getPostContent(id));
+    }
+
 }
