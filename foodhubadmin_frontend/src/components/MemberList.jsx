@@ -86,6 +86,23 @@ const MemberList = () => {
     }
   };
 
+  // 탈퇴 취소
+  const handleUpdateSignOut = async(id) => {
+    const updateSignout = window.confirm(id + "님 탈퇴 취소하겠습니까?");
+    if(updateSignout) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/admin/user/memberList/notDelete/${id}`,
+          { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+          alert(id + "님 탈퇴 취소되었습니다.");
+          window.location.reload();
+          
+      } catch(error) {
+        console.log(error.message);
+        alert("탈퇴 취소 실패");
+      }
+    }
+  };
+
   // membershipType Update
   const handleUpdate = async (id, membershipType) => {
 
@@ -226,7 +243,11 @@ const MemberList = () => {
                   )}
                 </td>
                 <td>
-                  {member.deletedAt !== null ? (<span>탈퇴 회원</span>) : (
+                  {member.deletedAt !== null ? (
+                    <>
+                    <button onClick={() => handleUpdateSignOut(member.id)}>탈퇴 취소</button>
+                    </>
+                  ) : (
                     <>
                     <button onClick={() => handleSignOut(member.id)}>탈퇴</button>
 

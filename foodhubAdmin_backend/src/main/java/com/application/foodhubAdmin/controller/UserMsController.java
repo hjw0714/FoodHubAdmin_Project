@@ -57,6 +57,13 @@ public class UserMsController {
         return ResponseEntity.noContent().build();
     }
 
+    // 유저 탈퇴 취소
+    @DeleteMapping("/memberList/notDelete/{id}")
+    public ResponseEntity<Void> notDeleteMember(@PathVariable("id") String id) {
+        userMsService.notDeleteMember(id);
+        return ResponseEntity.noContent().build();
+    }
+
     // 유저 리스트에서 멤버십 변경
     @PutMapping("/memberList/update/{id}")
     public ResponseEntity<?> updateMembershipType(@PathVariable("id") String id,
