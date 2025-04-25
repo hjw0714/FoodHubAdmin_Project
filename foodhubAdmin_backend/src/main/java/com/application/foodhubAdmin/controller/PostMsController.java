@@ -66,7 +66,7 @@ public class PostMsController {
 
     // 신고 게시글 내용
     @GetMapping("/postContent/{id}")
-    public ResponseEntity<String> postContent(@PathVariable("id") Long id) {
+    public ResponseEntity<PostResponse> postContent(@PathVariable("id") Long id) {
         return ResponseEntity.ok(postMsService.getPostContent(id));
     }
 

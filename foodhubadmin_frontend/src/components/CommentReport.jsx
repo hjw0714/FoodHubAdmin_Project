@@ -124,8 +124,7 @@ const CommentReport = () => {
       <table className="report-table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>댓글 아이디</th>
+            <th>No.</th>
             <th>댓글 내용</th>
             <th>신고자</th>
             <th>신고 사유</th>
@@ -139,7 +138,6 @@ const CommentReport = () => {
           {currentReports.map((commentReports, index) => (
             <tr key={commentReports.id}>
               <td>{indexOfFirst + index + 1}</td>
-              <td>{commentReports.commentId}</td>
               <td>{commentReports.commentContent}</td>
               <td>{commentReports.userId}</td>
               <td>{commentReports.content}</td>

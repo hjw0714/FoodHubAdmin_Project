@@ -127,9 +127,9 @@ public List<MonthlyTotalPostCntResponse> getTotalPostCnt() {
 }
 
 // 신고 게시글 내용
-    public String getPostContent(Long id) {
+    public PostResponse getPostContent(Long id) {
         Post post = postMsRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
-        return post.getContent();
+        return PostResponse.of(post);
     }
 
 }
