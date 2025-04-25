@@ -81,6 +81,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<VisitorLog> visitorLogs;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
     // 유저 리스트에서 멤버십 변경
     public void updateMemberShipType(String mem) {
         if(mem.startsWith("사업자")) {

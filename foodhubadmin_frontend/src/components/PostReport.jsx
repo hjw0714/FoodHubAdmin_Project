@@ -99,13 +99,15 @@ const PostReport = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openId, setOpenId] = useState(null);
   const [postContent, setPostContent]= useState(null);
+  const [nickname, setNickname] = useState(null);
 
   const fetchPost = async(id) => {
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/admin/posts/postContent/${id}`,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-      const content = data.replace(/<[^>]*>/g, '');
+      const content = data.content.replace(/<[^>]*>/g, '');
       setPostContent(content);
+      setNickname(data.nickname);
 
     } catch(error) {
 
@@ -162,7 +164,6 @@ const PostReport = () => {
         <thead>
           <tr>
             <th>No.</th>
-            <th>게시글 아이디</th>
             <th>게시글 제목</th>
             <th>신고자</th>
             <th>신고 사유</th>
@@ -176,7 +177,6 @@ const PostReport = () => {
           {currentReports.map((postReportData, index) => (
             <tr key={postReportData.id}>
               <td>{indexOfFirst + index + 1}</td>
-              <td>{postReportData.postId}</td>
               <td>
                 <Link onClick={() => {
                   setOpenId(postReportData.postId); 
@@ -185,21 +185,21 @@ const PostReport = () => {
                 }}>
                   {postReportData.postTitle}
                 </Link>
-                {isOpen && openId === postReportData.postId ? (
+                {isOpen && openId === postReportData.postId && (
                   <>
                     <Modal 
                       isOpen={isOpen}
                       onRequestClose={() => setIsOpen(false)}
                       style={{
-                        content: { width: '500px', height: '300px', margin: 'auto', overflowY : 'auto' }
+                        overlay: {backgroundColor: "rgba(0, 0, 0, 0.2)"},
+                        content: { width: '500px', height: '300px', margin: 'auto', overflowY : 'auto', borderRadius: '10px', backgroundColor: "#F5FBFF" }
                     }}>
                         <h3 align="center">게시글 제목 : {postReportData.postTitle}</h3>
-                        <span style={{wordWrap: 'break-word'}}>게시글 내용 : {postContent}</span><br/><br/>
-                        <button onClick={() => setIsOpen(false)}>확인</button>
+                        <h4 align="right">게시글 작성자 : {nickname}</h4>
+                        <span style={{wordWrap: 'break-word'}}>게시글 내용 : <br/>{postContent}</span><br/><br/>
+                        <button style={{display: 'block', margin: '0 auto'}} onClick={() => {setIsOpen(false); setPostContent(null); setOpenId(null);}}>🚫닫기</button>
                     </Modal>
                   </>
-                ) : (
-                  <></>
                 )}
               </td>
               <td>{postReportData.userId}</td>
