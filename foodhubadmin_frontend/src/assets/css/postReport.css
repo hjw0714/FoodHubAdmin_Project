@@ -75,3 +75,53 @@
 .action-button.restore:hover {
   background-color: #bbb;
 }
+
+/* 필터 영역 스타일 */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.filter-select {
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.filter-select:focus {
+  outline: none;
+  border-color: #6c757d;
+}
+
+.status-select {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  width: 120px;
+  height: 36px; /* 높이 고정 */
+  appearance: none; /* 브라우저 기본 스타일 제거 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 8px 10px;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #6c757d;
+}
