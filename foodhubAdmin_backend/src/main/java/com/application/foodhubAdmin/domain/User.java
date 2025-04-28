@@ -118,6 +118,20 @@ public class User {
     // 비밀번호 변경
     public void changePasswd (String passwd){
         this.passwd = passwd;
+    }
 
+    // Test
+    public void User(String id, String passwd, String nickname, String email) {
+        this.id = id;
+        this.passwd = passwd;
+        this.nickname = nickname;
+        this.email = email;
+        this.membershipType = MembershipType.COMMON;
+        this.gender = "M";
+        this.smsYn = "Y";
+        this.emailYn = "Y";
+        this.status = PostStatus.ACTIVE.name();
+        this.joinAt = LocalDateTime.now();
+        this.modifyAt = LocalDateTime.now();
     }
 }
