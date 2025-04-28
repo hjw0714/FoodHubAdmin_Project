@@ -63,7 +63,7 @@ public class Post {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
- 
+
 
     public void changeStatus(PostStatus status) {
         this.status = status;
