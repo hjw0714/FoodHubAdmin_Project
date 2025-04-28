@@ -108,12 +108,17 @@ const CommentReport = () => {
       <p>신고된 댓글을 확인하고 처리할 수 있는 영역입니다.</p>
 
       {/* 상태별 필터 걸기 */}
-      <div style={{ marginBottom: '15px' }}>
-        <label>처리 상태 필터: </label>
-        <select value={statusFilter} onChange={(e) => {
-          setCurrentPage(1); // 필터 변경 시 첫 페이지로
-          setStatusFilter(e.target.value);
-        }}>
+      <div className="filter-container">
+        <label htmlFor="statusFilter" className="filter-label">처리 상태 필터:</label>
+        <select
+          id="statusFilter"
+          className="filter-select"
+          value={statusFilter}
+          onChange={(e) => {
+            setCurrentPage(1);
+            setStatusFilter(e.target.value);
+          }}
+        >
           <option value="ALL">전체</option>
           <option value="PENDING">처리 대기</option>
           <option value="REVIEWED">검토됨</option>
@@ -145,6 +150,7 @@ const CommentReport = () => {
               <td>{formatStatus(commentReports.commentReportStatus)}</td>
               <td>
                 <select
+                  className="status-select"
                   value={commentReports.commentReportStatus}
                   onChange={(e) => handleStatusChange(commentReports.id, e.target.value)}
                 >
