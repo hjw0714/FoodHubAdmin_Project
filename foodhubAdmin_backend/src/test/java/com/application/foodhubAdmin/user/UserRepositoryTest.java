@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserDaoTest {
+public class UserRepositoryTest {
 
     @Mock
     private UserMsRepository userMsRepository;
