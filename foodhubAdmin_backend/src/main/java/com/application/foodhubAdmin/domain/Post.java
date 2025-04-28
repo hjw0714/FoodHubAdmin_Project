@@ -63,9 +63,7 @@ public class Post {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+
 
     public void changeStatus(PostStatus status) {
         this.status = status;
