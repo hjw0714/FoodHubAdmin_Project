@@ -4,10 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.application.foodhubAdmin.domain.Stats;
 import com.application.foodhubAdmin.repository.StatsRepository;
-import com.application.foodhubAdmin.service.CommentsService;
-import com.application.foodhubAdmin.service.PostMsService;
-import com.application.foodhubAdmin.service.UserMsService;
-import com.application.foodhubAdmin.service.VisitorLogMsService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +15,7 @@ import java.time.LocalDateTime;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-public class StatsDaoTest {
+public class StatsRepositoryTest {
 
     @Autowired
     private StatsRepository statsRepository;
