@@ -298,4 +298,5 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
            """)
     List<MonthlyCommentReportResponse> getCommentReportCnt();
 
+
 }
