@@ -1,6 +1,7 @@
 package com.application.foodhubAdmin.banner;
 
 import com.application.foodhubAdmin.domain.Banner;
+import com.application.foodhubAdmin.dto.request.BannerRequest;
 import com.application.foodhubAdmin.dto.response.banner.BannerResponse;
 import com.application.foodhubAdmin.dto.response.post.PostReportResponse;
 import com.application.foodhubAdmin.repository.BannerRepository;
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -132,5 +135,68 @@ public class BannerServiceTest {
 
         System.out.println();
 
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("배너 수정")
+    void updateBanner() throws IOException, IOException {
+        System.out.println("3. 배너 수정 테스트");
+
+        // given
+        Banner existingBanner = Banner.builder()
+                .id(1L)
+                .title("기존 배너")
+                .description("기존 설명")
+                .link("http://old-link.com")
+                .bannerOriginalName("old_original.png")
+                .bannerUuid("old_uuid.png")
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        BannerRequest updateRequest = new BannerRequest();
+        updateRequest.setTitle("수정된 배너");
+        updateRequest.setDescription("수정된 설명");
+        updateRequest.setLink("http://new-link.com");
+
+        MockMultipartFile newImage = new MockMultipartFile(
+                "file",
+                "new_image.png",
+                "image/png",
+                "이미지".getBytes()
+        );
+
+        when(bannerRepository.findById(1L)).thenReturn(Optional.of(existingBanner));
+
+        // 수정 전 배너 정보 출력
+        System.out.println("수정 전 배너 정보:");
+        System.out.println("ID: " + existingBanner.getId());
+        System.out.println("제목: " + existingBanner.getTitle());
+        System.out.println("설명: " + existingBanner.getDescription());
+        System.out.println("링크: " + existingBanner.getLink());
+        System.out.println("파일명: " + existingBanner.getBannerOriginalName());
+        System.out.println("UUID: " + existingBanner.getBannerUuid());
+        System.out.println("==============================");
+
+        // when
+        bannerService.updateBanner(1L, updateRequest, newImage);
+
+        // then
+        assertEquals("수정된 배너", existingBanner.getTitle());
+        assertEquals("수정된 설명", existingBanner.getDescription());
+        assertEquals("http://new-link.com", existingBanner.getLink());
+
+        System.out.println("배너 수정 완료: " + existingBanner.getTitle());
+
+        // 수정 후 배너 정보 출력
+        System.out.println("수정 후 배너 정보:");
+        System.out.println("ID: " + existingBanner.getId());
+        System.out.println("제목: " + existingBanner.getTitle());
+        System.out.println("설명: " + existingBanner.getDescription());
+        System.out.println("링크: " + existingBanner.getLink());
+        System.out.println("파일명: " + existingBanner.getBannerOriginalName());
+        System.out.println("UUID: " + existingBanner.getBannerUuid());
+        System.out.println("==============================");
     }
 }
