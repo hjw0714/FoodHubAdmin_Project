@@ -76,7 +76,6 @@ public class CommentReportService {
     }
 
     public List<MonthlyCommentReportResponse> getCommentReportCnt() {
-        System.out.println("commentReportCnt: " + statsRepository.getCommentReportCnt());
         return statsRepository.getCommentReportCnt();
     }
 
