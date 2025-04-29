@@ -90,7 +90,7 @@ const ProfileView = () => {
                   className="edit-button"
                   onClick={() => setViewMode('update')}
                 >
-                  ✏️ 회원정보 수정
+                  ✏️ 관리자 정보 수정
                 </button>
                 <button
                   className="edit-button"
