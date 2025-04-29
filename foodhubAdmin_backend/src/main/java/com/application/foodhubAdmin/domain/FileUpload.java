@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "FILE_UPLOAD")
 public class FileUpload {
 
     @Id

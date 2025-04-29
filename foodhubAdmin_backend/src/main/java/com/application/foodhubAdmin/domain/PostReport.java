@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "POST_REPORT")
 public class PostReport {
 
     @Id
