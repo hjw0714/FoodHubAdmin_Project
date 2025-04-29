@@ -63,6 +63,7 @@ public class UserRepositoryTest {
     @Test @Order(2) @DisplayName("사용자 정보 수정 저장")
     void testUpdateUser() {
         // Given
+        user.updateUser("new-profile.jpg", "new-profile-uuid", "010-1111-2222", "updatedEmail@test.com");
         when(userMsRepository.save(user)).thenReturn(user);
 
         // When
@@ -71,7 +72,10 @@ public class UserRepositoryTest {
         // Then
         assertThat(updatedUser).isNotNull();
         assertThat(updatedUser.getId()).isEqualTo("testUser");
-        assertThat(updatedUser.getEmail()).isEqualTo("testEmail@test.com");
+        assertThat(updatedUser.getEmail()).isEqualTo("updatedEmail@test.com");
+        assertThat(updatedUser.getTel()).isEqualTo("010-1111-2222");
+        assertThat(updatedUser.getProfileUuid()).isEqualTo("new-profile-uuid");
+        assertThat(updatedUser.getProfileOriginal()).isEqualTo("new-profile.jpg");
         verify(userMsRepository, times(1)).save(user);
     }
 
