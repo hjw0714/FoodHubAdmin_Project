@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "VISITOR_LOG")
 public class VisitorLog {
 
     @Id
