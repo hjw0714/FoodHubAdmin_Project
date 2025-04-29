@@ -27,7 +27,7 @@ const AdminLogin = () => {
       setFailMsg('');
 
       // ✅ 여기에 sessionStorage 저장
-      sessionStorage.setItem('userId', userId);               // 입력된 로그인 아이디
+      sessionStorage.setItem('userId', userId);               // 입력된 로그인 아이디 
       sessionStorage.setItem('nickname', '관리자');           // 나중에 서버 응답에서 닉네임을 파싱하는게 더 좋음
 
       const extractedMembershipType = getMembershipTypeFromToken(data);
