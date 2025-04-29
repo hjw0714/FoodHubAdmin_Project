@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios";             
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../assets/css/adminLogin.css';
@@ -23,7 +23,7 @@ const AdminLogin = () => {
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/logIn`, { userId, passwd });
       localStorage.setItem('token', data);
-      setIsLoggedIn(true);
+      setIsLoggedIn(true); 
       setFailMsg('');
 
       // ✅ 여기에 sessionStorage 저장
