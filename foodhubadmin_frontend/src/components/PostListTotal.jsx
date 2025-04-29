@@ -14,7 +14,7 @@ const PostListTotal = () => {
   const [postMonthData, setPostMonthData] = useState();
   const [postDayData, setPostDayData] = useState();
   const navigate = useNavigate();
-  const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM')); // 날짜 설정용 dayjs 설치 
+  const [monthStartDate, setMonthStartDate] = useState(dayjs().subtract(1, 'year').format('YYYY-MM')); // 날짜 설정용 dayjs 설치  
   const [dayStartDate, setDayStartDate] = useState(dayjs().subtract(1, 'month').format('YYYY-MM-DD'));
 
   const fetchPosts = async () => {
