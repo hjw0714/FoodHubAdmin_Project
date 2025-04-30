@@ -37,7 +37,7 @@ const AdminChat = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost/foodhub/admin/chat/private/create',
+        'http://3.39.94.251/foodhub/admin/chat/private/create',
         { nickname },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -54,7 +54,7 @@ const AdminChat = () => {
       setMessages([]);
 
       const messagesResponse = await axios.get(
-        `http://localhost/foodhub/admin/chat/private/messages/${newRoom.roomId}`,
+        `http://3.39.94.251/foodhub/admin/chat/private/messages/${newRoom.roomId}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
           withCredentials: true
@@ -81,7 +81,7 @@ const AdminChat = () => {
 
   const fetchChatRoom = async () => {
     try {
-      const response = await axios.get('http://localhost/foodhub/admin/chat/private/list', {
+      const response = await axios.get('http://3.39.94.251/foodhub/admin/chat/private/list', {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true
       });
@@ -99,7 +99,7 @@ const AdminChat = () => {
       setSelectedUserId(user.otherUserId);
       setRoomId(user.roomId);
 
-      const response = await axios.get(`http://localhost/foodhub/admin/chat/private/messages/${user.roomId}`, {
+      const response = await axios.get(`http://3.39.94.251/foodhub/admin/chat/private/messages/${user.roomId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true
       });
@@ -128,7 +128,7 @@ const AdminChat = () => {
       stompClientRef.current = null;
     }
 
-    const socket = new SockJS('http://localhost:80/ws');
+    const socket = new SockJS('http://3.39.94.251/ws');
     const client = new Client({
       webSocketFactory: () => socket,
       onConnect: () => {
@@ -198,7 +198,7 @@ const AdminChat = () => {
         stompClientRef.current = null;
       }
 
-      await axios.post(`http://localhost/foodhub/admin/chat/private/delete/${roomId}`, {}, {
+      await axios.post(`http://3.39.94.251/admin/chat/private/delete/${roomId}`, {}, {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true
       });
