@@ -1,7 +1,7 @@
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
   } from 'recharts';
-  import '../assets/css/postReport.css'; // 공통 스타일 재사용
+  import '../../../assets/css/postReport.css'; // 공통 스타일 재사용
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

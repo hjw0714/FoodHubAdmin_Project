@@ -1,8 +1,8 @@
 import axios from "axios";             
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import '../assets/css/adminLogin.css';
-import { AuthContext, getMembershipTypeFromToken } from "../App";
+import '../../assets/css/adminLogin.css';
+import { AuthContext, getMembershipTypeFromToken } from "../../App.jsx";
 
 const AdminLogin = () => {
   const navigate = useNavigate();

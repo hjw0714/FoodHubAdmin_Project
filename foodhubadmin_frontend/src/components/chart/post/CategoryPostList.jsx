@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
   } from 'recharts';
-import '../assets/css/postReport.css'; // 스타일 공통 재사용
+import '../../../assets/css/postReport.css'; // 스타일 공통 재사용
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import dayjs from 'dayjs';

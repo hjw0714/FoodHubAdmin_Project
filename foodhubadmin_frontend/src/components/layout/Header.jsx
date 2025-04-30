@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import defaultProfile from '../assets/defaultProfile.png';
-import '../assets/css/header.css';
-import { AuthContext } from '../App';
+import defaultProfile from '../../assets/defaultProfile.png';
+import '../../assets/css/header.css';
+import { AuthContext } from '../../App.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 
 

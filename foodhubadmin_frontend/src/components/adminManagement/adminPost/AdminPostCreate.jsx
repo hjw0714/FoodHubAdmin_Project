@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../assets/css/createPost.css';
+import '../../../assets/css/createPost.css';
 import axios from "axios";
 import MDEditor from "@uiw/react-md-editor";
 
