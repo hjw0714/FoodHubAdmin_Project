@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
-import '../assets/css/adminChat.css';
+import '../../../assets/css/adminChat.css';
 import axios from 'axios';
 
 const decodeJwtPayload = (token) => {

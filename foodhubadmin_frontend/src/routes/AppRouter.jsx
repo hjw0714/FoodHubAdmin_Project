@@ -1,24 +1,24 @@
 import { Routes, Route } from "react-router-dom";
-import AdminDashboard from "../components/AdminDashboard";
-import DashboardHome from "../components/DashboardHome";
-import PostReport from "../components/PostReport";
-import AdminLogin from "../components/AdminLogin";
-import UserJoin from "../components/UserJoin";
-import UserLeave from "../components/UserLeave";
-import PostListTotal from "../components/PostListTotal";
-import CategoryPostList from "../components/CategoryPostList";
-import CommentStats from "../components/CommentStats";
-import CommentReport from "../components/CommentReport";
-import MemberList from "../components/MemberList";
-import VisitorStats from "../components/VisitorStats";
-import AdminChat from "../components/AdminChat";
-import BannerManager from "../components/BannerManager";
-import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/ErrorPage";
+import AdminDashboard from "../components/layout/AdminDashboard.jsx";
+import DashboardHome from "../components/chart/DashboardHome.jsx";
+import PostReport from "../components/report/PostReport.jsx";
+import AdminLogin from "../components/adminUser/AdminLogin.jsx";
+import UserJoin from "../components/chart/user/UserJoin.jsx";
+import UserLeave from "../components/chart/user/UserLeave.jsx";
+import PostListTotal from "../components/chart/post/PostListTotal.jsx";
+import CategoryPostList from "../components/chart/post/CategoryPostList.jsx";
+import CommentStats from "../components/chart/comment/CommentStats.jsx";
+import CommentReport from "../components/report/CommentReport.jsx";
+import MemberList from "../components/memberList/MemberList.jsx";
+import VisitorStats from "../components/chart/visitor/VisitorStats.jsx";
+import AdminChat from "../components/adminManagement/chat/AdminChat.jsx";
+import BannerManager from "../components/adminManagement/bannerEdit/BannerManager.jsx";
+import { Forbidden, NotFound, ServerError, Unauthorized } from "../components/errorPage/ErrorPage.jsx";
 
-import ProfileView from "../components/ProfileView";
-import UserStatus from "../components/UserStatus";
-import AdminPostCreate from "../components/AdminPostCreate";
-import AdminPostList from "../components/AdminPostList";
+import ProfileView from "../components/adminUser/ProfileView.jsx";
+import UserStatus from "../components/chart/user/UserStatus.jsx";
+import AdminPostCreate from "../components/adminManagement/adminPost/AdminPostCreate.jsx";
+import AdminPostList from "../components/adminManagement/adminPost/AdminPostList.jsx";
   
 
 const AppRouter = () => {

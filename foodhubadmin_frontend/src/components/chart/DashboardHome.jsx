@@ -4,7 +4,7 @@ import {
   BarChart, Bar, LineChart, Line,
   XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
 } from 'recharts';
-import '../assets/css/adminDashboard.css';
+import '../../assets/css/adminDashboard.css';
 import { useNavigate } from 'react-router-dom';
 
 const DashboardHome = () => {

@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import '../assets/css/postReport.css';
+import '../../assets/css/postReport.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';

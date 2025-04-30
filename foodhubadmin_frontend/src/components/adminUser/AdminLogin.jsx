@@ -1,8 +1,8 @@
 import axios from "axios";             
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import '../assets/css/adminLogin.css';
-import { AuthContext, getMembershipTypeFromToken } from "../App";
+import '../../assets/css/adminLogin.css';
+import { AuthContext, getMembershipTypeFromToken } from "../../App.jsx";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const AdminLogin = () => {
 
       // ✅ 여기에 sessionStorage 저장
       sessionStorage.setItem('userId', userId);               // 입력된 로그인 아이디 
-      sessionStorage.setItem('nickname', '관리자');           // 나중에 서버 응답에서 닉네임을 파싱하는게 더 좋음
+      sessionStorage.setItem('nickname', '관리자1');           // 나중에 서버 응답에서 닉네임을 파싱하는게 더 좋음
 
       const extractedMembershipType = getMembershipTypeFromToken(data);
       setMembershipType(extractedMembershipType);

@@ -1,10 +1,10 @@
-import defaultProfile from '../assets/defaultProfile.png';
-import '../assets/css/profileView.css';
+import defaultProfile from '../../assets/defaultProfile.png';
+import '../../assets/css/profileView.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ChangePasswd from './ChangePasswd';
-import EditProfile from './EditProfile';
+import ChangePasswd from './ChangePasswd.jsx';
+import EditProfile from './EditProfile.jsx';
 
 const ProfileView = () => {
 
@@ -90,7 +90,7 @@ const ProfileView = () => {
                   className="edit-button"
                   onClick={() => setViewMode('update')}
                 >
-                  ✏️ 관리자 정보 수정
+                  ✏️ 회원정보 수정
                 </button>
                 <button
                   className="edit-button"
