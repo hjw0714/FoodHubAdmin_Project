@@ -50,7 +50,7 @@ const AdminLogin = () => {
   return (
     <div className="admin-login-page">
       <div className="login-box">
-        <h2>관리자 로그인(자동화테스트. ver2)</h2>
+        <h2>관리자 로그인</h2>
         <form onSubmit={handleLogin}>
           <input
             type="text"
