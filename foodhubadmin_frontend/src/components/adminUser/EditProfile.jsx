@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import defaultProfile from '../assets/defaultProfile.png';
-import '../assets/css/editProfile.css';
+import defaultProfile from '../../assets/defaultProfile.png';
+import '../../assets/css/editProfile.css';
 
 // 이메일 전화번호
 const EditProfile = ({ user, setUser, setViewMode, fetchUser }) => {

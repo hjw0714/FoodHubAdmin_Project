@@ -1,6 +1,6 @@
 import './App.css'
-import Header from './layout/Header'
-import Footer from './layout/Footer'
+import Header from './components/layout/Header'
+import Footer from './components/layout/Footer'
 import { createContext, useEffect, useState } from 'react'
 import AppRouter from './routes/AppRouter'
 import { useLocation, useNavigate } from 'react-router-dom'

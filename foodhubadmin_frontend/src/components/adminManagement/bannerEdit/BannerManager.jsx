@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../assets/css/bannerManager.css';
+import '../../../assets/css/bannerManager.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

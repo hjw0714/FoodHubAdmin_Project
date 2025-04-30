@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../assets/css/changePassword.css';
+import '../../assets/css/changePassword.css';
 
 const ChangePasswd = ({ userId, setViewMode }) => {
   const navigate = useNavigate();
