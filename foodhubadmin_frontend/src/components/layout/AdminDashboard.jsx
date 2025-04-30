@@ -83,7 +83,7 @@ const AdminDashboard = () => {
               )}
             </div>
             <Link
-              to="http://localhost/foodhub"
+              to="http://3.39.94.251//foodhub"
               target="_blank"
               className="external-link"
             >
