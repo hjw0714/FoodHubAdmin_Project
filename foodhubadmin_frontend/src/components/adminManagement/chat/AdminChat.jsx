@@ -198,7 +198,7 @@ const AdminChat = () => {
         stompClientRef.current = null;
       }
 
-      await axios.post(`http://3.39.94.251/admin/chat/private/delete/${roomId}`, {}, {
+      await axios.post(`http://3.39.94.251/foodhub/admin/chat/private/delete/${roomId}`, {}, {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true
       });
